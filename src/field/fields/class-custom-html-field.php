@@ -2,13 +2,13 @@
 /**
  * Custom_HTML_Field - Display custom HTML content
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
 
 /**
  * Custom_HTML_Field class
@@ -53,7 +53,7 @@ class Custom_HTML_Field extends Abstract_Field {
 		$content = $this->config['content'] ?? '';
 
 		if ( ! empty( $content ) ) {
-			$output .= '<div class="wp-cmf-custom-html-content">';
+			$output .= '<div class="cassette-cmf-custom-html-content">';
 
 			if ( ! empty( $this->config['raw_html'] ) ) {
 				// Raw HTML output - use with caution

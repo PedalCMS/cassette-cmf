@@ -4,14 +4,14 @@
  *
  * Handles adding fields to existing WordPress taxonomies.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Core\Handlers;
+namespace Pedalcms\CassetteCmf\Core\Handlers;
 
-use Pedalcms\WpCmf\Field\Field_Interface;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Interface;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
 
 /**
  * Class Existing_Taxonomy_Handler
@@ -118,7 +118,7 @@ class Existing_Taxonomy_Handler extends Abstract_Handler {
 	 * @return void
 	 */
 	private function render_add_form_field( Field_Interface $field ): void {
-		echo '<div class="form-field wp-cmf-term-field">';
+		echo '<div class="form-field cassette-cmf-term-field">';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Field handles escaping.
 		echo $field->render( '' );
 		echo '</div>';
@@ -168,7 +168,7 @@ class Existing_Taxonomy_Handler extends Abstract_Handler {
 		$field_name = $field->get_name();
 		$value      = get_term_meta( $term->term_id, $field_name, true );
 
-		echo '<tr class="form-field wp-cmf-term-field">';
+		echo '<tr class="form-field cassette-cmf-term-field">';
 		echo '<th scope="row">';
 		echo '<label for="' . esc_attr( $field_name ) . '">' . esc_html( $field->get_label() ) . '</label>';
 		echo '</th>';
@@ -177,7 +177,7 @@ class Existing_Taxonomy_Handler extends Abstract_Handler {
 		// Render field without the outer wrapper and label
 		$field_html = $field->render( $value );
 		// Remove the label as it's already in the <th>
-		$field_html = preg_replace( '/<label[^>]*class="[^"]*wp-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $field_html, 1 );
+		$field_html = preg_replace( '/<label[^>]*class="[^"]*cassette-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $field_html, 1 );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Field handles escaping.
 		echo $field_html;
 
@@ -407,7 +407,7 @@ class Existing_Taxonomy_Handler extends Abstract_Handler {
 	}
 
 	/**
-	 * Enqueue common WP-CMF assets
+	 * Enqueue common Cassette-CMF assets
 	 *
 	 * @return void
 	 */
@@ -419,10 +419,10 @@ class Existing_Taxonomy_Handler extends Abstract_Handler {
 		$url     = $this->get_assets_url();
 		$version = $this->get_version();
 
-		wp_enqueue_style( 'wp-cmf', $url . 'css/wp-cmf.css', [], $version );
-		wp_enqueue_script( 'wp-cmf', $url . 'js/wp-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
+		wp_enqueue_style( 'cassette-cmf', $url . 'css/cassette-cmf.css', [], $version );
+		wp_enqueue_script( 'cassette-cmf', $url . 'js/cassette-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
 		wp_enqueue_style( 'wp-color-picker' );
 
-		do_action( 'wpcmf_enqueue_common_assets' );
+		do_action( 'cassette_cmf_enqueue_common_assets' );
 	}
 }

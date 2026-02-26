@@ -4,10 +4,10 @@
  *
  * Tests for the JSON Schema Validator class.
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Json\Schema_Validator;
+use Pedalcms\CassetteCmf\Json\Schema_Validator;
 
 /**
  * Class Test_Schema_Validator

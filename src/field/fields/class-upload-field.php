@@ -2,13 +2,13 @@
 /**
  * UploadField - Media upload field using WordPress media library
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
 
 /**
  * Upload_Field class
@@ -92,17 +92,17 @@ class Upload_Field extends Abstract_Field {
 
 		// Hidden input for the value.
 		$output .= sprintf(
-			'<input type="hidden" id="%s" name="%s" value="%s" class="wp-cmf-upload-value" />',
+			'<input type="hidden" id="%s" name="%s" value="%s" class="cassette-cmf-upload-value" />',
 			$this->esc_attr( $this->get_field_id() ),
 			$this->esc_attr( $this->name ),
 			$this->esc_attr( (string) $field_value )
 		);
 
 		// Upload container.
-		$output .= '<div class="wp-cmf-upload-container">';
+		$output .= '<div class="cassette-cmf-upload-container">';
 
 		// Preview area.
-		$output .= '<div class="wp-cmf-upload-preview" style="' . ( $show_preview ? '' : 'display:none;' ) . '">';
+		$output .= '<div class="cassette-cmf-upload-preview" style="' . ( $show_preview ? '' : 'display:none;' ) . '">';
 		if ( $show_preview ) {
 			$output .= sprintf(
 				'<img src="%s" alt="%s" style="max-width:150px;max-height:150px;" />',
@@ -113,7 +113,7 @@ class Upload_Field extends Abstract_Field {
 		$output .= '</div>';
 
 		// File name display (for non-images).
-		$output .= '<div class="wp-cmf-upload-filename" style="' . ( $has_value && ! $is_image ? '' : 'display:none;' ) . '">';
+		$output .= '<div class="cassette-cmf-upload-filename" style="' . ( $has_value && ! $is_image ? '' : 'display:none;' ) . '">';
 		if ( $has_value && ! $is_image ) {
 			$output .= '<span class="dashicons dashicons-media-default"></span> ';
 			$output .= $this->esc_html( $file_name );
@@ -121,12 +121,12 @@ class Upload_Field extends Abstract_Field {
 		$output .= '</div>';
 
 		// Buttons.
-		$output .= '<div class="wp-cmf-upload-buttons">';
+		$output .= '<div class="cassette-cmf-upload-buttons">';
 
 		// Upload button.
 		$button_attrs = [
 			'type'  => 'button',
-			'class' => 'button wp-cmf-upload-button',
+			'class' => 'button cassette-cmf-upload-button',
 		];
 
 		if ( ! empty( $library_type ) ) {
@@ -145,14 +145,14 @@ class Upload_Field extends Abstract_Field {
 
 		// Remove button.
 		$output .= sprintf(
-			' <button type="button" class="button wp-cmf-upload-remove" data-field-id="%s" style="%s">%s</button>',
+			' <button type="button" class="button cassette-cmf-upload-remove" data-field-id="%s" style="%s">%s</button>',
 			$this->esc_attr( $this->get_field_id() ),
 			$has_value ? '' : 'display:none;',
 			$this->esc_html( $this->config['remove_text'] )
 		);
 
-		$output .= '</div>'; // .wp-cmf-upload-buttons
-		$output .= '</div>'; // .wp-cmf-upload-container
+		$output .= '</div>'; // .cassette-cmf-upload-buttons
+		$output .= '</div>'; // .cassette-cmf-upload-container
 
 		$output .= $this->render_description();
 		$output .= $this->render_wrapper_end();
@@ -201,16 +201,16 @@ class Upload_Field extends Abstract_Field {
 (function($) {
 	"use strict";
 
-	$(document).on("click", ".wp-cmf-upload-button", function(e) {
+	$(document).on("click", ".cassette-cmf-upload-button", function(e) {
 		e.preventDefault();
 
 		var button = $(this);
 		var fieldId = button.data("field-id");
-		var container = button.closest(".wp-cmf-upload-container");
-		var input = container.siblings(".wp-cmf-upload-value");
-		var preview = container.find(".wp-cmf-upload-preview");
-		var filename = container.find(".wp-cmf-upload-filename");
-		var removeBtn = container.find(".wp-cmf-upload-remove");
+		var container = button.closest(".cassette-cmf-upload-container");
+		var input = container.siblings(".cassette-cmf-upload-value");
+		var preview = container.find(".cassette-cmf-upload-preview");
+		var filename = container.find(".cassette-cmf-upload-filename");
+		var removeBtn = container.find(".cassette-cmf-upload-remove");
 		var libraryType = button.data("library-type") || "";
 		var multiple = button.data("multiple") === true;
 
@@ -242,14 +242,14 @@ class Upload_Field extends Abstract_Field {
 		frame.open();
 	});
 
-	$(document).on("click", ".wp-cmf-upload-remove", function(e) {
+	$(document).on("click", ".cassette-cmf-upload-remove", function(e) {
 		e.preventDefault();
 
 		var button = $(this);
-		var container = button.closest(".wp-cmf-upload-container");
-		var input = container.siblings(".wp-cmf-upload-value");
-		var preview = container.find(".wp-cmf-upload-preview");
-		var filename = container.find(".wp-cmf-upload-filename");
+		var container = button.closest(".cassette-cmf-upload-container");
+		var input = container.siblings(".cassette-cmf-upload-value");
+		var preview = container.find(".cassette-cmf-upload-preview");
+		var filename = container.find(".cassette-cmf-upload-filename");
 
 		input.val("").trigger("change");
 		preview.hide().empty();

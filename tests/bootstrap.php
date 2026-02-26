@@ -1,10 +1,10 @@
 <?php
 /**
- * WP-CMF Test Bootstrap
+ * Cassette-CMF Test Bootstrap
  *
  * Bootstrap file for WordPress unit tests following WordPress testing standards.
  *
- * @package Pedalcms\WpCmf\Tests
+ * @package Pedalcms\CassetteCmf\Tests
  */
 
 // Define plugin testing directory.
@@ -19,8 +19,8 @@ if ( ! getenv( 'WP_TESTS_DIR' ) ) {
 }
 
 // Define test mode flag.
-if ( ! defined( 'WPCMF_TESTING' ) ) {
-	define( 'WPCMF_TESTING', true );
+if ( ! defined( 'CASSETTE_CMF_TESTING' ) ) {
+	define( 'CASSETTE_CMF_TESTING', true );
 }
 
 // Load Composer autoloader.
@@ -101,13 +101,13 @@ require_once $_tests_dir . '/includes/functions.php';
  */
 function _manually_load_plugin() {
 	// Load the main plugin file if it exists.
-	$plugin_file = dirname( TESTS_PLUGIN_DIR ) . '/wp-cmf-example.php';
+	$plugin_file = dirname( TESTS_PLUGIN_DIR ) . '/cassette-cmf-example.php';
 	if ( file_exists( $plugin_file ) ) {
 		require_once $plugin_file;
 	}
 
-	// Initialize the WP-CMF manager.
-	\Pedalcms\WpCmf\Core\Manager::init();
+	// Initialize the Cassette-CMF manager.
+	\Pedalcms\CassetteCmf\Core\Manager::init();
 }
 
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );

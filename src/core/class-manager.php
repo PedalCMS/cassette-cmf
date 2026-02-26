@@ -1,28 +1,28 @@
 <?php
 
 /**
- * Manager class for WP-CMF
+ * Manager class for Cassette-CMF
  *
  * Central registry and bootstrap for the Content Modeling Framework.
  * Coordinates registration of custom post types, settings pages, and fields.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Core;
+namespace Pedalcms\CassetteCmf\Core;
 
-use Pedalcms\WpCmf\Core\Handlers\New_Settings_Page_Handler;
-use Pedalcms\WpCmf\Core\Handlers\Existing_Settings_Page_Handler;
-use Pedalcms\WpCmf\Core\Handlers\New_Post_Type_Handler;
-use Pedalcms\WpCmf\Core\Handlers\Existing_Post_Type_Handler;
-use Pedalcms\WpCmf\Core\Handlers\New_Taxonomy_Handler;
-use Pedalcms\WpCmf\Core\Handlers\Existing_Taxonomy_Handler;
-use Pedalcms\WpCmf\Field\Field_Factory;
-use Pedalcms\WpCmf\Json\Schema_Validator;
+use Pedalcms\CassetteCmf\Core\Handlers\New_Settings_Page_Handler;
+use Pedalcms\CassetteCmf\Core\Handlers\Existing_Settings_Page_Handler;
+use Pedalcms\CassetteCmf\Core\Handlers\New_Post_Type_Handler;
+use Pedalcms\CassetteCmf\Core\Handlers\Existing_Post_Type_Handler;
+use Pedalcms\CassetteCmf\Core\Handlers\New_Taxonomy_Handler;
+use Pedalcms\CassetteCmf\Core\Handlers\Existing_Taxonomy_Handler;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Json\Schema_Validator;
 
 /**
- * Manager class - Central coordination point for WP-CMF
+ * Manager class - Central coordination point for Cassette-CMF
  *
  * Provides a singleton pattern for managing registration and configuration
  * of custom post types, settings pages, and field definitions.
@@ -146,7 +146,7 @@ class Manager {
 	public function load_textdomain(): void {
 		if ( function_exists( 'load_plugin_textdomain' ) ) {
 			load_plugin_textdomain(
-				'wp-cmf',
+				'cassette-cmf',
 				false,
 				dirname( plugin_basename( __FILE__ ) ) . '/../../languages'
 			);
@@ -506,12 +506,12 @@ class Manager {
 	}
 
 	/**
-	 * Retrieve a WP-CMF field value
+	 * Retrieve a Cassette-CMF field value
 	 *
 	 * This is a universal method to get field values regardless of their storage location.
 	 * It automatically handles post meta, term meta, and settings options.
 	 *
-	 * @param string     $field_name    The field name as defined in the WP-CMF config.
+	 * @param string     $field_name    The field name as defined in the Cassette-CMF config.
 	 * @param int|string $context       The context: post ID (int), term ID (int), or settings page ID (string).
 	 * @param string     $context_type  The type of context: 'post', 'term', or 'settings'. Default 'post'.
 	 * @param mixed      $default_value Default value if field value is empty. Default empty string.

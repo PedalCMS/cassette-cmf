@@ -1,15 +1,15 @@
-# WP-CMF (WordPress Content Modeling Framework)
+# Cassette-CMF (WordPress Content Modeling Framework)
 
 A powerful, flexible Composer library for building WordPress plugins with custom post types, taxonomies, settings pages, and dynamic form fields.
 
-[![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)](https://github.com/PedalCMS/wp-cmf)
+[![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)](https://github.com/PedalCMS/cassette-cmf)
 [![PHP](https://img.shields.io/badge/PHP-8.2%2B-purple.svg)](https://php.net)
 [![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-blue.svg)](https://wordpress.org)
 [![License](https://img.shields.io/badge/license-GPL--2.0--or--later-green.svg)](LICENSE)
-![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/namithj/e9d56e393be0b5f10774a3432beaf815/raw/wp-cmf-coverage.json)
-[![PHPUnit Tests](https://github.com/PedalCMS/wp-cmf/actions/workflows/phpunit.yml/badge.svg)](https://github.com/PedalCMS/wp-cmf/actions/workflows/phpunit.yml)
-[![Coding Standards](https://github.com/PedalCMS/wp-cmf/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/PedalCMS/wp-cmf/actions/workflows/coding-standards.yml)
-[![PHPStan](https://github.com/PedalCMS/wp-cmf/actions/workflows/phpstan.yml/badge.svg)](https://github.com/PedalCMS/wp-cmf/actions/workflows/phpstan.yml)
+![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/namithj/e9d56e393be0b5f10774a3432beaf815/raw/cassette-cmf-coverage.json)
+[![PHPUnit Tests](https://github.com/PedalCMS/cassette-cmf/actions/workflows/phpunit.yml/badge.svg)](https://github.com/PedalCMS/cassette-cmf/actions/workflows/phpunit.yml)
+[![Coding Standards](https://github.com/PedalCMS/cassette-cmf/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/PedalCMS/cassette-cmf/actions/workflows/coding-standards.yml)
+[![PHPStan](https://github.com/PedalCMS/cassette-cmf/actions/workflows/phpstan.yml/badge.svg)](https://github.com/PedalCMS/cassette-cmf/actions/workflows/phpstan.yml)
 
 ## Features
 
@@ -35,7 +35,7 @@ A powerful, flexible Composer library for building WordPress plugins with custom
 ## Installation
 
 ```bash
-composer require pedalcms/wp-cmf
+composer require pedalcms/cassette-cmf
 ```
 
 ## Quick Start
@@ -48,7 +48,7 @@ composer require pedalcms/wp-cmf
  * Plugin Name: My Custom Plugin
  */
 
-use Pedalcms\WpCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Core\Manager;
 
 function my_plugin_init() {
     Manager::init()->register_from_array([
@@ -262,28 +262,28 @@ Manager::init()->register_from_json( __DIR__ . '/config.json' );
 
 ## Retrieving Values
 
-WP-CMF provides a universal static method to retrieve field values regardless of their storage location:
+Cassette-CMF provides a universal static method to retrieve field values regardless of their storage location:
 
 ```php
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
 // Post meta (CPT fields)
-$price = Wpcmf::get_field( 'price', $post_id );
-$price = Wpcmf::get_field( 'price', $post_id, 'post', 0 );  // With default
+$price = CassetteCmf::get_field( 'price', $post_id );
+$price = CassetteCmf::get_field( 'price', $post_id, 'post', 0 );  // With default
 
 // Term meta (taxonomy fields)
-$color = Wpcmf::get_field( 'category_color', $term_id, 'term' );
-$color = Wpcmf::get_field( 'category_color', $term_id, 'term', '#000000' );
+$color = CassetteCmf::get_field( 'category_color', $term_id, 'term' );
+$color = CassetteCmf::get_field( 'category_color', $term_id, 'term', '#000000' );
 
 // Settings (uses settings page ID as context)
-$store_name = Wpcmf::get_field( 'store_name', 'store-settings', 'settings' );
-$currency = Wpcmf::get_field( 'currency', 'store-settings', 'settings', 'USD' );
+$store_name = CassetteCmf::get_field( 'store_name', 'store-settings', 'settings' );
+$currency = CassetteCmf::get_field( 'currency', 'store-settings', 'settings', 'USD' );
 ```
 
 ### Method Signature
 
 ```php
-Wpcmf::get_field( string $field_name, int|string $context, string $context_type = 'post', mixed $default = '' )
+CassetteCmf::get_field( string $field_name, int|string $context, string $context_type = 'post', mixed $default = '' )
 ```
 
 | Parameter | Type | Description |
@@ -296,12 +296,12 @@ Wpcmf::get_field( string $field_name, int|string $context, string $context_type 
 ### Context-Specific Helper Methods
 
 ```php
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
 // Context-specific methods for convenience
-$value = Wpcmf::get_post_field( 'field_name', $post_id );
-$value = Wpcmf::get_term_field( 'field_name', $term_id );
-$value = Wpcmf::get_settings_field( 'field_name', 'page-id' );
+$value = CassetteCmf::get_post_field( 'field_name', $post_id );
+$value = CassetteCmf::get_term_field( 'field_name', $term_id );
+$value = CassetteCmf::get_settings_field( 'field_name', 'page-id' );
 ```
 
 ### Legacy Approach (Still Works)
@@ -323,13 +323,13 @@ Modify or validate field values before saving:
 
 ```php
 // Global filter for all fields
-add_filter( 'Wpcmf_before_save_field', function( $value, $field_name, $context ) {
+add_filter( 'CassetteCmf_before_save_field', function( $value, $field_name, $context ) {
     // Return modified value, or null to skip saving
     return $value;
 }, 10, 3 );
 
 // Field-specific filter
-add_filter( 'Wpcmf_before_save_field_price', function( $value ) {
+add_filter( 'CassetteCmf_before_save_field_price', function( $value ) {
     return abs( floatval( $value ) );  // Ensure positive number
 } );
 ```
@@ -368,6 +368,6 @@ GPL-2.0-or-later. See [LICENSE](LICENSE) for details.
 
 ## Support
 
-- [GitHub Issues](https://github.com/PedalCMS/wp-cmf/issues)
+- [GitHub Issues](https://github.com/PedalCMS/cassette-cmf/issues)
 - [Documentation](docs/)
 - [Examples](examples/)

@@ -4,18 +4,18 @@
  *
  * Handles registration and field management for new settings pages.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Core\Handlers;
+namespace Pedalcms\CassetteCmf\Core\Handlers;
 
-use Pedalcms\WpCmf\Settings\Settings_Page;
-use Pedalcms\WpCmf\Field\Field_Interface;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
-use Pedalcms\WpCmf\Field\Field_Factory;
-use Pedalcms\WpCmf\Field\Fields\Group_Field;
-use Pedalcms\WpCmf\Field\Fields\Metabox_Field;
+use Pedalcms\CassetteCmf\Settings\Settings_Page;
+use Pedalcms\CassetteCmf\Field\Field_Interface;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Fields\Group_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Metabox_Field;
 
 /**
  * Class New_Settings_Page_Handler
@@ -212,7 +212,7 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 			if ( ! $default_section_added ) {
 				add_settings_section(
 					$default_section_id,
-					__( 'Settings', 'wp-cmf' ),
+					__( 'Settings', 'cassette-cmf' ),
 					'__return_empty_string',
 					$menu_slug
 				);
@@ -414,7 +414,7 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 	 */
 	private function handle_save(): void {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified below after identifying the correct form.
-		if ( empty( $_POST['action'] ) || 'Wpcmf_save_settings' !== $_POST['action'] ) {
+		if ( empty( $_POST['action'] ) || 'CassetteCmf_save_settings' !== $_POST['action'] ) {
 			return;
 		}
 
@@ -427,18 +427,18 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 
 		// Verify nonce.
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce is being verified on the next line.
-		$nonce = isset( $_POST['Wpcmf_settings_nonce'] )
-			? sanitize_text_field( wp_unslash( $_POST['Wpcmf_settings_nonce'] ) )
+		$nonce = isset( $_POST['CassetteCmf_settings_nonce'] )
+			? sanitize_text_field( wp_unslash( $_POST['CassetteCmf_settings_nonce'] ) )
 			: '';
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
-		if ( ! $this->verify_nonce( $nonce, 'Wpcmf_save_settings_' . $page_id ) ) {
-			wp_die( esc_html__( 'Security check failed', 'wp-cmf' ) );
+		if ( ! $this->verify_nonce( $nonce, 'CassetteCmf_save_settings_' . $page_id ) ) {
+			wp_die( esc_html__( 'Security check failed', 'cassette-cmf' ) );
 		}
 
 		// Check capabilities
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Insufficient permissions', 'wp-cmf' ) );
+			wp_die( esc_html__( 'Insufficient permissions', 'cassette-cmf' ) );
 		}
 
 		// Save fields
@@ -561,7 +561,7 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 	}
 
 	/**
-	 * Enqueue common WP-CMF assets
+	 * Enqueue common Cassette-CMF assets
 	 *
 	 * @return void
 	 */
@@ -573,11 +573,11 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 		$url     = $this->get_assets_url();
 		$version = $this->get_version();
 
-		wp_enqueue_style( 'wp-cmf', $url . 'css/wp-cmf.css', [], $version );
-		wp_enqueue_script( 'wp-cmf', $url . 'js/wp-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
+		wp_enqueue_style( 'cassette-cmf', $url . 'css/cassette-cmf.css', [], $version );
+		wp_enqueue_script( 'cassette-cmf', $url . 'js/cassette-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
 		wp_enqueue_style( 'wp-color-picker' );
 
-		do_action( 'wpcmf_enqueue_common_assets' );
+		do_action( 'cassette_cmf_enqueue_common_assets' );
 	}
 
 	/**
@@ -608,7 +608,7 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 		foreach ( $this->invalid_containers as $page_id => $fields ) {
 			?>
 			<div class="notice notice-error">
-				<p><strong>WP-CMF Configuration Error:</strong>
+				<p><strong>Cassette-CMF Configuration Error:</strong>
 				Container fields on settings page "<?php echo esc_html( $page_id ); ?>" must be wrapped in a metabox.</p>
 				<ul style="list-style: disc; margin-left: 20px;">
 					<?php foreach ( $fields as $field_info ) : ?>

@@ -2,13 +2,13 @@
 /**
  * CheckboxField - Checkbox input field
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
 
 /**
  * Checkbox_Field class
@@ -107,7 +107,7 @@ class Checkbox_Field extends Abstract_Field {
 		$output         = '<fieldset>';
 		$checked_values = is_array( $value ) ? $value : [ $value ];
 
-		$wrapper_class = 'wp-cmf-field-checkbox-group';
+		$wrapper_class = 'cassette-cmf-field-checkbox-group';
 		if ( $this->config['inline'] ) {
 			$wrapper_class .= ' inline';
 		}

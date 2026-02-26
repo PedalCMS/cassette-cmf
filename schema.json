@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "WP-CMF Configuration Schema",
-  "description": "JSON schema for WP-CMF custom post types, settings pages, and field definitions",
+  "title": "Cassette-CMF Configuration Schema",
+  "description": "JSON schema for Cassette-CMF custom post types, settings pages, and field definitions",
   "type": "object",
   "properties": {
     "cpts": {

@@ -1,6 +1,6 @@
 <?php
 /**
- * MetaboxField for WP-CMF
+ * MetaboxField for Cassette-CMF
  *
  * A container field that organizes nested fields into WordPress meta boxes.
  * The metabox field itself doesn't store data - only nested fields save/load values.
@@ -9,15 +9,15 @@
  * each with their own set of fields. If a meta box doesn't exist, it will be created.
  * If it exists, fields will be added to it.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
 /**
  * Metabox_Field - Organizes fields into WordPress meta boxes
@@ -148,7 +148,7 @@ class Metabox_Field extends Abstract_Field implements Container_Field_Interface 
 
 		// WordPress automatically applies .metabox-location-side class to sidebar metaboxes
 		// which we can target in CSS for responsive layout
-		$output  = '<div class="wp-cmf-metabox-fields">';
+		$output  = '<div class="cassette-cmf-metabox-fields">';
 		$output .= $this->render_metabox_fields( $fields, $context );
 		$output .= '</div>';
 
@@ -175,10 +175,10 @@ class Metabox_Field extends Abstract_Field implements Container_Field_Interface 
 		$has_regular_fields   = false;
 
 		foreach ( $fields as $field_config ) {
-			if ( class_exists( '\Pedalcms\WpCmf\Field\Field_Factory' ) ) {
+			if ( class_exists( '\Pedalcms\CassetteCmf\Field\Field_Factory' ) ) {
 				try {
 					$field = Field_Factory::create( $field_config );
-					if ( $field instanceof \Pedalcms\WpCmf\Field\Container_Field_Interface ) {
+					if ( $field instanceof \Pedalcms\CassetteCmf\Field\Container_Field_Interface ) {
 						$has_container_fields = true;
 					} else {
 						$has_regular_fields = true;
@@ -200,7 +200,7 @@ class Metabox_Field extends Abstract_Field implements Container_Field_Interface 
 			foreach ( $fields as $field_config ) {
 				$field_name = $field_config['name'] ?? '';
 
-				if ( class_exists( '\Pedalcms\WpCmf\Field\Field_Factory' ) ) {
+				if ( class_exists( '\Pedalcms\CassetteCmf\Field\Field_Factory' ) ) {
 					try {
 						$field = Field_Factory::create( $field_config );
 
@@ -210,7 +210,7 @@ class Metabox_Field extends Abstract_Field implements Container_Field_Interface 
 
 						// Remove only the first/top-level label, not labels inside nested fields (like groups)
 						// This preserves labels for checkbox/radio options and nested container fields
-						$field_html = preg_replace( '/<label[^>]*class="[^"]*wp-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $field_html, 1 );
+						$field_html = preg_replace( '/<label[^>]*class="[^"]*cassette-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $field_html, 1 );
 
 						// For settings pages (when context is a string page_id), fix the name attribute
 						if ( is_string( $context ) && ! empty( $context ) ) {
@@ -244,13 +244,13 @@ class Metabox_Field extends Abstract_Field implements Container_Field_Interface 
 			foreach ( $fields as $field_config ) {
 				$field_name = $field_config['name'] ?? '';
 
-				if ( class_exists( '\Pedalcms\WpCmf\Field\Field_Factory' ) ) {
+				if ( class_exists( '\Pedalcms\CassetteCmf\Field\Field_Factory' ) ) {
 					try {
 						$field = Field_Factory::create( $field_config );
 
 						// For container fields (tabs, etc), pass context directly
 						// For regular fields, load and pass the field value
-						if ( $field instanceof \Pedalcms\WpCmf\Field\Container_Field_Interface ) {
+						if ( $field instanceof \Pedalcms\CassetteCmf\Field\Container_Field_Interface ) {
 							// Container fields need context to pass to nested fields
 							$field_html = $field->render( $context );
 						} else {
@@ -352,7 +352,7 @@ class Metabox_Field extends Abstract_Field implements Container_Field_Interface 
 	 * @return void
 	 */
 	public function enqueue_assets(): void {
-		// Styles are loaded from wp-cmf.scss
+		// Styles are loaded from cassette-cmf.scss
 		// No inline CSS needed
 	}
 

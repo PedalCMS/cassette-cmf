@@ -2,13 +2,13 @@
 /**
  * Settings Page Registration Tests
  *
- * Tests for registering settings pages with WP-CMF.
+ * Tests for registering settings pages with Cassette-CMF.
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Core\Manager;
-use Pedalcms\WpCmf\Settings\Settings_Page;
+use Pedalcms\CassetteCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Settings\Settings_Page;
 
 /**
  * Class Test_Settings_Page

@@ -1,6 +1,6 @@
 # Advanced Example - JSON Configuration
 
-This comprehensive example demonstrates **ALL** WP-CMF capabilities using external JSON configuration files.
+This comprehensive example demonstrates **ALL** Cassette-CMF capabilities using external JSON configuration files.
 
 ## What This Example Demonstrates
 
@@ -127,7 +127,7 @@ JSON cannot define callbacks, so use PHP filters for preprocessing:
 
 ```php
 // Format phone numbers
-add_filter( 'Wpcmf_before_save_field_agent_phone', function( $value ) {
+add_filter( 'CassetteCmf_before_save_field_agent_phone', function( $value ) {
     $numbers = preg_replace( '/[^0-9]/', '', $value );
     if ( strlen( $numbers ) === 10 ) {
         return sprintf( '(%s) %s-%s',
@@ -140,7 +140,7 @@ add_filter( 'Wpcmf_before_save_field_agent_phone', function( $value ) {
 });
 
 // Auto-generate listing ID
-add_filter( 'Wpcmf_before_save_field_listing_id', function( $value, $post_id ) {
+add_filter( 'CassetteCmf_before_save_field_listing_id', function( $value, $post_id ) {
     if ( empty( $value ) ) {
         return 'PROP-' . str_pad( $post_id, 6, '0', STR_PAD_LEFT );
     }
@@ -150,34 +150,34 @@ add_filter( 'Wpcmf_before_save_field_listing_id', function( $value, $post_id ) {
 
 ## Retrieving Values
 
-WP-CMF provides a universal static method to retrieve field values:
+Cassette-CMF provides a universal static method to retrieve field values:
 
 ```php
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
 // Property CPT fields
-$price       = Wpcmf::get_field( 'property_price', $property_id, 'post', 0 );
-$amenities   = Wpcmf::get_field( 'amenities', $property_id ); // returns array
-$open_houses = Wpcmf::get_field( 'open_house_schedule', $property_id ); // returns array
+$price       = CassetteCmf::get_field( 'property_price', $property_id, 'post', 0 );
+$amenities   = CassetteCmf::get_field( 'amenities', $property_id ); // returns array
+$open_houses = CassetteCmf::get_field( 'open_house_schedule', $property_id ); // returns array
 
 // Agency settings
-$api_key       = Wpcmf::get_field( 'map_api_key', 'agency-settings', 'settings' );
-$primary_color = Wpcmf::get_field( 'primary_color', 'agency-settings', 'settings', '#2c3e50' );
+$api_key       = CassetteCmf::get_field( 'map_api_key', 'agency-settings', 'settings' );
+$primary_color = CassetteCmf::get_field( 'primary_color', 'agency-settings', 'settings', '#2c3e50' );
 
 // Extended post fields
-$is_featured = Wpcmf::get_field( 'is_featured', $post_id );
-$meta_title  = Wpcmf::get_field( 'meta_title', $post_id );
+$is_featured = CassetteCmf::get_field( 'is_featured', $post_id );
+$meta_title  = CassetteCmf::get_field( 'meta_title', $post_id );
 
 // Extended page fields
-$page_layout = Wpcmf::get_field( 'page_layout', $page_id );
-$cta_enabled = Wpcmf::get_field( 'cta_enabled', $page_id );
+$page_layout = CassetteCmf::get_field( 'page_layout', $page_id );
+$cta_enabled = CassetteCmf::get_field( 'cta_enabled', $page_id );
 
 // Extended general settings
-$facebook  = Wpcmf::get_field( 'social_facebook', 'general', 'settings' );
-$analytics = Wpcmf::get_field( 'analytics_id', 'general', 'settings' );
+$facebook  = CassetteCmf::get_field( 'social_facebook', 'general', 'settings' );
+$analytics = CassetteCmf::get_field( 'analytics_id', 'general', 'settings' );
 
 // Extended reading settings
-$excerpt_length = Wpcmf::get_field( 'excerpt_length', 'reading', 'settings', 55 );
+$excerpt_length = CassetteCmf::get_field( 'excerpt_length', 'reading', 'settings', 55 );
 ```
 
 ## JSON vs Array Comparison

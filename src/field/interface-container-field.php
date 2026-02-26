@@ -1,16 +1,16 @@
 <?php
 /**
- * ContainerFieldInterface for WP-CMF
+ * ContainerFieldInterface for Cassette-CMF
  *
  * Defines the contract for container fields that contain other fields
  * but don't store their own values. Container fields are organizational
  * and their nested fields save/load independently using their own field names.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field;
+namespace Pedalcms\CassetteCmf\Field;
 
 /**
  * ContainerFieldInterface - Contract for container field types

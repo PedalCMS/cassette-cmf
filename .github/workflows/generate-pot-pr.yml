@@ -12,7 +12,7 @@ permissions:
 jobs:
   generate-pot:
     name: Generate POT PR
-    if: github.repository == 'PedalCMS/wp-cmf'
+    if: github.repository == 'PedalCMS/cassette-cmf'
     permissions:
       contents: write
       pull-requests: write

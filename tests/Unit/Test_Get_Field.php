@@ -2,24 +2,24 @@
 /**
  * Get Field Tests
  *
- * Tests for the Wpcmf::get_field() static method.
+ * Tests for the CassetteCmf::get_field() static method.
  * Tests retrieval of field values from all default field types across different contexts.
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Wpcmf;
-use Pedalcms\WpCmf\Core\Manager;
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\CassetteCmf;
+use Pedalcms\CassetteCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
-require_once __DIR__ . '/Wpcmf_UnitTestCase.php';
+require_once __DIR__ . '/CassetteCmf_UnitTestCase.php';
 
 /**
  * Class Test_Get_Field
  *
  * Tests for retrieving field values using Manager::get_field().
  */
-class Test_Get_Field extends Wpcmf_UnitTestCase {
+class Test_Get_Field extends CassetteCmf_UnitTestCase {
 
 	/**
 	 * Manager instance
@@ -652,7 +652,7 @@ class Test_Get_Field extends Wpcmf_UnitTestCase {
 	// =========================================================================
 
 	/**
-	 * Test Wpcmf::get_field static method for post.
+	 * Test CassetteCmf::get_field static method for post.
 	 */
 	public function test_helper_function_for_post(): void {
 		$field_name = 'helper_test_field';
@@ -660,13 +660,13 @@ class Test_Get_Field extends Wpcmf_UnitTestCase {
 
 		update_post_meta( $this->post_id, $field_name, $value );
 
-		$result = Wpcmf::get_field( $field_name, $this->post_id, 'post' );
+		$result = CassetteCmf::get_field( $field_name, $this->post_id, 'post' );
 
 		$this->assertSame( $value, $result );
 	}
 
 	/**
-	 * Test Wpcmf::get_field static method for term.
+	 * Test CassetteCmf::get_field static method for term.
 	 */
 	public function test_helper_function_for_term(): void {
 		$field_name = 'helper_term_field';
@@ -674,13 +674,13 @@ class Test_Get_Field extends Wpcmf_UnitTestCase {
 
 		update_term_meta( $this->term_id, $field_name, $value );
 
-		$result = Wpcmf::get_field( $field_name, $this->term_id, 'term' );
+		$result = CassetteCmf::get_field( $field_name, $this->term_id, 'term' );
 
 		$this->assertSame( $value, $result );
 	}
 
 	/**
-	 * Test Wpcmf::get_field static method for settings.
+	 * Test CassetteCmf::get_field static method for settings.
 	 */
 	public function test_helper_function_for_settings(): void {
 		$field_name = 'helper_settings_field';
@@ -688,16 +688,16 @@ class Test_Get_Field extends Wpcmf_UnitTestCase {
 
 		update_option( $this->settings_page_id . '_' . $field_name, $value );
 
-		$result = Wpcmf::get_field( $field_name, $this->settings_page_id, 'settings' );
+		$result = CassetteCmf::get_field( $field_name, $this->settings_page_id, 'settings' );
 
 		$this->assertSame( $value, $result );
 	}
 
 	/**
-	 * Test Wpcmf::get_field with default value.
+	 * Test CassetteCmf::get_field with default value.
 	 */
 	public function test_helper_function_with_default(): void {
-		$result = Wpcmf::get_field( 'nonexistent', $this->post_id, 'post', 'fallback' );
+		$result = CassetteCmf::get_field( 'nonexistent', $this->post_id, 'post', 'fallback' );
 
 		$this->assertSame( 'fallback', $result );
 	}

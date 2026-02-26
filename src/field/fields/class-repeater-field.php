@@ -1,19 +1,19 @@
 <?php
 /**
- * RepeaterField for WP-CMF
+ * RepeaterField for Cassette-CMF
  *
  * A container field that creates repeatable sets of nested fields.
  * Unlike other container fields, the repeater stores its own data as a serialized array
  * containing all the repeated field values.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
 /**
  * Repeater_Field - Creates repeatable sets of fields
@@ -100,7 +100,7 @@ class Repeater_Field extends Abstract_Field {
 		$output .= $this->render_label();
 
 		// Main repeater container
-		$output .= '<div class="wp-cmf-repeater" ';
+		$output .= '<div class="cassette-cmf-repeater" ';
 		$output .= 'id="' . $this->esc_attr( $field_id ) . '" ';
 		$output .= 'data-field-name="' . $this->esc_attr( $field_name ) . '" ';
 		$output .= 'data-min-rows="' . $this->esc_attr( (string) $min_rows ) . '" ';
@@ -109,30 +109,30 @@ class Repeater_Field extends Abstract_Field {
 		$output .= 'data-collapsible="' . ( $collapsible ? 'true' : 'false' ) . '">';
 
 		// Rows container
-		$output .= '<div class="wp-cmf-repeater-rows">';
+		$output .= '<div class="cassette-cmf-repeater-rows">';
 
 		// Render existing rows
 		foreach ( $rows as $row_index => $row_data ) {
 			$output .= $this->render_row( $row_index, $row_data, $sub_fields, $field_name, $row_label, $collapsible, $collapsed );
 		}
 
-		$output .= '</div>'; // .wp-cmf-repeater-rows
+		$output .= '</div>'; // .cassette-cmf-repeater-rows
 
 		// Add row button
 		$can_add = ( 0 === $max_rows || count( $rows ) < $max_rows );
-		$output .= '<div class="wp-cmf-repeater-actions">';
-		$output .= '<button type="button" class="button wp-cmf-repeater-add" ' . ( ! $can_add ? 'disabled' : '' ) . '>';
+		$output .= '<div class="cassette-cmf-repeater-actions">';
+		$output .= '<button type="button" class="button cassette-cmf-repeater-add" ' . ( ! $can_add ? 'disabled' : '' ) . '>';
 		$output .= '<span class="dashicons dashicons-plus-alt2"></span> ';
 		$output .= $this->esc_html( $button_label );
 		$output .= '</button>';
 		$output .= '</div>';
 
 		// Hidden template for new rows (used by JavaScript)
-		$output .= '<script type="text/template" class="wp-cmf-repeater-template">';
+		$output .= '<script type="text/template" class="cassette-cmf-repeater-template">';
 		$output .= $this->render_row( '{{INDEX}}', [], $sub_fields, $field_name, $row_label, $collapsible, false );
 		$output .= '</script>';
 
-		$output .= '</div>'; // .wp-cmf-repeater
+		$output .= '</div>'; // .cassette-cmf-repeater
 
 		$output .= $this->render_description();
 		$output .= $this->render_wrapper_end();
@@ -157,7 +157,7 @@ class Repeater_Field extends Abstract_Field {
 	 */
 	protected function render_row( $row_index, array $row_data, array $sub_fields, string $field_name, string $row_label, bool $collapsible, bool $collapsed ): string {
 		$label       = str_replace( '{{index}}', (string) ( is_int( $row_index ) ? $row_index + 1 : $row_index ), $row_label );
-		$row_classes = 'wp-cmf-repeater-row';
+		$row_classes = 'cassette-cmf-repeater-row';
 
 		if ( $collapsed && $collapsible ) {
 			$row_classes .= ' collapsed';
@@ -166,34 +166,34 @@ class Repeater_Field extends Abstract_Field {
 		$output = '<div class="' . $row_classes . '" data-row-index="' . $this->esc_attr( (string) $row_index ) . '">';
 
 		// Row header
-		$output .= '<div class="wp-cmf-repeater-row-header">';
+		$output .= '<div class="cassette-cmf-repeater-row-header">';
 
 		// Drag handle (if sortable)
-		$output .= '<span class="wp-cmf-repeater-drag-handle dashicons dashicons-move" title="Drag to reorder"></span>';
+		$output .= '<span class="cassette-cmf-repeater-drag-handle dashicons dashicons-move" title="Drag to reorder"></span>';
 
 		// Row label
-		$output .= '<span class="wp-cmf-repeater-row-label">' . $this->esc_html( $label ) . '</span>';
+		$output .= '<span class="cassette-cmf-repeater-row-label">' . $this->esc_html( $label ) . '</span>';
 
 		// Row actions
-		$output .= '<div class="wp-cmf-repeater-row-actions">';
+		$output .= '<div class="cassette-cmf-repeater-row-actions">';
 
 		if ( $collapsible ) {
-			$output .= '<button type="button" class="wp-cmf-repeater-toggle" title="Toggle">';
+			$output .= '<button type="button" class="cassette-cmf-repeater-toggle" title="Toggle">';
 			$output .= '<span class="dashicons dashicons-arrow-down"></span>';
 			$output .= '</button>';
 		}
 
-		$output .= '<button type="button" class="wp-cmf-repeater-remove" title="Remove">';
+		$output .= '<button type="button" class="cassette-cmf-repeater-remove" title="Remove">';
 		$output .= '<span class="dashicons dashicons-trash"></span>';
 		$output .= '</button>';
 
-		$output .= '</div>'; // .wp-cmf-repeater-row-actions
-		$output .= '</div>'; // .wp-cmf-repeater-row-header
+		$output .= '</div>'; // .cassette-cmf-repeater-row-actions
+		$output .= '</div>'; // .cassette-cmf-repeater-row-header
 
 		// Row content (fields)
 		$content_style = ( $collapsed && $collapsible ) ? ' style="display: none;"' : '';
-		$output       .= '<div class="wp-cmf-repeater-row-content"' . $content_style . '>';
-		$output       .= '<table class="form-table wp-cmf-repeater-fields" role="presentation">';
+		$output       .= '<div class="cassette-cmf-repeater-row-content"' . $content_style . '>';
+		$output       .= '<table class="form-table cassette-cmf-repeater-fields" role="presentation">';
 
 		foreach ( $sub_fields as $sub_field_config ) {
 			$sub_field_name = $sub_field_config['name'] ?? '';
@@ -213,7 +213,7 @@ class Repeater_Field extends Abstract_Field {
 
 				// Remove only the first/top-level label, not labels inside nested fields (like groups)
 				// This preserves labels for checkbox/radio options and nested container fields
-				$sub_html = preg_replace( '/<label[^>]*class="[^"]*wp-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $sub_html, 1 );
+				$sub_html = preg_replace( '/<label[^>]*class="[^"]*cassette-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $sub_html, 1 );
 				// To: name="repeater_name[row_index][sub_field_name]"
 				$original_name = $sub_field_name;
 				$new_name      = $field_name . '[' . $row_index . '][' . $original_name . ']';
@@ -250,8 +250,8 @@ class Repeater_Field extends Abstract_Field {
 		}
 
 		$output .= '</table>';
-		$output .= '</div>'; // .wp-cmf-repeater-row-content
-		$output .= '</div>'; // .wp-cmf-repeater-row
+		$output .= '</div>'; // .cassette-cmf-repeater-row-content
+		$output .= '</div>'; // .cassette-cmf-repeater-row
 
 		return $output;
 	}
@@ -374,12 +374,12 @@ class Repeater_Field extends Abstract_Field {
 	/**
 	 * Enqueue repeater JavaScript
 	 *
-	 * Scripts are handled by wp-cmf.js RepeaterField class
+	 * Scripts are handled by cassette-cmf.js RepeaterField class
 	 *
 	 * @return void
 	 */
 	protected function enqueue_repeater_scripts(): void {
-		// JavaScript is handled by global wp-cmf.js
+		// JavaScript is handled by global cassette-cmf.js
 		// No inline scripts needed
 	}
 
@@ -394,7 +394,7 @@ class Repeater_Field extends Abstract_Field {
 			wp_enqueue_script( 'jquery-ui-sortable' );
 		}
 
-		// Styles are loaded from wp-cmf.scss
+		// Styles are loaded from cassette-cmf.scss
 		// No inline CSS needed
 	}
 

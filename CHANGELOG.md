@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to WP-CMF will be documented in this file.
+All notable changes to Cassette-CMF will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -36,5 +36,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WordPress Coding Standards compliance
 - Comprehensive test suite
 
-[Unreleased]: https://github.com/PedalCMS/wp-cmf/compare/v0.0.2...HEAD
-[0.0.2]: https://github.com/PedalCMS/wp-cmf/releases/tag/v0.0.2
+[Unreleased]: https://github.com/PedalCMS/cassette-cmf/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/PedalCMS/cassette-cmf/releases/tag/v0.0.2

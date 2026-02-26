@@ -1,15 +1,15 @@
 <?php
 /**
- * AbstractField base class for WP-CMF
+ * AbstractField base class for Cassette-CMF
  *
  * Provides common functionality and helpers for all field types.
  * Field classes should extend this to get standard behavior.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field;
+namespace Pedalcms\CassetteCmf\Field;
 
 /**
  * Abstract_Field - Base implementation for field types
@@ -335,7 +335,7 @@ abstract class Abstract_Field implements Field_Interface {
 	 * @param string $text_domain Text domain.
 	 * @return string Translated text or original if WordPress not available.
 	 */
-	protected function translate( string $text, string $text_domain = 'wp-cmf' ): string {
+	protected function translate( string $text, string $text_domain = 'cassette-cmf' ): string {
 		if ( function_exists( '__' ) ) {
 			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.NonSingularStringLiteralDomain -- Dynamic text for abstraction layer.
 			return \__( $text, $text_domain );
@@ -350,14 +350,14 @@ abstract class Abstract_Field implements Field_Interface {
 	 * @return string
 	 */
 	protected function render_wrapper_start(): string {
-		$classes = [ 'wp-cmf-field', 'wp-cmf-field-' . $this->type ];
+		$classes = [ 'cassette-cmf-field', 'cassette-cmf-field-' . $this->type ];
 
 		if ( ! empty( $this->config['class'] ) ) {
 			$classes[] = $this->config['class'];
 		}
 
 		if ( ! empty( $this->config['required'] ) ) {
-			$classes[] = 'wp-cmf-field-required';
+			$classes[] = 'cassette-cmf-field-required';
 		}
 
 		return sprintf(
@@ -398,7 +398,7 @@ abstract class Abstract_Field implements Field_Interface {
 		$required = ! empty( $this->config['required'] ) ? ' <span class="required">*</span>' : '';
 
 		return sprintf(
-			'<label for="%s" class="wp-cmf-field-label">%s%s</label>',
+			'<label for="%s" class="cassette-cmf-field-label">%s%s</label>',
 			$this->esc_attr( $this->get_field_id() ),
 			$this->esc_html( $label ),
 			$required
@@ -418,7 +418,7 @@ abstract class Abstract_Field implements Field_Interface {
 		}
 
 		return sprintf(
-			'<p class="description wp-cmf-field-description">%s</p>',
+			'<p class="description cassette-cmf-field-description">%s</p>',
 			$this->esc_html( $description )
 		);
 	}
@@ -432,7 +432,7 @@ abstract class Abstract_Field implements Field_Interface {
 		$key = function_exists( 'sanitize_key' )
 			? \sanitize_key( $this->name )
 			: strtolower( preg_replace( '/[^a-z0-9_\-]/', '', $this->name ) );
-		return 'wp-cmf-field-' . $key;
+		return 'cassette-cmf-field-' . $key;
 	}
 
 	/**

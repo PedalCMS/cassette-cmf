@@ -4,13 +4,13 @@
  *
  * Defines the contract for all registration handlers.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Core\Handlers;
+namespace Pedalcms\CassetteCmf\Core\Handlers;
 
-use Pedalcms\WpCmf\Field\Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Interface;
 
 /**
  * Interface Handler_Interface

@@ -5,11 +5,11 @@
  * This file configures the WordPress test environment.
  * Customize the database credentials for your local environment.
  *
- * @package Pedalcms\WpCmf\Tests
+ * @package Pedalcms\CassetteCmf\Tests
  */
 
 // Path to WordPress installation - dynamically calculated from plugin location.
-// Plugin is at: wp-content/plugins/wp-cmf-example/wp-cmf/tests/
+// Plugin is at: wp-content/plugins/cassette-cmf-example/cassette-cmf/tests/
 // WordPress root is 5 levels up.
 $abspath = dirname( __DIR__, 5 ) . '/';
 

@@ -2,13 +2,13 @@
 /**
  * RadioField - Radio button group field
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
 
 /**
  * Radio_Field class
@@ -45,7 +45,7 @@ class Radio_Field extends Abstract_Field {
 		$output .= $this->render_label();
 
 		$field_value   = $value ?? $this->config['default'] ?? '';
-		$wrapper_class = $this->config['inline'] ? 'wp-cmf-radio-inline' : 'wp-cmf-radio-stacked';
+		$wrapper_class = $this->config['inline'] ? 'cassette-cmf-radio-inline' : 'cassette-cmf-radio-stacked';
 
 		$output .= '<fieldset>';
 		$output .= '<div class="' . $this->esc_attr( $wrapper_class ) . '">';

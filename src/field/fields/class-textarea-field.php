@@ -2,13 +2,13 @@
 /**
  * TextareaField - Multi-line text input field
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
 
 /**
  * Textarea_Field class

@@ -2,13 +2,13 @@
 /**
  * WysiwygField - WordPress WYSIWYG editor field
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
 
 /**
  * Wysiwyg_Field class
@@ -124,13 +124,13 @@ class Wysiwyg_Field extends Abstract_Field {
 
 		// Check required
 		if ( ! empty( $this->config['required'] ) && empty( $input ) ) {
-			$errors[] = $this->translate( 'This field is required.', 'wp-cmf' );
+			$errors[] = $this->translate( 'This field is required.', 'cassette-cmf' );
 		}
 
 		// Check minimum length
 		if ( ! empty( $this->config['min'] ) && strlen( (string) $input ) < $this->config['min'] ) {
 			$errors[] = sprintf(
-				$this->translate( 'Content must be at least %d characters.', 'wp-cmf' ),
+				$this->translate( 'Content must be at least %d characters.', 'cassette-cmf' ),
 				$this->config['min']
 			);
 		}
@@ -138,7 +138,7 @@ class Wysiwyg_Field extends Abstract_Field {
 		// Check maximum length
 		if ( ! empty( $this->config['max'] ) && strlen( (string) $input ) > $this->config['max'] ) {
 			$errors[] = sprintf(
-				$this->translate( 'Content must not exceed %d characters.', 'wp-cmf' ),
+				$this->translate( 'Content must not exceed %d characters.', 'cassette-cmf' ),
 				$this->config['max']
 			);
 		}

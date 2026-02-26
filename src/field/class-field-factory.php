@@ -1,34 +1,34 @@
 <?php
 /**
- * FieldFactory for WP-CMF
+ * FieldFactory for Cassette-CMF
  *
  * Factory class for creating field instances from configuration arrays.
  * Provides a registry for field types and supports custom field registration.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field;
+namespace Pedalcms\CassetteCmf\Field;
 
-use Pedalcms\WpCmf\Field\Fields\Text_Field;
-use Pedalcms\WpCmf\Field\Fields\Textarea_Field;
-use Pedalcms\WpCmf\Field\Fields\Select_Field;
-use Pedalcms\WpCmf\Field\Fields\Checkbox_Field;
-use Pedalcms\WpCmf\Field\Fields\Radio_Field;
-use Pedalcms\WpCmf\Field\Fields\Number_Field;
-use Pedalcms\WpCmf\Field\Fields\Email_Field;
-use Pedalcms\WpCmf\Field\Fields\URL_Field;
-use Pedalcms\WpCmf\Field\Fields\Date_Field;
-use Pedalcms\WpCmf\Field\Fields\Password_Field;
-use Pedalcms\WpCmf\Field\Fields\Color_Field;
-use Pedalcms\WpCmf\Field\Fields\Tabs_Field;
-use Pedalcms\WpCmf\Field\Fields\Metabox_Field;
-use Pedalcms\WpCmf\Field\Fields\Repeater_Field;
-use Pedalcms\WpCmf\Field\Fields\Wysiwyg_Field;
-use Pedalcms\WpCmf\Field\Fields\Group_Field;
-use Pedalcms\WpCmf\Field\Fields\Custom_HTML_Field;
-use Pedalcms\WpCmf\Field\Fields\Upload_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Text_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Textarea_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Select_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Checkbox_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Radio_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Number_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Email_Field;
+use Pedalcms\CassetteCmf\Field\Fields\URL_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Date_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Password_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Color_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Tabs_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Metabox_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Repeater_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Wysiwyg_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Group_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Custom_HTML_Field;
+use Pedalcms\CassetteCmf\Field\Fields\Upload_Field;
 
 /**
  * Field_Factory class

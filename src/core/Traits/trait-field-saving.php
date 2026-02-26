@@ -4,15 +4,15 @@
  *
  * Provides common field saving functionality shared across handlers.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Core\Traits;
+namespace Pedalcms\CassetteCmf\Core\Traits;
 
-use Pedalcms\WpCmf\Field\Field_Interface;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Field_Interface;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
 /**
  * Trait Field_Saving_Trait
@@ -35,14 +35,14 @@ trait Field_Saving_Trait {
 		}
 
 		// Apply global filter
-		$value = apply_filters( 'wpcmf_before_save_field', $value, $field_name, $context );
+		$value = apply_filters( 'cassette_cmf_before_save_field', $value, $field_name, $context );
 
 		if ( null === $value ) {
 			return null;
 		}
 
 		// Apply field-specific filter
-		return apply_filters( 'wpcmf_before_save_field_' . $field_name, $value );
+		return apply_filters( 'cassette_cmf_before_save_field_' . $field_name, $value );
 	}
 
 	/**
@@ -104,7 +104,7 @@ trait Field_Saving_Trait {
 			$option_name . '_error',
 			sprintf(
 				/* translators: 1: field label, 2: error messages */
-				__( '%1$s: %2$s', 'wp-cmf' ),
+				__( '%1$s: %2$s', 'cassette-cmf' ),
 				$label,
 				implode( ', ', $errors )
 			),

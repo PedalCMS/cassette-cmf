@@ -1,6 +1,6 @@
 # Simple Example - JSON Configuration
 
-This is a minimal example demonstrating WP-CMF basics using JSON configuration.
+This is a minimal example demonstrating Cassette-CMF basics using JSON configuration.
 It provides the same capabilities as `01-simple-array` but with external JSON config.
 
 ## What This Example Creates
@@ -56,7 +56,7 @@ A top-level settings page with:
 ### Loading JSON Config
 
 ```php
-use Pedalcms\WpCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Core\Manager;
 
 // From file path
 Manager::init()->register_from_json( __DIR__ . '/config.json' );
@@ -68,22 +68,22 @@ Manager::init()->register_from_json( $json );
 
 ### Retrieving Values
 
-WP-CMF provides a universal static method to retrieve field values:
+Cassette-CMF provides a universal static method to retrieve field values:
 
 ```php
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
 // Get event meta (post fields)
-$date     = Wpcmf::get_field( 'event_date', $post_id );
-$location = Wpcmf::get_field( 'location', $post_id );
+$date     = CassetteCmf::get_field( 'event_date', $post_id );
+$location = CassetteCmf::get_field( 'location', $post_id );
 
 // Get taxonomy term meta
-$type_color     = Wpcmf::get_field( 'type_color', $term_id, 'term' );
-$venue_capacity = Wpcmf::get_field( 'venue_capacity', $term_id, 'term', 100 );
+$type_color     = CassetteCmf::get_field( 'type_color', $term_id, 'term' );
+$venue_capacity = CassetteCmf::get_field( 'venue_capacity', $term_id, 'term', 100 );
 
 // Get settings
-$currency = Wpcmf::get_field( 'currency_symbol', 'events-settings', 'settings', '$' );
-$color    = Wpcmf::get_field( 'primary_color', 'events-settings', 'settings', '#0073aa' );
+$currency = CassetteCmf::get_field( 'currency_symbol', 'events-settings', 'settings', '$' );
+$color    = CassetteCmf::get_field( 'primary_color', 'events-settings', 'settings', '#0073aa' );
 ```
 
 ## JSON vs Array Configuration
@@ -99,7 +99,7 @@ $color    = Wpcmf::get_field( 'primary_color', 'events-settings', 'settings', '#
 
 ## JSON Schema Validation
 
-WP-CMF validates JSON against its schema by default:
+Cassette-CMF validates JSON against its schema by default:
 
 ```php
 // With validation (default)

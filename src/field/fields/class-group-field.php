@@ -1,19 +1,19 @@
 <?php
 /**
- * GroupField for WP-CMF
+ * GroupField for Cassette-CMF
  *
  * A container field that groups nested fields together in a section.
  * The group field itself doesn't store data - only nested fields save/load values.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
 /**
  * Group_Field - Groups fields together in a section
@@ -94,7 +94,7 @@ class Group_Field extends Abstract_Field implements Container_Field_Interface {
 		$output  = $this->render_wrapper_start();
 		$output .= $this->render_label();
 		$output .= $this->render_description();
-		$output .= '<div class="wp-cmf-group-fields">';
+		$output .= '<div class="cassette-cmf-group-fields">';
 		$output .= $this->render_group_fields( $fields, $context );
 		$output .= '</div>';
 		$output .= $this->render_wrapper_end();
@@ -122,13 +122,13 @@ class Group_Field extends Abstract_Field implements Container_Field_Interface {
 		foreach ( $fields as $field_config ) {
 			$field_name = $field_config['name'] ?? '';
 
-			if ( class_exists( '\Pedalcms\WpCmf\Field\Field_Factory' ) ) {
+			if ( class_exists( '\Pedalcms\CassetteCmf\Field\Field_Factory' ) ) {
 				try {
 					$field = Field_Factory::create( $field_config );
 
 					// For container fields (tabs, etc), pass context directly
 					// For regular fields, load and pass the field value
-					if ( $field instanceof \Pedalcms\WpCmf\Field\Container_Field_Interface ) {
+					if ( $field instanceof \Pedalcms\CassetteCmf\Field\Container_Field_Interface ) {
 						// Container fields need context to pass to nested fields
 						$field_html = $field->render( $context );
 					} else {
@@ -237,7 +237,7 @@ class Group_Field extends Abstract_Field implements Container_Field_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets(): void {
-		// Styles are loaded from wp-cmf.scss
+		// Styles are loaded from cassette-cmf.scss
 		// No inline CSS needed
 	}
 

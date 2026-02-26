@@ -90,7 +90,7 @@ jobs:
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ vars.COVERAGE_GIST_ID }}
-          filename: wp-cmf-coverage.json
+          filename: cassette-cmf-coverage.json
           label: coverage
           message: ${{ steps.coverage.outputs.percentage }}%
           valColorRange: ${{ steps.coverage.outputs.percentage }}

@@ -1,15 +1,15 @@
 <?php
 /**
- * Custom_Post_Type class for WP-CMF
+ * Custom_Post_Type class for Cassette-CMF
  *
  * Handles registration and configuration of WordPress custom post types.
  * Provides a clean API for defining CPT labels, arguments, and supports.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\CPT;
+namespace Pedalcms\CassetteCmf\CPT;
 
 /**
  * Custom_Post_Type class - Manages custom post type registration

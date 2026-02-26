@@ -1,12 +1,12 @@
 {
-	"name": "wp-cmf",
+	"name": "cassette-cmf",
 	"version": "1.0.0",
 	"description": "WP Content Modeling Framework",
 	"private": true,
 	"scripts": {
-		"scss": "npx sass src/assets/scss/wp-cmf.scss:src/assets/css/wp-cmf.css --style=expanded",
-		"scss:min": "npx sass src/assets/scss/wp-cmf.scss:src/assets/css/wp-cmf.css --style=compressed",
-		"watch": "npx sass --watch src/assets/scss/wp-cmf.scss:src/assets/css/wp-cmf.css",
+		"scss": "npx sass src/assets/scss/cassette-cmf.scss:src/assets/css/cassette-cmf.css --style=expanded",
+		"scss:min": "npx sass src/assets/scss/cassette-cmf.scss:src/assets/css/cassette-cmf.css --style=compressed",
+		"watch": "npx sass --watch src/assets/scss/cassette-cmf.scss:src/assets/css/cassette-cmf.css",
 		"build": "npm run scss:min"
 	},
 	"devDependencies": {

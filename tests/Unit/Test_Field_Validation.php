@@ -4,10 +4,10 @@
  *
  * Tests for field validation across all field types.
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
 /**
  * Class Test_Field_Validation

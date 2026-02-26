@@ -4,7 +4,7 @@
  *
  * A simple test to verify the WordPress test environment is working.
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
 /**

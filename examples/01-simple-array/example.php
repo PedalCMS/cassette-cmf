@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: WP-CMF Simple Example (Array)
- * Plugin URI: https://github.com/pedalcms/wp-cmf
- * Description: Simple example demonstrating WP-CMF basics using PHP array configuration
+ * Plugin Name: Cassette-CMF Simple Example (Array)
+ * Plugin URI: https://github.com/pedalcms/cassette-cmf
+ * Description: Simple example demonstrating Cassette-CMF basics using PHP array configuration
  * Version: 1.0.0
  * Author: PedalCMS
  * License: GPL v2 or later
  *
- * @package WpCmfSimpleArray
+ * @package CassetteCmfSimpleArray
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once dirname( __DIR__, 2 ) . '/vendor/autoload.php';
 
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
 /**
  * =============================================================================
@@ -32,7 +32,7 @@ use Pedalcms\WpCmf\Wpcmf;
  * adding to existing post types/settings), see the advanced examples.
  * =============================================================================
  */
-function wpcmf_simple_array_init() {
+function cassette_cmf_simple_array_init() {
 	$config = [
 		// =====================================================================
 		// CUSTOM POST TYPE: Book
@@ -225,18 +225,18 @@ function wpcmf_simple_array_init() {
 		],
 	];
 
-	Wpcmf::register_from_array( $config );
+	CassetteCmf::register_from_array( $config );
 }
-add_action( 'init', 'wpcmf_simple_array_init' );
+add_action( 'init', 'cassette_cmf_simple_array_init' );
 
 /**
  * =============================================================================
  * RETRIEVING SAVED VALUES
  * =============================================================================
  *
- * WP-CMF provides a universal static method to retrieve field values:
+ * Cassette-CMF provides a universal static method to retrieve field values:
  *
- * Wpcmf::get_field( $field_name, $context, $context_type, $default )
+ * CassetteCmf::get_field( $field_name, $context, $context_type, $default )
  *
  * - $field_name:   The field name as defined in your config
  * - $context:      Post ID, term ID, or settings page ID
@@ -244,9 +244,9 @@ add_action( 'init', 'wpcmf_simple_array_init' );
  * - $default:      Default value if field is empty
  *
  * Examples:
- *   Wpcmf::get_field( 'author_name', $post_id )             // Post meta (default context)
- *   Wpcmf::get_field( 'genre_color', $term_id, 'term' )     // Term meta
- *   Wpcmf::get_field( 'library_name', 'library-settings', 'settings' )  // Settings option
+ *   CassetteCmf::get_field( 'author_name', $post_id )             // Post meta (default context)
+ *   CassetteCmf::get_field( 'genre_color', $term_id, 'term' )     // Term meta
+ *   CassetteCmf::get_field( 'library_name', 'library-settings', 'settings' )  // Settings option
  */
 
 /**
@@ -258,7 +258,7 @@ add_action( 'init', 'wpcmf_simple_array_init' );
  * @return mixed
  */
 function get_book_field( $post_id, $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, $post_id, 'post', $default_value );
+	return CassetteCmf::get_field( $field, $post_id, 'post', $default_value );
 }
 
 /**
@@ -269,7 +269,7 @@ function get_book_field( $post_id, $field, $default_value = '' ) {
  * @return mixed
  */
 function get_library_setting( $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, 'library-settings', 'settings', $default_value );
+	return CassetteCmf::get_field( $field, 'library-settings', 'settings', $default_value );
 }
 
 /**
@@ -281,7 +281,7 @@ function get_library_setting( $field, $default_value = '' ) {
  * @return mixed
  */
 function get_genre_field( $term_id, $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, $term_id, 'term', $default_value );
+	return CassetteCmf::get_field( $field, $term_id, 'term', $default_value );
 }
 
 /**

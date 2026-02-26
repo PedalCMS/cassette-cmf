@@ -1,38 +1,38 @@
 <?php
 /**
- * WP-CMF Main Entry Point
+ * Cassette-CMF Main Entry Point
  *
- * This is the primary facade class for WP-CMF. It provides a simple, unified API
- * for all WP-CMF functionality. Users only need to import this single class.
+ * This is the primary facade class for Cassette-CMF. It provides a simple, unified API
+ * for all Cassette-CMF functionality. Users only need to import this single class.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf;
+namespace Pedalcms\CassetteCmf;
 
-use Pedalcms\WpCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Core\Manager;
 
 /**
- * Class Wpcmf
+ * Class CassetteCmf
  *
- * Main entry point and facade for WP-CMF functionality.
+ * Main entry point and facade for Cassette-CMF functionality.
  *
  * Usage:
- *   use Pedalcms\WpCmf\Wpcmf;
+ *   use Pedalcms\CassetteCmf\CassetteCmf;
  *
  *   // Register configuration
- *   Wpcmf::init()->register_from_array( $config );
- *   Wpcmf::init()->register_from_json( $json_file );
+ *   CassetteCmf::init()->register_from_array( $config );
+ *   CassetteCmf::init()->register_from_json( $json_file );
  *
  *   // Retrieve field values
- *   $value = Wpcmf::get_field( 'field_name', $post_id );
- *   $value = Wpcmf::get_field( 'field_name', $term_id, 'term' );
- *   $value = Wpcmf::get_field( 'field_name', 'settings-page-id', 'settings' );
+ *   $value = CassetteCmf::get_field( 'field_name', $post_id );
+ *   $value = CassetteCmf::get_field( 'field_name', $term_id, 'term' );
+ *   $value = CassetteCmf::get_field( 'field_name', 'settings-page-id', 'settings' );
  *
  * @since 1.0.0
  */
-class Wpcmf {
+class CassetteCmf {
 
 	/**
 	 * Get the Manager instance
@@ -87,23 +87,23 @@ class Wpcmf {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string     $field_name    The field name as defined in the WP-CMF config.
+	 * @param string     $field_name    The field name as defined in the Cassette-CMF config.
 	 * @param int|string $context       The context: post ID (int), term ID (int), or settings page ID (string).
 	 * @param string     $context_type  The type of context: 'post', 'term', or 'settings'. Default 'post'.
 	 * @param mixed      $default_value Default value if field value is empty. Default empty string.
 	 * @return mixed The field value.
 	 *
 	 * @example Post meta (most common):
-	 *   Wpcmf::get_field( 'author_name', $post_id );
-	 *   Wpcmf::get_field( 'price', $post_id, 'post', 0 );
+	 *   CassetteCmf::get_field( 'author_name', $post_id );
+	 *   CassetteCmf::get_field( 'price', $post_id, 'post', 0 );
 	 *
 	 * @example Term meta:
-	 *   Wpcmf::get_field( 'category_color', $term_id, 'term' );
-	 *   Wpcmf::get_field( 'icon_class', $term_id, 'term', 'default-icon' );
+	 *   CassetteCmf::get_field( 'category_color', $term_id, 'term' );
+	 *   CassetteCmf::get_field( 'icon_class', $term_id, 'term', 'default-icon' );
 	 *
 	 * @example Settings:
-	 *   Wpcmf::get_field( 'api_key', 'my-settings', 'settings' );
-	 *   Wpcmf::get_field( 'theme_color', 'theme-options', 'settings', '#ffffff' );
+	 *   CassetteCmf::get_field( 'api_key', 'my-settings', 'settings' );
+	 *   CassetteCmf::get_field( 'theme_color', 'theme-options', 'settings', '#ffffff' );
 	 */
 	public static function get_field( string $field_name, $context, string $context_type = 'post', $default_value = '' ) {
 		return Manager::init()->get_field( $field_name, $context, $context_type, $default_value );

@@ -1,7 +1,7 @@
 /**
- * WP-CMF Core Fields JavaScript
+ * Cassette-CMF Core Fields JavaScript
  *
- * Default scripts for WP-CMF field types
+ * Default scripts for Cassette-CMF field types
  * Provides field validation, interactions, and enhancements
  *
  * @package Pedalcms\WpCmf
@@ -25,16 +25,16 @@
 		}
 
 		showError($field, message) {
-			const $wrapper = $field.closest('.wp-cmf-field');
+			const $wrapper = $field.closest('.cassette-cmf-field');
 			$wrapper.addClass('has-error');
-			$wrapper.find('.wp-cmf-field-error').remove();
-			$field.after('<span class="wp-cmf-field-error">' + message + '</span>');
+			$wrapper.find('.cassette-cmf-field-error').remove();
+			$field.after('<span class="cassette-cmf-field-error">' + message + '</span>');
 		}
 
 		clearError($field) {
-			const $wrapper = $field.closest('.wp-cmf-field');
+			const $wrapper = $field.closest('.cassette-cmf-field');
 			$wrapper.removeClass('has-error');
-			$wrapper.find('.wp-cmf-field-error').remove();
+			$wrapper.find('.cassette-cmf-field-error').remove();
 		}
 
 		debounce(func, wait) {
@@ -56,7 +56,7 @@
 	class ColorField extends BaseField {
 		constructor() {
 			super();
-			this.selector = '.wp-cmf-color-picker, .wp-cmf-field input[type="color"].use-wp-picker';
+			this.selector = '.cassette-cmf-color-picker, .cassette-cmf-field input[type="color"].use-wp-picker';
 		}
 
 		init() {
@@ -93,7 +93,7 @@
 	class EmailField extends BaseField {
 		constructor() {
 			super();
-			this.selector = '.wp-cmf-field input[type="email"]';
+			this.selector = '.cassette-cmf-field input[type="email"]';
 			this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		}
 
@@ -116,7 +116,7 @@
 	class URLField extends BaseField {
 		constructor() {
 			super();
-			this.selector = '.wp-cmf-field input[type="url"]';
+			this.selector = '.cassette-cmf-field input[type="url"]';
 			this.urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
 		}
 
@@ -139,7 +139,7 @@
 	class NumberField extends BaseField {
 		constructor() {
 			super();
-			this.selector = '.wp-cmf-field input[type="number"]';
+			this.selector = '.cassette-cmf-field input[type="number"]';
 		}
 
 		init() {
@@ -176,14 +176,14 @@
 	class TextFieldWithCounter extends BaseField {
 		constructor() {
 			super();
-			this.selector = '.wp-cmf-field input[maxlength], .wp-cmf-field textarea[maxlength]';
+			this.selector = '.cassette-cmf-field input[maxlength], .cassette-cmf-field textarea[maxlength]';
 		}
 
 		init() {
 			$(this.selector).each(function () {
 				const $field = $(this);
 				const maxLength = $field.attr('maxlength');
-				const $counter = $('<span class="wp-cmf-char-counter" style="display:block;margin-top:5px;color:#646970;font-size:12px;"></span>');
+				const $counter = $('<span class="cassette-cmf-char-counter" style="display:block;margin-top:5px;color:#646970;font-size:12px;"></span>');
 
 				$field.after($counter);
 
@@ -210,7 +210,7 @@
 	class CheckboxGroupField extends BaseField {
 		constructor() {
 			super();
-			this.selector = '.wp-cmf-field-checkbox-group';
+			this.selector = '.cassette-cmf-field-checkbox-group';
 		}
 
 		init() {
@@ -220,7 +220,7 @@
 
 				// Add Select All/Deselect All button if more than 3 checkboxes
 				if ($checkboxes.length > 3) {
-					const $selectAll = $('<button type="button" class="button button-small wp-cmf-select-all" style="margin-bottom:10px;width:100px;display:inline-block;">Select All</button>');
+					const $selectAll = $('<button type="button" class="button button-small cassette-cmf-select-all" style="margin-bottom:10px;width:100px;display:inline-block;">Select All</button>');
 					$group.prepend($selectAll);
 
 					$selectAll.on('click', function () {
@@ -251,14 +251,14 @@
 	class TabsField extends BaseField {
 		constructor() {
 			super();
-			this.selector = '.wp-cmf-tabs';
+			this.selector = '.cassette-cmf-tabs';
 		}
 
 		init() {
 			$(this.selector).each(function () {
 				const $tabs = $(this);
-				const $buttons = $tabs.find('.wp-cmf-tab-button');
-				const $panels = $tabs.find('.wp-cmf-tab-panel');
+				const $buttons = $tabs.find('.cassette-cmf-tab-button');
+				const $panels = $tabs.find('.cassette-cmf-tab-panel');
 
 				// Skip if already initialized
 				if ($tabs.data('tabs-initialized')) {
@@ -276,7 +276,7 @@
 
 					// Update panels - use data-tab attribute selector
 					$panels.removeClass('active').hide();
-					$tabs.find('.wp-cmf-tab-panel[data-tab="' + targetId + '"]').addClass('active').show();
+					$tabs.find('.cassette-cmf-tab-panel[data-tab="' + targetId + '"]').addClass('active').show();
 				});
 
 				// Activate first tab if none active
@@ -297,7 +297,7 @@
 	class RepeaterField extends BaseField {
 		constructor() {
 			super();
-			this.selector = '.wp-cmf-repeater';
+			this.selector = '.cassette-cmf-repeater';
 		}
 
 		init() {
@@ -305,9 +305,9 @@
 
 			$(this.selector).each(function () {
 				const $repeater = $(this);
-				const $rows = $repeater.find('.wp-cmf-repeater-rows');
-				const $addButton = $repeater.find('.wp-cmf-repeater-add');
-				const $template = $repeater.find('script.wp-cmf-repeater-template');
+				const $rows = $repeater.find('.cassette-cmf-repeater-rows');
+				const $addButton = $repeater.find('.cassette-cmf-repeater-add');
+				const $template = $repeater.find('script.cassette-cmf-repeater-template');
 				const maxRows = parseInt($repeater.data('max-rows')) || 0;
 				const minRows = parseInt($repeater.data('min-rows')) || 0;
 
@@ -320,7 +320,7 @@
 				// Add new row
 				$addButton.on('click', function (e) {
 					e.preventDefault();
-					const rowCount = $rows.find('.wp-cmf-repeater-row').length;
+					const rowCount = $rows.find('.cassette-cmf-repeater-row').length;
 
 					if (maxRows && rowCount >= maxRows) {
 						alert('Maximum number of rows reached.');
@@ -344,20 +344,20 @@
 					self.checkMinMax($repeater);
 
 					// Trigger event for external scripts
-					$(document).trigger('wp-cmf-fields-added');
+					$(document).trigger('cassette-cmf-fields-added');
 				});
 
 				// Remove row - use event delegation
-				$repeater.on('click', '.wp-cmf-repeater-remove', function (e) {
+				$repeater.on('click', '.cassette-cmf-repeater-remove', function (e) {
 					e.preventDefault();
-					const rowCount = $rows.find('.wp-cmf-repeater-row').length;
+					const rowCount = $rows.find('.cassette-cmf-repeater-row').length;
 
 					if (minRows && rowCount <= minRows) {
 						alert('Minimum number of rows required.');
 						return;
 					}
 
-					$(this).closest('.wp-cmf-repeater-row').fadeOut(200, function() {
+					$(this).closest('.cassette-cmf-repeater-row').fadeOut(200, function() {
 						$(this).remove();
 						self.updateRowNumbers($repeater);
 						self.checkMinMax($repeater);
@@ -365,11 +365,11 @@
 				});
 
 				// Toggle collapse - use event delegation with smooth animation
-				$repeater.on('click', '.wp-cmf-repeater-toggle', function (e) {
+				$repeater.on('click', '.cassette-cmf-repeater-toggle', function (e) {
 					e.preventDefault();
 					e.stopPropagation();
-					const $row = $(this).closest('.wp-cmf-repeater-row');
-					const $content = $row.find('> .wp-cmf-repeater-row-content');
+					const $row = $(this).closest('.cassette-cmf-repeater-row');
+					const $content = $row.find('> .cassette-cmf-repeater-row-content');
 					const $icon = $(this).find('.dashicons');
 
 					if ($row.hasClass('collapsed')) {
@@ -386,7 +386,7 @@
 				// Make sortable
 				if (typeof $.fn.sortable !== 'undefined' && $repeater.data('sortable') !== false) {
 					$rows.sortable({
-						handle: '.wp-cmf-repeater-drag-handle',
+						handle: '.cassette-cmf-repeater-drag-handle',
 						placeholder: 'ui-sortable-placeholder',
 						start: function (e, ui) {
 							ui.placeholder.height(ui.item.height());
@@ -403,16 +403,16 @@
 		}
 
 		updateRowNumbers($repeater) {
-			$repeater.find('.wp-cmf-repeater-rows .wp-cmf-repeater-row').each(function (index) {
-				$(this).find('> .wp-cmf-repeater-row-header .wp-cmf-repeater-row-label').first().text('Row ' + (index + 1));
+			$repeater.find('.cassette-cmf-repeater-rows .cassette-cmf-repeater-row').each(function (index) {
+				$(this).find('> .cassette-cmf-repeater-row-header .cassette-cmf-repeater-row-label').first().text('Row ' + (index + 1));
 			});
 		}
 
 		checkMinMax($repeater) {
-			const $rows = $repeater.find('.wp-cmf-repeater-rows');
-			const $addButton = $repeater.find('.wp-cmf-repeater-add');
-			const $removeButtons = $repeater.find('.wp-cmf-repeater-remove');
-			const rowCount = $rows.find('.wp-cmf-repeater-row:not(.wp-cmf-repeater-template)').length;
+			const $rows = $repeater.find('.cassette-cmf-repeater-rows');
+			const $addButton = $repeater.find('.cassette-cmf-repeater-add');
+			const $removeButtons = $repeater.find('.cassette-cmf-repeater-remove');
+			const rowCount = $rows.find('.cassette-cmf-repeater-row:not(.cassette-cmf-repeater-template)').length;
 			const maxRows = parseInt($repeater.data('max-rows')) || 0;
 			const minRows = parseInt($repeater.data('min-rows')) || 0;
 
@@ -446,7 +446,7 @@
 			$('form').on('submit', function (e) {
 				let hasErrors = false;
 
-				$(this).find('.wp-cmf-field [required]').each(function () {
+				$(this).find('.cassette-cmf-field [required]').each(function () {
 					const $field = $(this);
 					const fieldType = $field.attr('type');
 					let isEmpty = false;
@@ -468,7 +468,7 @@
 					e.preventDefault();
 					// Scroll to first error
 					$('html, body').animate({
-						scrollTop: $('.wp-cmf-field.has-error:first').offset().top - 100
+						scrollTop: $('.cassette-cmf-field.has-error:first').offset().top - 100
 					}, 300);
 				}
 			});
@@ -511,9 +511,9 @@
 	}
 
 	/**
-	 * Main WP-CMF Fields Manager
+	 * Main Cassette-CMF Fields Manager
 	 */
-	const WpCmfFields = {
+	const CassetteCmfFields = {
 		fields: [],
 
 		init: function () {
@@ -551,17 +551,17 @@
 	 * Initialize on document ready
 	 */
 	$(document).ready(function () {
-		WpCmfFields.init();
+		CassetteCmfFields.init();
 	});
 
 	/**
 	 * Reinitialize after AJAX (for dynamic field additions)
 	 */
-	$(document).on('wp-cmf-fields-added', function () {
-		WpCmfFields.reinit();
+	$(document).on('cassette-cmf-fields-added', function () {
+		CassetteCmfFields.reinit();
 	});
 
 	// Expose to global scope for external access
-	window.WpCmfFields = WpCmfFields;
+	window.CassetteCmfFields = CassetteCmfFields;
 
 })(jQuery);

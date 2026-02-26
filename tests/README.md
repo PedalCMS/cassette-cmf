@@ -1,6 +1,6 @@
-# WP-CMF Test Suite
+# CASSETTE-CMF Test Suite
 
-This directory contains the WordPress unit tests for WP-CMF, following the WordPress testing standards.
+This directory contains the WordPress unit tests for CASSETTE-CMF, following the WordPress testing standards.
 
 ## Prerequisites
 

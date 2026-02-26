@@ -49,20 +49,20 @@ jobs:
 
       - name: Create distribution package
         run: |
-          mkdir -p dist/wp-cmf
+          mkdir -p dist/cassette-cmf
 
           # Copy only production files
-          cp -r src dist/wp-cmf/
-          cp composer.json dist/wp-cmf/
-          cp README.md dist/wp-cmf/
-          cp LICENSE dist/wp-cmf/
-          cp CHANGELOG.md dist/wp-cmf/ 2>/dev/null || echo "No CHANGELOG.md found"
+          cp -r src dist/cassette-cmf/
+          cp composer.json dist/cassette-cmf/
+          cp README.md dist/cassette-cmf/
+          cp LICENSE dist/cassette-cmf/
+          cp CHANGELOG.md dist/cassette-cmf/ 2>/dev/null || echo "No CHANGELOG.md found"
 
           # Copy vendor (production only - already installed with --no-dev)
-          cp -r vendor dist/wp-cmf/
+          cp -r vendor dist/cassette-cmf/
 
           # Remove unnecessary files from dist
-          cd dist/wp-cmf
+          cd dist/cassette-cmf
 
           # Remove dev/test files that might have been copied
           rm -rf tests/
@@ -85,16 +85,16 @@ jobs:
           cd ..
 
           # Create zip archive
-          zip -r ../wp-cmf-${{ steps.version.outputs.version }}.zip wp-cmf
+          zip -r ../cassette-cmf-${{ steps.version.outputs.version }}.zip cassette-cmf
 
           # Create tarball
-          tar -czf ../wp-cmf-${{ steps.version.outputs.version }}.tar.gz wp-cmf
+          tar -czf ../cassette-cmf-${{ steps.version.outputs.version }}.tar.gz cassette-cmf
 
           cd ..
 
           # Show what's included
           echo "Package contents:"
-          unzip -l wp-cmf-${{ steps.version.outputs.version }}.zip | head -50
+          unzip -l cassette-cmf-${{ steps.version.outputs.version }}.zip | head -50
 
       - name: Generate release notes
         id: release_notes
@@ -128,13 +128,13 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          name: WP-CMF ${{ steps.version.outputs.tag }}
+          name: Cassette-CMF ${{ steps.version.outputs.tag }}
           body: ${{ steps.release_notes.outputs.notes }}
           draft: false
           prerelease: ${{ contains(github.ref, '-alpha') || contains(github.ref, '-beta') || contains(github.ref, '-rc') }}
           files: |
-            wp-cmf-${{ steps.version.outputs.version }}.zip
-            wp-cmf-${{ steps.version.outputs.version }}.tar.gz
+            cassette-cmf-${{ steps.version.outputs.version }}.zip
+            cassette-cmf-${{ steps.version.outputs.version }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -145,5 +145,5 @@ jobs:
           echo "**Version:** ${{ steps.version.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Assets:**" >> $GITHUB_STEP_SUMMARY
-          echo "- wp-cmf-${{ steps.version.outputs.version }}.zip" >> $GITHUB_STEP_SUMMARY
-          echo "- wp-cmf-${{ steps.version.outputs.version }}.tar.gz" >> $GITHUB_STEP_SUMMARY
+          echo "- cassette-cmf-${{ steps.version.outputs.version }}.zip" >> $GITHUB_STEP_SUMMARY
+          echo "- cassette-cmf-${{ steps.version.outputs.version }}.tar.gz" >> $GITHUB_STEP_SUMMARY

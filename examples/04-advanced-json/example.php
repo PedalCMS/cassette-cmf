@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: WP-CMF Advanced Example (JSON)
- * Plugin URI: https://github.com/pedalcms/wp-cmf
- * Description: Advanced example demonstrating ALL WP-CMF capabilities using JSON configuration
+ * Plugin Name: Cassette-CMF Advanced Example (JSON)
+ * Plugin URI: https://github.com/pedalcms/cassette-cmf
+ * Description: Advanced example demonstrating ALL Cassette-CMF capabilities using JSON configuration
  * Version: 1.0.0
  * Author: PedalCMS
  * License: GPL v2 or later
  *
- * @package WpCmfAdvancedJson
+ * @package CassetteCmfAdvancedJson
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,14 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once dirname( __DIR__, 2 ) . '/vendor/autoload.php';
 
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
 /**
  * =============================================================================
  * ADVANCED JSON EXAMPLE
  * =============================================================================
  *
- * This comprehensive example demonstrates ALL WP-CMF capabilities using
+ * This comprehensive example demonstrates ALL Cassette-CMF capabilities using
  * external JSON configuration files.
  *
  * Features demonstrated:
@@ -44,8 +44,8 @@ use Pedalcms\WpCmf\Wpcmf;
  * - Easy to share/export
  * =============================================================================
  */
-function wpcmf_advanced_json_init() {
-	$cmf = Wpcmf::init();
+function cassette_cmf_advanced_json_init() {
+	$cmf = CassetteCmf::init();
 
 	// Load all JSON configurations
 	$config_files = [
@@ -63,7 +63,7 @@ function wpcmf_advanced_json_init() {
 		}
 	}
 }
-add_action( 'init', 'wpcmf_advanced_json_init' );
+add_action( 'init', 'cassette_cmf_advanced_json_init' );
 
 /**
  * =============================================================================
@@ -75,7 +75,7 @@ add_action( 'init', 'wpcmf_advanced_json_init' );
 
 // Format phone number
 add_filter(
-	'Wpcmf_before_save_field_agent_phone',
+	'CassetteCmf_before_save_field_agent_phone',
 	function ( $value ) {
 		// Remove non-numeric characters
 		$numbers = preg_replace( '/[^0-9]/', '', $value );
@@ -94,7 +94,7 @@ add_filter(
 
 // Ensure property price is rounded to 2 decimal places
 add_filter(
-	'Wpcmf_before_save_field_property_price',
+	'CassetteCmf_before_save_field_property_price',
 	function ( $value ) {
 		return round( (float) $value, 2 );
 	}
@@ -102,7 +102,7 @@ add_filter(
 
 // Auto-generate listing ID if empty
 add_filter(
-	'Wpcmf_before_save_field_listing_id',
+	'CassetteCmf_before_save_field_listing_id',
 	function ( $value, $post_id ) {
 		if ( empty( $value ) ) {
 			return 'PROP-' . str_pad( $post_id, 6, '0', STR_PAD_LEFT );
@@ -118,9 +118,9 @@ add_filter(
  * RETRIEVING SAVED VALUES
  * =============================================================================
  *
- * WP-CMF provides a universal static method to retrieve field values:
+ * Cassette-CMF provides a universal static method to retrieve field values:
  *
- * Wpcmf::get_field( $field_name, $context, $context_type, $default )
+ * CassetteCmf::get_field( $field_name, $context, $context_type, $default )
  *
  * - $field_name:   The field name as defined in your config
  * - $context:      Post ID, term ID, or settings page ID
@@ -137,7 +137,7 @@ add_filter(
  * @return mixed
  */
 function get_property_field( $post_id, $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, $post_id, 'post', $default_value );
+	return CassetteCmf::get_field( $field, $post_id, 'post', $default_value );
 }
 
 /**
@@ -148,7 +148,7 @@ function get_property_field( $post_id, $field, $default_value = '' ) {
  * @return mixed
  */
 function get_agency_setting( $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, 'agency-settings', 'settings', $default_value );
+	return CassetteCmf::get_field( $field, 'agency-settings', 'settings', $default_value );
 }
 
 /**
@@ -160,7 +160,7 @@ function get_agency_setting( $field, $default_value = '' ) {
  * @return mixed
  */
 function get_extended_post_field( $post_id, $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, $post_id, 'post', $default_value );
+	return CassetteCmf::get_field( $field, $post_id, 'post', $default_value );
 }
 
 /**

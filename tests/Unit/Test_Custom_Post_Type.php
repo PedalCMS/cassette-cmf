@@ -2,22 +2,22 @@
 /**
  * Custom Post Type Registration Tests
  *
- * Tests for registering custom post types with WP-CMF.
+ * Tests for registering custom post types with Cassette-CMF.
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Core\Manager;
-use Pedalcms\WpCmf\CPT\Custom_Post_Type;
+use Pedalcms\CassetteCmf\Core\Manager;
+use Pedalcms\CassetteCmf\CPT\Custom_Post_Type;
 
-require_once __DIR__ . '/Wpcmf_UnitTestCase.php';
+require_once __DIR__ . '/CassetteCmf_UnitTestCase.php';
 
 /**
  * Class Test_Custom_Post_Type
  *
  * Tests for CPT registration.
  */
-class Test_Custom_Post_Type extends Wpcmf_UnitTestCase {
+class Test_Custom_Post_Type extends CassetteCmf_UnitTestCase {
 
 	/**
 	 * Reset Manager between tests.

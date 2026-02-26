@@ -4,15 +4,15 @@
  *
  * Provides common field registration functionality shared across handlers.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Core\Traits;
+namespace Pedalcms\CassetteCmf\Core\Traits;
 
-use Pedalcms\WpCmf\Field\Field_Factory;
-use Pedalcms\WpCmf\Field\Field_Interface;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Field_Interface;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
 
 /**
  * Trait Field_Registration_Trait

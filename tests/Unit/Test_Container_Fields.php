@@ -5,11 +5,11 @@
  *
  * Tests for container field types (GroupField, MetaboxField, TabsField).
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Field\Field_Factory;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
 
 /**
  * Class Test_Container_Fields
@@ -235,7 +235,7 @@ class Test_Container_Fields extends WP_UnitTestCase {
 
 		$html = $field->render( null );
 
-		$this->assertStringContainsString( 'wp-cmf-group', $html );
+		$this->assertStringContainsString( 'cassette-cmf-group', $html );
 	}
 
 	/**
@@ -259,6 +259,6 @@ class Test_Container_Fields extends WP_UnitTestCase {
 
 		$html = $field->render( null );
 
-		$this->assertStringContainsString( 'wp-cmf-metabox', $html );
+		$this->assertStringContainsString( 'cassette-cmf-metabox', $html );
 	}
 }

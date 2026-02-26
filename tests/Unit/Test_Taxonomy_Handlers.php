@@ -4,13 +4,13 @@
  *
  * Tests for the Taxonomy Handler classes (New_Taxonomy_Handler, Existing_Taxonomy_Handler).
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Core\Manager;
-use Pedalcms\WpCmf\Core\Handlers\New_Taxonomy_Handler;
-use Pedalcms\WpCmf\Core\Handlers\Existing_Taxonomy_Handler;
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Core\Handlers\New_Taxonomy_Handler;
+use Pedalcms\CassetteCmf\Core\Handlers\Existing_Taxonomy_Handler;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
 /**
  * Class Test_Taxonomy_Handlers

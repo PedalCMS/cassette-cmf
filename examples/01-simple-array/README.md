@@ -1,6 +1,6 @@
 # Simple Example - PHP Array Configuration
 
-This is a minimal example demonstrating WP-CMF basics using PHP array configuration.
+This is a minimal example demonstrating Cassette-CMF basics using PHP array configuration.
 
 ## What This Example Creates
 
@@ -33,35 +33,35 @@ A top-level settings page with:
 
 ## Usage
 
-WP-CMF provides a universal static method to retrieve field values:
+Cassette-CMF provides a universal static method to retrieve field values:
 
 ```php
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
 // Get book meta (post fields)
-$author = Wpcmf::get_field( 'author_name', $post_id );
-$isbn   = Wpcmf::get_field( 'isbn', $post_id );
-$pages  = Wpcmf::get_field( 'page_count', $post_id, 'post', 0 ); // With default
+$author = CassetteCmf::get_field( 'author_name', $post_id );
+$isbn   = CassetteCmf::get_field( 'isbn', $post_id );
+$pages  = CassetteCmf::get_field( 'page_count', $post_id, 'post', 0 ); // With default
 
 // Get taxonomy term meta
-$genre_color = Wpcmf::get_field( 'genre_color', $term_id, 'term' );
-$is_featured = Wpcmf::get_field( 'is_featured', $term_id, 'term' );
+$genre_color = CassetteCmf::get_field( 'genre_color', $term_id, 'term' );
+$is_featured = CassetteCmf::get_field( 'is_featured', $term_id, 'term' );
 
 // Get genres for a book with their custom colors
 $genres = get_the_terms( $post_id, 'book_genre' );
 foreach ( $genres as $genre ) {
-    $color = Wpcmf::get_field( 'genre_color', $genre->term_id, 'term', '#000000' );
+    $color = CassetteCmf::get_field( 'genre_color', $genre->term_id, 'term', '#000000' );
 }
 
 // Get settings
-$library_name = Wpcmf::get_field( 'library_name', 'library-settings', 'settings' );
-$accent_color = Wpcmf::get_field( 'accent_color', 'library-settings', 'settings', '#2271b1' );
+$library_name = CassetteCmf::get_field( 'library_name', 'library-settings', 'settings' );
+$accent_color = CassetteCmf::get_field( 'accent_color', 'library-settings', 'settings', '#2271b1' );
 ```
 
 ### Method Signature
 
 ```php
-Wpcmf::get_field( $field_name, $context, $context_type = 'post', $default = '' )
+CassetteCmf::get_field( $field_name, $context, $context_type = 'post', $default = '' )
 ```
 
 | Parameter | Description |
@@ -78,7 +78,7 @@ Wpcmf::get_field( $field_name, $context, $context_type = 'post', $default = '' )
 3. **Settings Page** - Top-level menu with icon and position
 4. **Common Field Types** - text, textarea, number, date, select, checkbox, radio, email, url, color, custom_html, upload
 5. **Field Options** - required, placeholder, default, min/max, description
-6. **Data Retrieval** - `Wpcmf::get_field()` for all field types
+6. **Data Retrieval** - `CassetteCmf::get_field()` for all field types
 
 ## For Advanced Features
 

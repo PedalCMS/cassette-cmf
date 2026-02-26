@@ -1,6 +1,6 @@
 # Release Process
 
-This document describes how to create a new release of WP-CMF.
+This document describes how to create a new release of Cassette-CMF.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ This document describes how to create a new release of WP-CMF.
 
 ## Version Numbering
 
-WP-CMF follows [Semantic Versioning](https://semver.org/):
+Cassette-CMF follows [Semantic Versioning](https://semver.org/):
 
 - **MAJOR** (X.0.0): Breaking changes
 - **MINOR** (0.X.0): New features, backward compatible
@@ -48,9 +48,9 @@ Move items from `[Unreleased]` to a new version section:
 Update the comparison links at the bottom:
 
 ```markdown
-[Unreleased]: https://github.com/PedalCMS/wp-cmf/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/PedalCMS/wp-cmf/compare/v0.0.2...v1.0.0
-[0.0.2]: https://github.com/PedalCMS/wp-cmf/releases/tag/v0.0.2
+[Unreleased]: https://github.com/PedalCMS/cassette-cmf/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/PedalCMS/cassette-cmf/compare/v0.0.2...v1.0.0
+[0.0.2]: https://github.com/PedalCMS/cassette-cmf/releases/tag/v0.0.2
 ```
 
 ### 2. Update Version in README.md
@@ -58,7 +58,7 @@ Update the comparison links at the bottom:
 Update the version badge:
 
 ```markdown
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/PedalCMS/wp-cmf)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/PedalCMS/cassette-cmf)
 ```
 
 ### 3. Commit Changes
@@ -88,7 +88,7 @@ The GitHub Actions workflow will automatically:
 
 ### 6. Verify Release
 
-1. Go to [Releases](https://github.com/PedalCMS/wp-cmf/releases)
+1. Go to [Releases](https://github.com/PedalCMS/cassette-cmf/releases)
 2. Verify the release notes are correct
 3. Download and test the distribution packages
 
@@ -136,7 +136,7 @@ git branch -d hotfix/1.0.1
 
 ### Release workflow failed
 
-1. Check the [Actions tab](https://github.com/PedalCMS/wp-cmf/actions) for error details
+1. Check the [Actions tab](https://github.com/PedalCMS/cassette-cmf/actions) for error details
 2. Common issues:
    - Invalid version format (must be `vX.Y.Z`)
    - Missing CHANGELOG.md section for the version

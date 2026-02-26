@@ -2,22 +2,22 @@
 /**
  * Integration Tests
  *
- * Tests for full workflow integration of WP-CMF.
+ * Tests for full workflow integration of Cassette-CMF.
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Core\Manager;
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
-require_once __DIR__ . '/Wpcmf_UnitTestCase.php';
+require_once __DIR__ . '/CassetteCmf_UnitTestCase.php';
 
 /**
  * Class Test_Integration
  *
  * Tests for end-to-end workflows.
  */
-class Test_Integration extends Wpcmf_UnitTestCase {
+class Test_Integration extends CassetteCmf_UnitTestCase {
 
 	/**
 	 * Reset Manager between tests.

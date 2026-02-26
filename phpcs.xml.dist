@@ -65,4 +65,14 @@
 	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
 		<exclude-pattern>/tests/*</exclude-pattern>
 	</rule>
+
+	<!-- Test code intentionally sets/reads $_POST directly without nonce verification. -->
+	<rule ref="WordPress.Security.NonceVerification.Missing">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Test registrations use placeholder URLs and don't require version/footer params. -->
+	<rule ref="WordPress.WP.EnqueuedResourceParameters">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
 </ruleset>

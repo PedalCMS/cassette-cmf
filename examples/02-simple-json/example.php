@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: WP-CMF Simple Example (JSON)
- * Plugin URI: https://github.com/pedalcms/wp-cmf
- * Description: Simple example demonstrating WP-CMF basics using JSON configuration
+ * Plugin Name: Cassette-CMF Simple Example (JSON)
+ * Plugin URI: https://github.com/pedalcms/cassette-cmf
+ * Description: Simple example demonstrating Cassette-CMF basics using JSON configuration
  * Version: 1.0.0
  * Author: PedalCMS
  * License: GPL v2 or later
  *
- * @package WpCmfSimpleJson
+ * @package CassetteCmfSimpleJson
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once dirname( __DIR__, 2 ) . '/vendor/autoload.php';
 
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
 /**
  * =============================================================================
@@ -34,21 +34,21 @@ use Pedalcms\WpCmf\Wpcmf;
  * - Multi-environment configuration
  * =============================================================================
  */
-function wpcmf_simple_json_init() {
+function cassette_cmf_simple_json_init() {
 	$config_file = __DIR__ . '/config.json';
 
-	Wpcmf::register_from_json( $config_file );
+	CassetteCmf::register_from_json( $config_file );
 }
-add_action( 'init', 'wpcmf_simple_json_init' );
+add_action( 'init', 'cassette_cmf_simple_json_init' );
 
 /**
  * =============================================================================
  * RETRIEVING SAVED VALUES
  * =============================================================================
  *
- * WP-CMF provides a universal static method to retrieve field values:
+ * Cassette-CMF provides a universal static method to retrieve field values:
  *
- * Wpcmf::get_field( $field_name, $context, $context_type, $default )
+ * CassetteCmf::get_field( $field_name, $context, $context_type, $default )
  *
  * - $field_name:   The field name as defined in your config
  * - $context:      Post ID, term ID, or settings page ID
@@ -65,7 +65,7 @@ add_action( 'init', 'wpcmf_simple_json_init' );
  * @return mixed
  */
 function get_event_field( $post_id, $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, $post_id, 'post', $default_value );
+	return CassetteCmf::get_field( $field, $post_id, 'post', $default_value );
 }
 
 /**
@@ -76,7 +76,7 @@ function get_event_field( $post_id, $field, $default_value = '' ) {
  * @return mixed
  */
 function get_events_setting( $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, 'events-settings', 'settings', $default_value );
+	return CassetteCmf::get_field( $field, 'events-settings', 'settings', $default_value );
 }
 
 /**

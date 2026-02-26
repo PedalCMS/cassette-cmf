@@ -1,7 +1,7 @@
 /**
- * WP-CMF Core Fields Styling
+ * Cassette-CMF Core Fields Styling
  *
- * Default styles for all WP-CMF field types
+ * Default styles for all Cassette-CMF field types
  *
  * @package Pedalcms\WpCmf
  * @since 1.0.0
@@ -32,22 +32,22 @@ $transition-fast: 0.15s ease-in-out;
 // Field Wrapper & Container
 // ==========================================================================
 
-.wp-cmf-field {
+.cassette-cmf-field {
 	margin-bottom: $field-margin-bottom;
 	clear: both;
 }
 
 // Remove margin when field is inside a table (form-table structure)
-.form-table .wp-cmf-field {
+.form-table .cassette-cmf-field {
 	margin-bottom: 0;
 }
 
-.wp-cmf-field-wrapper {
+.cassette-cmf-field-wrapper {
 	display: block;
 	margin-bottom: 15px;
 }
 
-.wp-cmf-field-label {
+.cassette-cmf-field-label {
 	display: block;
 	font-weight: 600;
 	margin-bottom: 5px;
@@ -59,7 +59,7 @@ $transition-fast: 0.15s ease-in-out;
 	}
 }
 
-.wp-cmf-field-description {
+.cassette-cmf-field-description {
 	display: block;
 	margin-top: 5px;
 	font-style: italic;
@@ -71,7 +71,7 @@ $transition-fast: 0.15s ease-in-out;
 // Text Input Fields
 // ==========================================================================
 
-.wp-cmf-field {
+.cassette-cmf-field {
 	input[type="text"],
 	input[type="email"],
 	input[type="url"],
@@ -109,7 +109,7 @@ $transition-fast: 0.15s ease-in-out;
 // Textarea
 // ==========================================================================
 
-.wp-cmf-field textarea {
+.cassette-cmf-field textarea {
 	min-height: 100px;
 	resize: vertical;
 }
@@ -118,7 +118,7 @@ $transition-fast: 0.15s ease-in-out;
 // Select Field
 // ==========================================================================
 
-.wp-cmf-field select {
+.cassette-cmf-field select {
 	width: 100%;
 	max-width: $input-max-width;
 	padding: $select-input-padding;
@@ -146,7 +146,7 @@ $transition-fast: 0.15s ease-in-out;
 // Checkbox Fields
 // ==========================================================================
 
-.wp-cmf-field-checkbox-group {
+.cassette-cmf-field-checkbox-group {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
@@ -158,7 +158,7 @@ $transition-fast: 0.15s ease-in-out;
 	}
 }
 
-.wp-cmf-field-checkbox-item {
+.cassette-cmf-field-checkbox-item {
 	display: flex;
 	align-items: center;
 	gap: 6px;
@@ -170,7 +170,7 @@ $transition-fast: 0.15s ease-in-out;
 	}
 }
 
-.wp-cmf-field input[type="checkbox"] {
+.cassette-cmf-field input[type="checkbox"] {
 	width: 16px;
 	height: 16px;
 	margin: 0;
@@ -193,7 +193,7 @@ $transition-fast: 0.15s ease-in-out;
 // Radio Fields
 // ==========================================================================
 
-.wp-cmf-field-radio-group {
+.cassette-cmf-field-radio-group {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
@@ -205,7 +205,7 @@ $transition-fast: 0.15s ease-in-out;
 	}
 }
 
-.wp-cmf-field-radio-item {
+.cassette-cmf-field-radio-item {
 	display: flex;
 	align-items: center;
 	gap: 6px;
@@ -217,7 +217,7 @@ $transition-fast: 0.15s ease-in-out;
 	}
 }
 
-.wp-cmf-field input[type="radio"] {
+.cassette-cmf-field input[type="radio"] {
 	width: 16px;
 	height: 16px;
 	margin: 0;
@@ -240,7 +240,7 @@ $transition-fast: 0.15s ease-in-out;
 // Color Field
 // ==========================================================================
 
-.wp-cmf-field input[type="color"] {
+.cassette-cmf-field input[type="color"] {
 	width: 60px;
 	height: 40px;
 	padding: 2px;
@@ -255,7 +255,7 @@ $transition-fast: 0.15s ease-in-out;
 }
 
 // WordPress Color Picker Integration
-.wp-cmf-field .wp-picker-container {
+.cassette-cmf-field .wp-picker-container {
 	display: inline-block;
 
 	.wp-color-result {
@@ -268,7 +268,7 @@ $transition-fast: 0.15s ease-in-out;
 // Number Field
 // ==========================================================================
 
-.wp-cmf-field input[type="number"] {
+.cassette-cmf-field input[type="number"] {
 	max-width: 150px;
 }
 
@@ -276,7 +276,7 @@ $transition-fast: 0.15s ease-in-out;
 // Date Field
 // ==========================================================================
 
-.wp-cmf-field input[type="date"] {
+.cassette-cmf-field input[type="date"] {
 	max-width: 200px;
 }
 
@@ -284,13 +284,13 @@ $transition-fast: 0.15s ease-in-out;
 // File/Image Upload Fields (for future)
 // ==========================================================================
 
-.wp-cmf-field-upload {
+.cassette-cmf-field-upload {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 }
 
-.wp-cmf-field-upload-preview {
+.cassette-cmf-field-upload-preview {
 	max-width: 150px;
 	max-height: 150px;
 	border: 1px solid $wp-border-light;
@@ -308,7 +308,7 @@ $transition-fast: 0.15s ease-in-out;
 // Error States
 // ==========================================================================
 
-.wp-cmf-field.has-error {
+.cassette-cmf-field.has-error {
 	input,
 	textarea,
 	select {
@@ -316,7 +316,7 @@ $transition-fast: 0.15s ease-in-out;
 	}
 }
 
-.wp-cmf-field-error {
+.cassette-cmf-field-error {
 	display: block;
 	margin-top: 5px;
 	color: $wp-red;
@@ -327,16 +327,16 @@ $transition-fast: 0.15s ease-in-out;
 // Meta Box Styling
 // ==========================================================================
 
-.wp-cmf-fields {
+.cassette-cmf-fields {
 	padding: 10px 12px;
 
-	.wp-cmf-field:last-child {
+	.cassette-cmf-field:last-child {
 		margin-bottom: 0;
 	}
 }
 
 // Metabox field specific styles
-.wp-cmf-metabox-fields {
+.cassette-cmf-metabox-fields {
 	margin: 0;
 
 	.form-table {
@@ -349,23 +349,23 @@ $transition-fast: 0.15s ease-in-out;
 }
 
 // Group field specific styles
-.wp-cmf-group-fields {
+.cassette-cmf-group-fields {
 	margin: 15px 0;
 
-	> .wp-cmf-field {
+	> .cassette-cmf-field {
 		margin-bottom: 15px;
 	}
 }
 
-.wp-cmf-field-group {
-	> .wp-cmf-field-label {
+.cassette-cmf-field-group {
+	> .cassette-cmf-field-label {
 		font-size: 14px;
 		font-weight: 600;
 		margin-bottom: 10px;
 		display: block;
 	}
 
-	> .wp-cmf-field-description {
+	> .cassette-cmf-field-description {
 		color: $wp-text-light;
 		font-style: italic;
 		margin-bottom: 15px;
@@ -376,11 +376,11 @@ $transition-fast: 0.15s ease-in-out;
 // Settings Page Styling
 // ==========================================================================
 
-.wrap .wp-cmf-settings-form {
+.wrap .cassette-cmf-settings-form {
 	max-width: 800px;
 }
 
-.wp-cmf-settings-section {
+.cassette-cmf-settings-section {
 	margin-bottom: 30px;
 
 	h2 {
@@ -396,7 +396,7 @@ $transition-fast: 0.15s ease-in-out;
 
 // Side metaboxes need vertical layout to prevent overflow
 // WordPress applies .metabox-location-side class to sidebar metaboxes
-.metabox-location-side .wp-cmf-metabox-fields {
+.metabox-location-side .cassette-cmf-metabox-fields {
 	.form-table {
 		th,
 		td {
@@ -427,7 +427,7 @@ $transition-fast: 0.15s ease-in-out;
 			}
 		}
 
-		.wp-cmf-field {
+		.cassette-cmf-field {
 			margin-bottom: 0;
 		}
 	}
@@ -451,7 +451,7 @@ $transition-fast: 0.15s ease-in-out;
 // ==========================================================================
 
 @media screen and (max-width: 782px) {
-	.wp-cmf-field {
+	.cassette-cmf-field {
 		input[type="text"],
 		input[type="email"],
 		input[type="url"],
@@ -464,8 +464,8 @@ $transition-fast: 0.15s ease-in-out;
 		}
 	}
 
-	.wp-cmf-field-checkbox-group.inline,
-	.wp-cmf-field-radio-group.inline {
+	.cassette-cmf-field-checkbox-group.inline,
+	.cassette-cmf-field-radio-group.inline {
 		flex-direction: column;
 	}
 }
@@ -475,7 +475,7 @@ $transition-fast: 0.15s ease-in-out;
 // ==========================================================================
 
 // Horizontal Tabs (default)
-.wp-cmf-tabs {
+.cassette-cmf-tabs {
 	margin: 15px 0;
 
 	// Horizontal orientation
@@ -483,7 +483,7 @@ $transition-fast: 0.15s ease-in-out;
 		display: flex;
 		flex-direction: column;
 
-		.wp-cmf-tabs-nav {
+		.cassette-cmf-tabs-nav {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 5px;
@@ -491,7 +491,7 @@ $transition-fast: 0.15s ease-in-out;
 			border-bottom: 1px solid $wp-border-light;
 		}
 
-		.wp-cmf-tab-button {
+		.cassette-cmf-tab-button {
 			padding: 10px 20px;
 			background: #f0f0f1;
 			border: 1px solid $wp-border-light;
@@ -525,7 +525,7 @@ $transition-fast: 0.15s ease-in-out;
 			}
 		}
 
-		.wp-cmf-tabs-content {
+		.cassette-cmf-tabs-content {
 			padding: 20px;
 			background: #fff;
 			border: 1px solid $wp-border-light;
@@ -538,7 +538,7 @@ $transition-fast: 0.15s ease-in-out;
 		display: flex;
 		flex-direction: row;
 
-		.wp-cmf-tabs-nav {
+		.cassette-cmf-tabs-nav {
 			display: flex;
 			flex-direction: column;
 			gap: 2px;
@@ -548,7 +548,7 @@ $transition-fast: 0.15s ease-in-out;
 			border-right: 1px solid $wp-border-light;
 		}
 
-		.wp-cmf-tab-button {
+		.cassette-cmf-tab-button {
 			padding: 10px 15px;
 			background: #f0f0f1;
 			border: 1px solid transparent;
@@ -583,7 +583,7 @@ $transition-fast: 0.15s ease-in-out;
 			}
 		}
 
-		.wp-cmf-tabs-content {
+		.cassette-cmf-tabs-content {
 			flex: 1;
 			padding: 20px;
 			background: #fff;
@@ -593,7 +593,7 @@ $transition-fast: 0.15s ease-in-out;
 	}
 
 	// Common tab panel styles
-	.wp-cmf-tab-panel {
+	.cassette-cmf-tab-panel {
 		display: none;
 
 		&.active {
@@ -612,19 +612,19 @@ $transition-fast: 0.15s ease-in-out;
 // Repeater Field Styles
 // ==========================================================================
 
-.wp-cmf-repeater {
+.cassette-cmf-repeater {
 	margin: 15px 0;
 	border: 1px solid $wp-border-light;
 	border-radius: $input-border-radius;
 	background: #fff;
 
-	.wp-cmf-repeater-rows {
+	.cassette-cmf-repeater-rows {
 		padding: 0;
 		margin: 0;
 		list-style: none;
 	}
 
-	.wp-cmf-repeater-row {
+	.cassette-cmf-repeater-row {
 		position: relative;
 		margin: 0;
 		padding: 0;
@@ -637,17 +637,17 @@ $transition-fast: 0.15s ease-in-out;
 		}
 
 		// Hide template row
-		&.wp-cmf-repeater-template {
+		&.cassette-cmf-repeater-template {
 			display: none !important;
 		}
 
 		// Collapsed state
 		&.collapsed {
-			.wp-cmf-repeater-row-content {
+			.cassette-cmf-repeater-row-content {
 				display: none;
 			}
 
-			.wp-cmf-repeater-toggle .dashicons-arrow-down-alt2 {
+			.cassette-cmf-repeater-toggle .dashicons-arrow-down-alt2 {
 				transform: rotate(-90deg);
 			}
 		}
@@ -667,7 +667,7 @@ $transition-fast: 0.15s ease-in-out;
 		}
 	}
 
-	.wp-cmf-repeater-row-header {
+	.cassette-cmf-repeater-row-header {
 		display: flex;
 		align-items: center;
 		padding: 12px 15px;
@@ -679,7 +679,7 @@ $transition-fast: 0.15s ease-in-out;
 		}
 	}
 
-	.wp-cmf-repeater-drag-handle {
+	.cassette-cmf-repeater-drag-handle {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -701,21 +701,21 @@ $transition-fast: 0.15s ease-in-out;
 		}
 	}
 
-	.wp-cmf-repeater-row-label {
+	.cassette-cmf-repeater-row-label {
 		flex: 1;
 		font-weight: 600;
 		color: $wp-text-dark;
 		font-size: 14px;
 	}
 
-	.wp-cmf-repeater-row-actions {
+	.cassette-cmf-repeater-row-actions {
 		display: flex;
 		gap: 5px;
 		margin-left: auto;
 	}
 
-	.wp-cmf-repeater-toggle,
-	.wp-cmf-repeater-remove {
+	.cassette-cmf-repeater-toggle,
+	.cassette-cmf-repeater-remove {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -742,13 +742,13 @@ $transition-fast: 0.15s ease-in-out;
 		}
 	}
 
-	.wp-cmf-repeater-toggle {
+	.cassette-cmf-repeater-toggle {
 		.dashicons {
 			transition: transform $transition-fast;
 		}
 	}
 
-	.wp-cmf-repeater-remove {
+	.cassette-cmf-repeater-remove {
 		color: $wp-red;
 
 		&:hover {
@@ -764,12 +764,12 @@ $transition-fast: 0.15s ease-in-out;
 		}
 	}
 
-	.wp-cmf-repeater-row-content {
+	.cassette-cmf-repeater-row-content {
 		padding: 15px;
 		background: #fff;
 		border-top: 1px solid $wp-border-light;
 
-		.wp-cmf-field {
+		.cassette-cmf-field {
 			margin-bottom: 15px;
 
 			&:last-child {
@@ -778,14 +778,14 @@ $transition-fast: 0.15s ease-in-out;
 		}
 	}
 
-	.wp-cmf-repeater-footer {
+	.cassette-cmf-repeater-footer {
 		padding: 12px 15px;
 		background: #f6f7f7;
 		border-top: 1px solid $wp-border-light;
 		text-align: center;
 	}
 
-	.wp-cmf-repeater-add {
+	.cassette-cmf-repeater-add {
 		display: inline-flex;
 		align-items: center;
 		gap: 5px;
@@ -822,17 +822,17 @@ $transition-fast: 0.15s ease-in-out;
 
 // Responsive adjustments for repeater
 @media screen and (max-width: 782px) {
-	.wp-cmf-repeater {
-		.wp-cmf-repeater-row-header {
+	.cassette-cmf-repeater {
+		.cassette-cmf-repeater-row-header {
 			flex-wrap: wrap;
 		}
 
-		.wp-cmf-repeater-row-label {
+		.cassette-cmf-repeater-row-label {
 			flex-basis: 100%;
 			margin-bottom: 8px;
 		}
 
-		.wp-cmf-repeater-row-actions {
+		.cassette-cmf-repeater-row-actions {
 			margin-left: 30px;
 		}
 	}
@@ -842,11 +842,11 @@ $transition-fast: 0.15s ease-in-out;
 // Utility Classes
 // ==========================================================================
 
-.wp-cmf-hidden {
+.cassette-cmf-hidden {
 	display: none !important;
 }
 
-.wp-cmf-readonly {
+.cassette-cmf-readonly {
 	pointer-events: none;
 	opacity: 0.6;
 }

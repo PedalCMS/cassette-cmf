@@ -5,10 +5,10 @@
  * Tests for field types that were not fully covered in Test_Field_Types.php
  * Includes: WysiwygField, RepeaterField, and additional rendering tests.
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
 /**
  * Class Test_Additional_Field_Types
@@ -141,7 +141,7 @@ class Test_Additional_Field_Types extends WP_UnitTestCase {
 		$html = $field->render( [] );
 
 		$this->assertNotEmpty( $html );
-		$this->assertStringContainsString( 'wp-cmf-repeater', $html );
+		$this->assertStringContainsString( 'cassette-cmf-repeater', $html );
 	}
 
 	/**
@@ -632,7 +632,7 @@ class Test_Additional_Field_Types extends WP_UnitTestCase {
 
 		$html = $field->render();
 
-		$this->assertStringContainsString( 'wp-cmf-custom-html-content', $html );
+		$this->assertStringContainsString( 'cassette-cmf-custom-html-content', $html );
 		$this->assertStringContainsString( 'This is custom HTML content', $html );
 		$this->assertStringContainsString( 'Custom Content', $html );
 	}
@@ -726,8 +726,8 @@ class Test_Additional_Field_Types extends WP_UnitTestCase {
 		$html = $field->render();
 
 		// Should still render wrapper but no content div
-		$this->assertStringContainsString( 'wp-cmf-field', $html );
-		$this->assertStringNotContainsString( 'wp-cmf-custom-html-content', $html );
+		$this->assertStringContainsString( 'cassette-cmf-field', $html );
+		$this->assertStringNotContainsString( 'cassette-cmf-custom-html-content', $html );
 	}
 
 	/**
@@ -781,7 +781,7 @@ class Test_Additional_Field_Types extends WP_UnitTestCase {
 
 		$this->assertStringContainsString( 'data-field-name="test_custom_html"', $html );
 		$this->assertStringContainsString( 'data-field-type="custom_html"', $html );
-		$this->assertStringContainsString( 'wp-cmf-field-custom_html', $html );
+		$this->assertStringContainsString( 'cassette-cmf-field-custom_html', $html );
 	}
 
 	// =========================================================================
@@ -802,9 +802,9 @@ class Test_Additional_Field_Types extends WP_UnitTestCase {
 
 		$html = $field->render();
 
-		$this->assertStringContainsString( 'wp-cmf-upload-container', $html );
-		$this->assertStringContainsString( 'wp-cmf-upload-value', $html );
-		$this->assertStringContainsString( 'wp-cmf-upload-button', $html );
+		$this->assertStringContainsString( 'cassette-cmf-upload-container', $html );
+		$this->assertStringContainsString( 'cassette-cmf-upload-value', $html );
+		$this->assertStringContainsString( 'cassette-cmf-upload-button', $html );
 		$this->assertStringContainsString( 'Featured Image', $html );
 	}
 
@@ -990,7 +990,7 @@ class Test_Additional_Field_Types extends WP_UnitTestCase {
 
 		$this->assertStringContainsString( 'data-field-name="test_upload"', $html );
 		$this->assertStringContainsString( 'data-field-type="upload"', $html );
-		$this->assertStringContainsString( 'wp-cmf-field-upload', $html );
+		$this->assertStringContainsString( 'cassette-cmf-field-upload', $html );
 	}
 
 	/**
@@ -1010,11 +1010,11 @@ class Test_Additional_Field_Types extends WP_UnitTestCase {
 		$html = $field->render();
 
 		// Verify the field has proper structure for JS functionality.
-		$this->assertStringContainsString( 'wp-cmf-upload-button', $html );
-		$this->assertStringContainsString( 'data-field-id="wp-cmf-field-test_upload_script"', $html );
-		$this->assertStringContainsString( 'wp-cmf-upload-remove', $html );
-		$this->assertStringContainsString( 'wp-cmf-upload-value', $html );
-		$this->assertStringContainsString( 'wp-cmf-upload-preview', $html );
-		$this->assertStringContainsString( 'wp-cmf-upload-container', $html );
+		$this->assertStringContainsString( 'cassette-cmf-upload-button', $html );
+		$this->assertStringContainsString( 'data-field-id="cassette-cmf-field-test_upload_script"', $html );
+		$this->assertStringContainsString( 'cassette-cmf-upload-remove', $html );
+		$this->assertStringContainsString( 'cassette-cmf-upload-value', $html );
+		$this->assertStringContainsString( 'cassette-cmf-upload-preview', $html );
+		$this->assertStringContainsString( 'cassette-cmf-upload-container', $html );
 	}
 }

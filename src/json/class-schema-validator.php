@@ -1,14 +1,14 @@
 <?php
 /**
- * JSON Schema Validator for WP-CMF
+ * JSON Schema Validator for Cassette-CMF
  *
- * Validates JSON configuration against the WP-CMF schema.
+ * Validates JSON configuration against the Cassette-CMF schema.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Json;
+namespace Pedalcms\CassetteCmf\Json;
 
 /**
  * Schema_Validator class

@@ -1,6 +1,6 @@
 # Field API Documentation
 
-Complete guide to creating, extending, and using fields in WP-CMF.
+Complete guide to creating, extending, and using fields in Cassette-CMF.
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ Complete guide to creating, extending, and using fields in WP-CMF.
 
 ## Overview
 
-The WP-CMF Field API provides a flexible, extensible system for creating form fields in WordPress. The API consists of:
+The Cassette-CMF Field API provides a flexible, extensible system for creating form fields in WordPress. The API consists of:
 
 - **FieldInterface**: Contract that all fields must implement
 - **AbstractField**: Base class providing common functionality
@@ -56,7 +56,7 @@ Custom Field Types (your custom fields)
 All fields must implement the `FieldInterface`:
 
 ```php
-namespace Pedalcms\WpCmf\Field;
+namespace Pedalcms\CassetteCmf\Field;
 
 interface FieldInterface {
     public function render($value = null): string;
@@ -166,7 +166,7 @@ Create a class that extends `AbstractField`:
 <?php
 namespace YourPlugin\Fields;
 
-use Pedalcms\WpCmf\Field\AbstractField;
+use Pedalcms\CassetteCmf\Field\AbstractField;
 
 class SliderField extends AbstractField {
     
@@ -207,7 +207,7 @@ class SliderField extends AbstractField {
 Register with FieldFactory:
 
 ```php
-use Pedalcms\WpCmf\Field\FieldFactory;
+use Pedalcms\CassetteCmf\Field\FieldFactory;
 
 FieldFactory::register_type('slider', SliderField::class);
 ```
@@ -215,7 +215,7 @@ FieldFactory::register_type('slider', SliderField::class);
 Or use Manager:
 
 ```php
-use Pedalcms\WpCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Core\Manager;
 
 $manager = Manager::init();
 $manager->register_field_type('slider', SliderField::class);
@@ -610,10 +610,10 @@ Media upload field using WordPress media library.
 
 **Retrieving uploaded files:**
 ```php
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
-// Get attachment ID using WP-CMF
-$attachment_id = Wpcmf::get_field( 'featured_image', $post_id );
+// Get attachment ID using Cassette-CMF
+$attachment_id = CassetteCmf::get_field( 'featured_image', $post_id );
 
 // Get attachment URL
 $image_url = wp_get_attachment_url( $attachment_id );
@@ -814,10 +814,10 @@ Assets are automatically loaded only on relevant admin screens. The Registrar ma
 
 ### Common Assets
 
-Use the `Wpcmf_enqueue_common_assets` action for assets used by multiple fields:
+Use the `CassetteCmf_enqueue_common_assets` action for assets used by multiple fields:
 
 ```php
-add_action('Wpcmf_enqueue_common_assets', function() {
+add_action('CassetteCmf_enqueue_common_assets', function() {
     wp_enqueue_style(
         'my-common-field-styles',
         plugin_dir_url(__FILE__) . 'assets/common.css',
@@ -834,7 +834,7 @@ add_action('Wpcmf_enqueue_common_assets', function() {
 ### Creating Single Fields
 
 ```php
-use Pedalcms\WpCmf\Field\FieldFactory;
+use Pedalcms\CassetteCmf\Field\FieldFactory;
 
 $field = FieldFactory::create([
     'name'  => 'username',
@@ -894,7 +894,7 @@ print_r($types);
 ### Adding Fields to Custom Post Types
 
 ```php
-use Pedalcms\WpCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Core\Manager;
 
 $manager = Manager::init();
 
@@ -1342,4 +1342,4 @@ public function validate($value): array {
 4. **Write tests** for your custom field
 5. **Share your field** with the community!
 
-For questions or issues, please visit the [GitHub repository](https://github.com/PedalCMS/wp-cmf).
+For questions or issues, please visit the [GitHub repository](https://github.com/PedalCMS/cassette-cmf).

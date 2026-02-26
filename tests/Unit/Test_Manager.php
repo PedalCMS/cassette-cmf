@@ -2,12 +2,12 @@
 /**
  * Manager Tests
  *
- * Tests for the WP-CMF Manager class.
+ * Tests for the Cassette-CMF Manager class.
  *
- * @package Pedalcms\WpCmf\Tests\Unit
+ * @package Pedalcms\CassetteCmf\Tests\Unit
  */
 
-use Pedalcms\WpCmf\Core\Manager;
+use Pedalcms\CassetteCmf\Core\Manager;
 
 /**
  * Class Test_Manager
@@ -55,7 +55,7 @@ class Test_Manager extends WP_UnitTestCase {
 		$handler = $manager->get_new_settings_handler();
 
 		$this->assertInstanceOf(
-			\Pedalcms\WpCmf\Core\Handlers\New_Settings_Page_Handler::class,
+			\Pedalcms\CassetteCmf\Core\Handlers\New_Settings_Page_Handler::class,
 			$handler
 		);
 	}
@@ -68,7 +68,7 @@ class Test_Manager extends WP_UnitTestCase {
 		$handler = $manager->get_existing_settings_handler();
 
 		$this->assertInstanceOf(
-			\Pedalcms\WpCmf\Core\Handlers\Existing_Settings_Page_Handler::class,
+			\Pedalcms\CassetteCmf\Core\Handlers\Existing_Settings_Page_Handler::class,
 			$handler
 		);
 	}
@@ -81,7 +81,7 @@ class Test_Manager extends WP_UnitTestCase {
 		$handler = $manager->get_new_cpt_handler();
 
 		$this->assertInstanceOf(
-			\Pedalcms\WpCmf\Core\Handlers\New_Post_Type_Handler::class,
+			\Pedalcms\CassetteCmf\Core\Handlers\New_Post_Type_Handler::class,
 			$handler
 		);
 	}
@@ -94,7 +94,7 @@ class Test_Manager extends WP_UnitTestCase {
 		$handler = $manager->get_existing_cpt_handler();
 
 		$this->assertInstanceOf(
-			\Pedalcms\WpCmf\Core\Handlers\Existing_Post_Type_Handler::class,
+			\Pedalcms\CassetteCmf\Core\Handlers\Existing_Post_Type_Handler::class,
 			$handler
 		);
 	}

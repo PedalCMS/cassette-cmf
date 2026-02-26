@@ -1,20 +1,20 @@
 <?php
 /**
- * TabsField for WP-CMF
+ * TabsField for Cassette-CMF
  *
  * A container field that organizes nested fields into tabs.
  * Supports both horizontal and vertical tab layouts.
  * The tabs field itself doesn't store data - only nested fields save/load values.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
-use Pedalcms\WpCmf\Field\Field_Factory;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Factory;
 
 /**
  * Tabs_Field - Organizes fields into tabbed interface
@@ -138,17 +138,17 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 	 * @return string HTML output.
 	 */
 	protected function render_horizontal_tabs( array $tabs, string $default_tab, string $field_id, $context = null ): string {
-		$output = '<div class="wp-cmf-tabs wp-cmf-tabs-horizontal" id="' . $this->esc_attr( $field_id ) . '">';
+		$output = '<div class="cassette-cmf-tabs cassette-cmf-tabs-horizontal" id="' . $this->esc_attr( $field_id ) . '">';
 
 		// Tab navigation
-		$output .= '<div class="wp-cmf-tabs-nav">';
+		$output .= '<div class="cassette-cmf-tabs-nav">';
 		foreach ( $tabs as $index => $tab ) {
 			$tab_id    = $tab['id'] ?? 'tab-' . $index;
 			$tab_label = $tab['label'] ?? 'Tab ' . ( $index + 1 );
 			$tab_icon  = $tab['icon'] ?? '';
 			$is_active = ( $tab_id === $default_tab ) ? ' active' : '';
 
-			$output .= '<button type="button" class="wp-cmf-tab-button' . $is_active . '" data-tab="' . $this->esc_attr( $tab_id ) . '">';
+			$output .= '<button type="button" class="cassette-cmf-tab-button' . $is_active . '" data-tab="' . $this->esc_attr( $tab_id ) . '">';
 			if ( $tab_icon ) {
 				$output .= '<span class="dashicons ' . $this->esc_attr( $tab_icon ) . '"></span> ';
 			}
@@ -158,12 +158,12 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 		$output .= '</div>';
 
 		// Tab content
-		$output .= '<div class="wp-cmf-tabs-content">';
+		$output .= '<div class="cassette-cmf-tabs-content">';
 		foreach ( $tabs as $index => $tab ) {
 			$tab_id    = $tab['id'] ?? 'tab-' . $index;
 			$is_active = ( $tab_id === $default_tab ) ? ' active' : '';
 
-			$output .= '<div class="wp-cmf-tab-panel' . $is_active . '" data-tab="' . $this->esc_attr( $tab_id ) . '">';
+			$output .= '<div class="cassette-cmf-tab-panel' . $is_active . '" data-tab="' . $this->esc_attr( $tab_id ) . '">';
 
 			if ( ! empty( $tab['description'] ) ) {
 				$output .= '<p class="description">' . $this->esc_html( $tab['description'] ) . '</p>';
@@ -192,17 +192,17 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 	 * @return string HTML output.
 	 */
 	protected function render_vertical_tabs( array $tabs, string $default_tab, string $field_id, $context = null ): string {
-		$output = '<div class="wp-cmf-tabs wp-cmf-tabs-vertical" id="' . $this->esc_attr( $field_id ) . '">';
+		$output = '<div class="cassette-cmf-tabs cassette-cmf-tabs-vertical" id="' . $this->esc_attr( $field_id ) . '">';
 
 		// Tab navigation (sidebar)
-		$output .= '<div class="wp-cmf-tabs-nav">';
+		$output .= '<div class="cassette-cmf-tabs-nav">';
 		foreach ( $tabs as $index => $tab ) {
 			$tab_id    = $tab['id'] ?? 'tab-' . $index;
 			$tab_label = $tab['label'] ?? 'Tab ' . ( $index + 1 );
 			$tab_icon  = $tab['icon'] ?? '';
 			$is_active = ( $tab_id === $default_tab ) ? ' active' : '';
 
-			$output .= '<button type="button" class="wp-cmf-tab-button' . $is_active . '" data-tab="' . $this->esc_attr( $tab_id ) . '">';
+			$output .= '<button type="button" class="cassette-cmf-tab-button' . $is_active . '" data-tab="' . $this->esc_attr( $tab_id ) . '">';
 			if ( $tab_icon ) {
 				$output .= '<span class="dashicons ' . $this->esc_attr( $tab_icon ) . '"></span> ';
 			}
@@ -212,12 +212,12 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 		$output .= '</div>';
 
 		// Tab content
-		$output .= '<div class="wp-cmf-tabs-content">';
+		$output .= '<div class="cassette-cmf-tabs-content">';
 		foreach ( $tabs as $index => $tab ) {
 			$tab_id    = $tab['id'] ?? 'tab-' . $index;
 			$is_active = ( $tab_id === $default_tab ) ? ' active' : '';
 
-			$output .= '<div class="wp-cmf-tab-panel' . $is_active . '" data-tab="' . $this->esc_attr( $tab_id ) . '">';
+			$output .= '<div class="cassette-cmf-tab-panel' . $is_active . '" data-tab="' . $this->esc_attr( $tab_id ) . '">';
 
 			if ( ! empty( $tab['description'] ) ) {
 				$output .= '<p class="description">' . $this->esc_html( $tab['description'] ) . '</p>';
@@ -256,7 +256,7 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 		foreach ( $fields as $field_config ) {
 			$field_name = $field_config['name'] ?? '';
 
-			if ( class_exists( '\Pedalcms\WpCmf\Field\Field_Factory' ) ) {
+			if ( class_exists( '\Pedalcms\CassetteCmf\Field\Field_Factory' ) ) {
 				try {
 					$field = Field_Factory::create( $field_config );
 
@@ -268,7 +268,7 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 
 					// Remove only the first/top-level label, not labels inside nested fields (like groups)
 					// This preserves labels for checkbox/radio options and nested container fields
-					$field_html = preg_replace( '/<label[^>]*class="[^"]*wp-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $field_html, 1 );
+					$field_html = preg_replace( '/<label[^>]*class="[^"]*cassette-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $field_html, 1 );
 
 					// For settings pages (when context is a string page_id), fix the name attribute
 					if ( is_string( $context ) && ! empty( $context ) ) {
@@ -373,12 +373,12 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 	/**
 	 * Enqueue tab switching scripts
 	 *
-	 * Scripts are handled by wp-cmf.js TabsField class
+	 * Scripts are handled by cassette-cmf.js TabsField class
 	 *
 	 * @return void
 	 */
 	protected function enqueue_tab_scripts(): void {
-		// JavaScript is handled by global wp-cmf.js
+		// JavaScript is handled by global cassette-cmf.js
 		// No inline scripts needed
 	}
 
@@ -388,7 +388,7 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets(): void {
-		// Styles are loaded from wp-cmf.scss
+		// Styles are loaded from cassette-cmf.scss
 		// No inline CSS needed
 	}
 

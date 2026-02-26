@@ -4,16 +4,16 @@
  *
  * Handles registration and field management for new custom post types.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Core\Handlers;
+namespace Pedalcms\CassetteCmf\Core\Handlers;
 
-use Pedalcms\WpCmf\CPT\Custom_Post_Type;
-use Pedalcms\WpCmf\Field\Field_Interface;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
-use Pedalcms\WpCmf\Field\Fields\Metabox_Field;
+use Pedalcms\CassetteCmf\CPT\Custom_Post_Type;
+use Pedalcms\CassetteCmf\Field\Field_Interface;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Fields\Metabox_Field;
 
 /**
  * Class New_Post_Type_Handler
@@ -234,7 +234,7 @@ class New_Post_Type_Handler extends Abstract_Handler {
 		// Render nonce
 		$this->render_nonce_once( $post->post_type );
 
-		echo '<div class="wp-cmf-fields">';
+		echo '<div class="cassette-cmf-fields">';
 
 		foreach ( $fields as $field ) {
 			if ( ! $field instanceof Field_Interface ) {
@@ -437,7 +437,7 @@ class New_Post_Type_Handler extends Abstract_Handler {
 	}
 
 	/**
-	 * Enqueue common WP-CMF assets
+	 * Enqueue common Cassette-CMF assets
 	 *
 	 * @return void
 	 */
@@ -449,10 +449,10 @@ class New_Post_Type_Handler extends Abstract_Handler {
 		$url     = $this->get_assets_url();
 		$version = $this->get_version();
 
-		wp_enqueue_style( 'wp-cmf', $url . 'css/wp-cmf.css', [], $version );
-		wp_enqueue_script( 'wp-cmf', $url . 'js/wp-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
+		wp_enqueue_style( 'cassette-cmf', $url . 'css/cassette-cmf.css', [], $version );
+		wp_enqueue_script( 'cassette-cmf', $url . 'js/cassette-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
 		wp_enqueue_style( 'wp-color-picker' );
 
-		do_action( 'wpcmf_enqueue_common_assets' );
+		do_action( 'cassette_cmf_enqueue_common_assets' );
 	}
 }

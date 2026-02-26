@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Plugin Name: WP-CMF Advanced Example (Array)
- * Plugin URI: https://github.com/pedalcms/wp-cmf
- * Description: Advanced example demonstrating ALL WP-CMF capabilities using PHP array configuration
+ * Plugin Name: Cassette-CMF Advanced Example (Array)
+ * Plugin URI: https://github.com/pedalcms/cassette-cmf
+ * Description: Advanced example demonstrating ALL Cassette-CMF capabilities using PHP array configuration
  * Version: 1.0.0
  * Author: PedalCMS
  * License: GPL v2 or later
  *
- * @package WpCmfAdvancedArray
+ * @package CassetteCmfAdvancedArray
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,14 +17,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once dirname( __DIR__, 2 ) . '/vendor/autoload.php';
 
-use Pedalcms\WpCmf\Wpcmf;
+use Pedalcms\CassetteCmf\CassetteCmf;
 
 /**
  * =============================================================================
  * ADVANCED ARRAY EXAMPLE
  * =============================================================================
  *
- * This comprehensive example demonstrates ALL WP-CMF capabilities:
+ * This comprehensive example demonstrates ALL Cassette-CMF capabilities:
  *
  * 1. Creating a new Custom Post Type with multiple metaboxes
  * 2. Creating a new Settings Page with tabs and groups
@@ -41,8 +41,8 @@ use Pedalcms\WpCmf\Wpcmf;
  * 9. Field validation and sanitization
  * =============================================================================
  */
-function wpcmf_advanced_array_init() {
-	$cmf = Wpcmf::init();
+function cassette_cmf_advanced_array_init() {
+	$cmf = CassetteCmf::init();
 
 	// =========================================================================
 	// PART 1: NEW CUSTOM POST TYPE - Product
@@ -950,7 +950,7 @@ function wpcmf_advanced_array_init() {
 		]
 	);
 }
-add_action( 'init', 'wpcmf_advanced_array_init' );
+add_action( 'init', 'cassette_cmf_advanced_array_init' );
 
 /**
  * =============================================================================
@@ -961,7 +961,7 @@ add_action( 'init', 'wpcmf_advanced_array_init' );
 
 // Ensure SKU is uppercase
 add_filter(
-	'Wpcmf_before_save_field_sku',
+	'CassetteCmf_before_save_field_sku',
 	function ( $value ) {
 		return strtoupper( $value );
 	}
@@ -969,7 +969,7 @@ add_filter(
 
 // Auto-calculate reading time based on content length.
 add_filter(
-	'Wpcmf_before_save_field_read_time',
+	'CassetteCmf_before_save_field_read_time',
 	function ( $value, $post_id ) {
 		if ( empty( $value ) ) {
 			$content    = get_post_field( 'post_content', $post_id );
@@ -987,9 +987,9 @@ add_filter(
  * RETRIEVING SAVED VALUES
  * =============================================================================
  *
- * WP-CMF provides a universal static method to retrieve field values:
+ * Cassette-CMF provides a universal static method to retrieve field values:
  *
- * Wpcmf::get_field( $field_name, $context, $context_type, $default )
+ * CassetteCmf::get_field( $field_name, $context, $context_type, $default )
  *
  * - $field_name:   The field name as defined in your config
  * - $context:      Post ID, term ID, or settings page ID
@@ -997,9 +997,9 @@ add_filter(
  * - $default:      Default value if field is empty
  *
  * You can also use the specific helper methods:
- *   Wpcmf::get_post_field( 'field_name', $post_id )
- *   Wpcmf::get_term_field( 'field_name', $term_id )
- *   Wpcmf::get_settings_field( 'field_name', 'page-id' )
+ *   CassetteCmf::get_post_field( 'field_name', $post_id )
+ *   CassetteCmf::get_term_field( 'field_name', $term_id )
+ *   CassetteCmf::get_settings_field( 'field_name', 'page-id' )
  */
 
 /**
@@ -1011,7 +1011,7 @@ add_filter(
  * @return mixed
  */
 function get_product_field( $post_id, $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, $post_id, 'post', $default_value );
+	return CassetteCmf::get_field( $field, $post_id, 'post', $default_value );
 }
 
 /**
@@ -1022,7 +1022,7 @@ function get_product_field( $post_id, $field, $default_value = '' ) {
  * @return mixed
  */
 function get_store_setting( $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, 'store-settings', 'settings', $default_value );
+	return CassetteCmf::get_field( $field, 'store-settings', 'settings', $default_value );
 }
 
 /**
@@ -1034,7 +1034,7 @@ function get_store_setting( $field, $default_value = '' ) {
  * @return mixed
  */
 function get_post_option( $post_id, $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, $post_id, 'post', $default_value );
+	return CassetteCmf::get_field( $field, $post_id, 'post', $default_value );
 }
 
 /**
@@ -1046,7 +1046,7 @@ function get_post_option( $post_id, $field, $default_value = '' ) {
  * @return mixed
  */
 function get_page_setting( $post_id, $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, $post_id, 'post', $default_value );
+	return CassetteCmf::get_field( $field, $post_id, 'post', $default_value );
 }
 
 /**
@@ -1057,7 +1057,7 @@ function get_page_setting( $post_id, $field, $default_value = '' ) {
  * @return mixed
  */
 function get_general_option( $field, $default_value = '' ) {
-	return Wpcmf::get_field( $field, 'general', 'settings', $default_value );
+	return CassetteCmf::get_field( $field, 'general', 'settings', $default_value );
 }
 
 /**

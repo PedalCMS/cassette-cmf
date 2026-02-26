@@ -4,13 +4,13 @@
  *
  * Example field that demonstrates custom asset enqueuing.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field\Fields;
+namespace Pedalcms\CassetteCmf\Field\Fields;
 
-use Pedalcms\WpCmf\Field\Abstract_Field;
+use Pedalcms\CassetteCmf\Field\Abstract_Field;
 
 /**
  * Color_Field class
@@ -50,7 +50,7 @@ class Color_Field extends Abstract_Field {
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
 
-			// Initialization is handled by wp-cmf.js
+			// Initialization is handled by cassette-cmf.js
 		}
 	}
 
@@ -71,7 +71,7 @@ class Color_Field extends Abstract_Field {
 			'id'    => $this->get_field_id(),
 			'name'  => $this->name,
 			'value' => $field_value,
-			'class' => $this->config['use_wp_picker'] ? 'wp-cmf-color-picker' : 'wp-cmf-color-input',
+			'class' => $this->config['use_wp_picker'] ? 'cassette-cmf-color-picker' : 'cassette-cmf-color-input',
 		];
 
 		// Add data attribute for default color

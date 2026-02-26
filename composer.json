@@ -1,5 +1,5 @@
 {
-	"name": "pedalcms/wp-cmf",
+	"name": "pedalcms/cassette-cmf",
 	"description": "WP Content Modeling Framework",
 	"type": "library",
 	"require-dev": {

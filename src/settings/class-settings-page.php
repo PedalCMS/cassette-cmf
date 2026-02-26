@@ -1,15 +1,15 @@
 <?php
 /**
- * Settings_Page class for WP-CMF
+ * Settings_Page class for Cassette-CMF
  *
  * Handles registration and rendering of WordPress admin settings pages.
  * Provides a clean API for creating top-level and sub-menu pages with capability checks.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Settings;
+namespace Pedalcms\CassetteCmf\Settings;
 
 /**
  * Settings_Page class - Manages settings page registration and rendering
@@ -286,7 +286,7 @@ class Settings_Page {
 			if ( ! empty( $_GET['settings-updated'] ) ) {
 				?>
 				<div class="notice notice-success is-dismissible">
-					<p><?php echo esc_html__( 'Settings saved.', 'wp-cmf' ); ?></p>
+					<p><?php echo esc_html__( 'Settings saved.', 'cassette-cmf' ); ?></p>
 				</div>
 				<?php
 			}
@@ -310,8 +310,8 @@ class Settings_Page {
 					// Output security fields
 					if ( $has_metaboxes ) {
 						// Nonce for metabox-based settings page
-						wp_nonce_field( 'Wpcmf_save_settings_' . $this->page_id, 'Wpcmf_settings_nonce' );
-						echo '<input type="hidden" name="action" value="Wpcmf_save_settings" />';
+						wp_nonce_field( 'CassetteCmf_save_settings_' . $this->page_id, 'CassetteCmf_settings_nonce' );
+						echo '<input type="hidden" name="action" value="CassetteCmf_save_settings" />';
 						echo '<input type="hidden" name="page_id" value="' . esc_attr( $this->page_id ) . '" />';
 					} elseif ( function_exists( 'settings_fields' ) && $has_sections ) {
 						// Standard WordPress settings fields
@@ -342,7 +342,7 @@ class Settings_Page {
 			} else {
 				// No fields registered - show placeholder
 				?>
-				<p><?php echo esc_html__( 'No settings configured for this page.', 'wp-cmf' ); ?></p>
+				<p><?php echo esc_html__( 'No settings configured for this page.', 'cassette-cmf' ); ?></p>
 				<?php
 			}
 			?>

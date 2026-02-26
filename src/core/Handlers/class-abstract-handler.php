@@ -4,15 +4,15 @@
  *
  * Base class for all registration handlers.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Core\Handlers;
+namespace Pedalcms\CassetteCmf\Core\Handlers;
 
-use Pedalcms\WpCmf\Core\Traits\Field_Registration_Trait;
-use Pedalcms\WpCmf\Core\Traits\Field_Rendering_Trait;
-use Pedalcms\WpCmf\Core\Traits\Field_Saving_Trait;
+use Pedalcms\CassetteCmf\Core\Traits\Field_Registration_Trait;
+use Pedalcms\CassetteCmf\Core\Traits\Field_Rendering_Trait;
+use Pedalcms\CassetteCmf\Core\Traits\Field_Saving_Trait;
 
 /**
  * Abstract class Abstract_Handler
@@ -51,7 +51,7 @@ abstract class Abstract_Handler implements Handler_Interface {
 	}
 
 	/**
-	 * Get WP-CMF assets URL
+	 * Get Cassette-CMF assets URL
 	 *
 	 * @return string Assets URL with trailing slash.
 	 */
@@ -78,7 +78,7 @@ abstract class Abstract_Handler implements Handler_Interface {
 	}
 
 	/**
-	 * Get WP-CMF version
+	 * Get Cassette-CMF version
 	 *
 	 * @return string Version string.
 	 */

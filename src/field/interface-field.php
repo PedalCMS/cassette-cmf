@@ -1,15 +1,15 @@
 <?php
 /**
- * FieldInterface for WP-CMF
+ * FieldInterface for Cassette-CMF
  *
  * Defines the contract that all field types must implement.
  * Provides methods for rendering, validation, sanitization, and schema generation.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Field;
+namespace Pedalcms\CassetteCmf\Field;
 
 /**
  * FieldInterface - Contract for all field types

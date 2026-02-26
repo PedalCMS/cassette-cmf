@@ -4,14 +4,14 @@
  *
  * Provides common field rendering functionality shared across handlers.
  *
- * @package Pedalcms\WpCmf
+ * @package Pedalcms\CassetteCmf
  * @since 1.0.0
  */
 
-namespace Pedalcms\WpCmf\Core\Traits;
+namespace Pedalcms\CassetteCmf\Core\Traits;
 
-use Pedalcms\WpCmf\Field\Field_Interface;
-use Pedalcms\WpCmf\Field\Container_Field_Interface;
+use Pedalcms\CassetteCmf\Field\Field_Interface;
+use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
 
 /**
  * Trait Field_Rendering_Trait
@@ -40,7 +40,7 @@ trait Field_Rendering_Trait {
 
 		// Remove only the first/top-level label, not labels inside nested fields (like groups)
 		// This preserves labels for checkbox/radio options and nested container fields
-		$field_html = preg_replace( '/<label[^>]*class="[^"]*wp-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $field_html, 1 );
+		$field_html = preg_replace( '/<label[^>]*class="[^"]*cassette-cmf-field-label[^"]*"[^>]*>.*?<\/label>/s', '', $field_html, 1 );
 
 		// Replace field name with option name
 		$field_html = $this->replace_field_name( $field_html, $field->get_name(), $option_name );
