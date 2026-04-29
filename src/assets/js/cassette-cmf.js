@@ -220,7 +220,8 @@
 
 				// Add Select All/Deselect All button if more than 3 checkboxes
 				if ($checkboxes.length > 3) {
-					const $selectAll = $('<button type="button" class="button button-small cassette-cmf-select-all" style="margin-bottom:10px;width:100px;display:inline-block;">Select All</button>');
+					const allChecked = $checkboxes.filter(':checked').length === $checkboxes.length;
+					const $selectAll = $('<button type="button" class="button button-small cassette-cmf-select-all" style="margin-bottom:10px;width:100px;display:inline-block;">' + (allChecked ? 'Deselect All' : 'Select All') + '</button>');
 					$group.prepend($selectAll);
 
 					$selectAll.on('click', function () {
