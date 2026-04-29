@@ -216,6 +216,12 @@
 		init() {
 			$(this.selector).each(function () {
 				const $group = $(this);
+
+				if ($group.data('checkbox-group-initialized')) {
+					return;
+				}
+				$group.data('checkbox-group-initialized', true);
+
 				const $checkboxes = $group.find('input[type="checkbox"]');
 
 				// Add Select All/Deselect All button if more than 3 checkboxes
