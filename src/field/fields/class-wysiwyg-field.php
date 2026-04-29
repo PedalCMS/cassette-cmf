@@ -59,16 +59,22 @@ class Wysiwyg_Field extends Abstract_Field {
 		ob_start();
 
 		if ( ! empty( $this->config['deferred_init'] ) || ! empty( $this->config['defer_editor_init'] ) ) {
-			$settings_json = function_exists( 'wp_json_encode' )
-				? wp_json_encode( $this->get_js_editor_settings() )
-				: json_encode( $this->get_js_editor_settings() );
+			$settings_json = '{}';
+
+			if ( function_exists( 'wp_json_encode' ) ) {
+				$settings_json = wp_json_encode( $this->get_js_editor_settings() );
+			}
+
+			if ( false === $settings_json ) {
+				$settings_json = '{}';
+			}
 
 			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Values are escaped via esc_attr/esc_html methods.
 			echo '<textarea id="' . $this->esc_attr( $editor_id ) . '" '
 				. 'name="' . $this->esc_attr( $this->name ) . '" '
 				. 'rows="' . $this->esc_attr( (string) $settings['textarea_rows'] ) . '" '
 				. 'class="large-text wp-editor-area cassette-cmf-wysiwyg-editor" '
-				. 'data-cassette-cmf-wysiwyg-settings="' . $this->esc_attr( $settings_json ?: '{}' ) . '">'
+				. 'data-cassette-cmf-wysiwyg-settings="' . $this->esc_attr( $settings_json ) . '">'
 				. $this->esc_html( $content )
 				. '</textarea>';
 			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
