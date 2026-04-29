@@ -203,7 +203,13 @@ class Repeater_Field extends Abstract_Field {
 			}
 
 			try {
-				$sub_field = Field_Factory::create( $sub_field_config );
+				$render_config = $sub_field_config;
+
+				if ( 'wysiwyg' === ( $render_config['type'] ?? '' ) ) {
+					$render_config['defer_editor_init'] = true;
+				}
+
+				$sub_field = Field_Factory::create( $render_config );
 
 				// Get value for this sub-field from row data
 				$sub_value = $row_data[ $sub_field_name ] ?? '';
@@ -231,14 +237,16 @@ class Repeater_Field extends Abstract_Field {
 					$sub_html
 				);
 
-				// Update ID to be unique per row
-				$original_id = 'field-' . $original_name;
-				$new_id      = 'field-' . $field_name . '-' . $row_index . '-' . $original_name;
-				$sub_html    = str_replace(
-					'id="' . $original_id . '"',
-					'id="' . $new_id . '"',
-					$sub_html
-				);
+				// Update all DOM IDs and references to be unique per row.
+				$original_id_key = function_exists( 'sanitize_key' )
+					? sanitize_key( $original_name )
+					: strtolower( preg_replace( '/[^a-z0-9_\-]/', '', $original_name ) );
+				$new_id_key      = function_exists( 'sanitize_key' )
+					? sanitize_key( $field_name . '-' . $row_index . '-' . $original_name )
+					: strtolower( preg_replace( '/[^a-z0-9_\-]/', '', $field_name . '-' . $row_index . '-' . $original_name ) );
+				$original_id     = 'cassette-cmf-field-' . $original_id_key;
+				$new_id          = 'cassette-cmf-field-' . $new_id_key;
+				$sub_html        = str_replace( $original_id, $new_id, $sub_html );
 
 				$output .= '<tr>';
 				$output .= '<th scope="row">' . $this->esc_html( $sub_field->get_label() ) . '</th>';

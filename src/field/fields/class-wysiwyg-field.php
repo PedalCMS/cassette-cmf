@@ -47,26 +47,32 @@ class Wysiwyg_Field extends Abstract_Field {
 		$output  = $this->render_wrapper_start();
 		$output .= $this->render_label();
 
-		// Get editor settings
 		$editor_id = $this->get_field_id();
-		$settings  = [
-			'media_buttons' => $this->config['media_buttons'] ?? true,
-			'teeny'         => $this->config['teeny'] ?? false,
-			'textarea_rows' => $this->config['textarea_rows'] ?? 10,
-			'textarea_name' => $this->name,
-			'editor_class'  => $this->config['editor_class'] ?? '',
-			'wpautop'       => $this->config['wpautop'] ?? true,
-			'quicktags'     => $this->config['quicktags'] ?? true,
-		];
+		$settings  = $this->get_editor_settings();
 
 		// Get the content value
 		$content = $value ?? $this->config['default'] ?? '';
 
+		$this->enqueue_assets();
+
 		// Buffer the editor output.
 		ob_start();
 
-		// Use wp_editor if available, otherwise render textarea.
-		if ( function_exists( 'wp_editor' ) ) {
+		if ( ! empty( $this->config['deferred_init'] ) || ! empty( $this->config['defer_editor_init'] ) ) {
+			$settings_json = function_exists( 'wp_json_encode' )
+				? wp_json_encode( $this->get_js_editor_settings() )
+				: json_encode( $this->get_js_editor_settings() );
+
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Values are escaped via esc_attr/esc_html methods.
+			echo '<textarea id="' . $this->esc_attr( $editor_id ) . '" '
+				. 'name="' . $this->esc_attr( $this->name ) . '" '
+				. 'rows="' . $this->esc_attr( (string) $settings['textarea_rows'] ) . '" '
+				. 'class="large-text wp-editor-area cassette-cmf-wysiwyg-editor" '
+				. 'data-cassette-cmf-wysiwyg-settings="' . $this->esc_attr( $settings_json ?: '{}' ) . '">'
+				. $this->esc_html( $content )
+				. '</textarea>';
+			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
+		} elseif ( function_exists( 'wp_editor' ) ) {
 			wp_editor( $content, $editor_id, $settings );
 		} else {
 			// Fallback for non-WordPress environments.
@@ -85,6 +91,51 @@ class Wysiwyg_Field extends Abstract_Field {
 		$output .= $this->render_wrapper_end();
 
 		return $output;
+	}
+
+	/**
+	 * Get wp_editor settings.
+	 *
+	 * @return array<string, mixed>
+	 */
+	protected function get_editor_settings(): array {
+		return [
+			'media_buttons' => $this->config['media_buttons'] ?? true,
+			'teeny'         => $this->config['teeny'] ?? false,
+			'textarea_rows' => $this->config['textarea_rows'] ?? 10,
+			'textarea_name' => $this->name,
+			'editor_class'  => $this->config['editor_class'] ?? '',
+			'wpautop'       => $this->config['wpautop'] ?? true,
+			'quicktags'     => $this->config['quicktags'] ?? true,
+		];
+	}
+
+	/**
+	 * Get JavaScript editor settings for deferred initialization.
+	 *
+	 * @return array<string, mixed>
+	 */
+	protected function get_js_editor_settings(): array {
+		return [
+			'mediaButtons' => $this->config['media_buttons'] ?? true,
+			'teeny'        => $this->config['teeny'] ?? false,
+			'textareaRows' => $this->config['textarea_rows'] ?? 10,
+			'textareaName' => $this->name,
+			'editorClass'  => $this->config['editor_class'] ?? '',
+			'wpautop'      => $this->config['wpautop'] ?? true,
+			'quicktags'    => $this->config['quicktags'] ?? true,
+		];
+	}
+
+	/**
+	 * Enqueue WordPress editor assets when available.
+	 *
+	 * @return void
+	 */
+	public function enqueue_assets(): void {
+		if ( function_exists( 'wp_enqueue_editor' ) ) {
+			wp_enqueue_editor();
+		}
 	}
 
 	/**

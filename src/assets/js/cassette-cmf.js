@@ -276,6 +276,7 @@
 				$buttons.on('click', function (e) {
 					e.preventDefault();
 					const targetId = $(this).data('tab');
+					const $targetPanel = $tabs.find('.cassette-cmf-tab-panel[data-tab="' + targetId + '"]');
 
 					// Update buttons
 					$buttons.removeClass('active');
@@ -283,7 +284,8 @@
 
 					// Update panels - use data-tab attribute selector
 					$panels.removeClass('active').hide();
-					$tabs.find('.cassette-cmf-tab-panel[data-tab="' + targetId + '"]').addClass('active').show();
+					$targetPanel.addClass('active').show();
+					$(document).trigger('cassette-cmf-tab-activated', [$targetPanel]);
 				});
 
 				// Activate first tab if none active
@@ -292,7 +294,156 @@
 				} else {
 					// Show active panel
 					$panels.hide();
-					$panels.filter('.active').show();
+					$panels.filter('.active').show().each(function () {
+						$(document).trigger('cassette-cmf-tab-activated', [$(this)]);
+					});
+				}
+			});
+		}
+	}
+
+	/**
+	 * WYSIWYG Field
+	 */
+	class WysiwygField extends BaseField {
+		constructor() {
+			super();
+			this.selector = '.cassette-cmf-field-wysiwyg textarea.wp-editor-area';
+		}
+
+		init() {
+			const self = this;
+
+			$(this.selector).each(function () {
+				const $textarea = $(this);
+
+				self.initializeEditor($textarea);
+				self.syncEditorHeight($textarea);
+			});
+
+			if (!$(document).data('cassette-cmf-wysiwyg-tab-handler')) {
+				$(document).data('cassette-cmf-wysiwyg-tab-handler', true);
+				$(document).on('cassette-cmf-tab-activated', function (event, $panel) {
+					self.syncEditors($panel);
+				});
+			}
+		}
+
+		initializeEditor($textarea) {
+			const editorId = $textarea.attr('id');
+
+			if (!editorId) {
+				return;
+			}
+
+			if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
+				$textarea.data('cassette-cmf-wysiwyg-initialized', true);
+				this.syncEditorHeight($textarea);
+				return;
+			}
+
+			if ($textarea.hasClass('cassette-cmf-wysiwyg-editor') && typeof wp !== 'undefined' && wp.editor && typeof wp.editor.initialize === 'function') {
+				wp.editor.initialize(editorId, this.getEditorSettings($textarea));
+			}
+
+			$textarea.data('cassette-cmf-wysiwyg-initialized', true);
+			this.syncEditorHeight($textarea);
+		}
+
+		getEditorSettings($textarea) {
+			const rawSettings = $textarea.attr('data-cassette-cmf-wysiwyg-settings');
+			let fieldSettings = {};
+
+			if (rawSettings) {
+				try {
+					fieldSettings = JSON.parse(rawSettings);
+				} catch (error) {
+					console.error('Error parsing WYSIWYG settings:', error);
+				}
+			}
+
+			const defaultSettings = (typeof wp !== 'undefined' && wp.editor && typeof wp.editor.getDefaultSettings === 'function')
+				? wp.editor.getDefaultSettings()
+				: {};
+			const settings = $.extend(true, {}, defaultSettings);
+
+			settings.mediaButtons = fieldSettings.mediaButtons !== false;
+			settings.textareaRows = parseInt(fieldSettings.textareaRows, 10) || 10;
+			settings.textareaName = fieldSettings.textareaName || $textarea.attr('name');
+			settings.editorClass = fieldSettings.editorClass || '';
+
+			if (fieldSettings.quicktags === false) {
+				settings.quicktags = false;
+			} else if (settings.quicktags !== false) {
+				settings.quicktags = $.extend(true, {}, settings.quicktags || {});
+			}
+
+			if (settings.tinymce !== false) {
+				settings.tinymce = $.extend(true, {}, settings.tinymce || {});
+				settings.tinymce.wpautop = fieldSettings.wpautop !== false;
+				settings.tinymce.teeny = fieldSettings.teeny === true;
+			}
+
+			return settings;
+		}
+
+		syncEditors($container) {
+			if (!$container || !$container.length) {
+				return;
+			}
+
+			const self = this;
+			$container.find(this.selector).each(function () {
+				self.syncEditorHeight($(this));
+			});
+		}
+
+		syncEditorHeight($textarea) {
+			const editorId = $textarea.attr('id');
+			const rowCount = parseInt($textarea.attr('rows'), 10) || 10;
+			const lineHeight = parseInt($textarea.css('line-height'), 10) || 20;
+			const editorHeight = rowCount * lineHeight;
+
+			$textarea.css('height', editorHeight + 'px');
+
+			if (!editorId || typeof tinymce === 'undefined') {
+				return;
+			}
+
+			const editor = tinymce.get(editorId);
+
+			if (!editor) {
+				return;
+			}
+
+			const applyHeight = function () {
+				const $container = $(editor.getContainer());
+				$container.find('iframe').css('height', editorHeight + 'px');
+				$container.find('.mce-edit-area, .tox-edit-area').css('min-height', editorHeight + 'px');
+			};
+
+			if (editor.initialized) {
+				applyHeight();
+			} else {
+				editor.once('init', applyHeight);
+			}
+		}
+
+		destroyEditors($container) {
+			$container.find(this.selector).each(function () {
+				const editorId = $(this).attr('id');
+
+				if (!editorId) {
+					return;
+				}
+
+				if (typeof wp !== 'undefined' && wp.editor && typeof wp.editor.remove === 'function') {
+					wp.editor.remove(editorId);
+				} else if (typeof tinymce !== 'undefined') {
+					const editor = tinymce.get(editorId);
+					if (editor) {
+						editor.remove();
+					}
 				}
 			});
 		}
@@ -305,6 +456,7 @@
 		constructor() {
 			super();
 			this.selector = '.cassette-cmf-repeater';
+			this.wysiwygField = new WysiwygField();
 		}
 
 		init() {
@@ -364,7 +516,10 @@
 						return;
 					}
 
-					$(this).closest('.cassette-cmf-repeater-row').fadeOut(200, function() {
+					const $row = $(this).closest('.cassette-cmf-repeater-row');
+					self.wysiwygField.destroyEditors($row);
+
+					$row.fadeOut(200, function() {
 						$(this).remove();
 						self.updateRowNumbers($repeater);
 						self.checkMinMax($repeater);
@@ -533,6 +688,7 @@
 				new TextFieldWithCounter(),
 				new CheckboxGroupField(),
 				new TabsField(),
+				new WysiwygField(),
 				new RepeaterField(),
 				new FormValidation(),
 				new ConditionalFields()

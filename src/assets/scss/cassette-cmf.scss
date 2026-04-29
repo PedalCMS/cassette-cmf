@@ -114,6 +114,25 @@ $transition-fast: 0.15s ease-in-out;
 	resize: vertical;
 }
 
+.cassette-cmf-field-wysiwyg {
+	.wp-editor-wrap,
+	.wp-editor-container,
+	.mce-tinymce {
+		width: 100%;
+		max-width: $input-max-width;
+		box-sizing: border-box;
+	}
+
+	.wp-editor-wrap {
+		display: block;
+	}
+
+	textarea.wp-editor-area,
+	iframe {
+		max-width: 100%;
+	}
+}
+
 // ==========================================================================
 // Select Field
 // ==========================================================================
