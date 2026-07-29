@@ -64,7 +64,7 @@ class Color_Field extends Abstract_Field {
 		$output  = $this->render_wrapper_start();
 		$output .= $this->render_label();
 
-		$fallback = $this->config['default'] ? $this->config['default'] : '';
+		$fallback    = $this->config['default'] ? $this->config['default'] : '';
 		$field_value = $value ? $value : $fallback;
 
 		$attributes = [

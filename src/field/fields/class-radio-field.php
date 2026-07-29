@@ -44,8 +44,8 @@ class Radio_Field extends Abstract_Field {
 		$output  = $this->render_wrapper_start();
 		$output .= $this->render_label();
 
-		$fallback = $this->config['default'] ? $this->config['default'] : '';
-		$field_value = $value ? $value : $fallback;
+		$fallback      = $this->config['default'] ? $this->config['default'] : '';
+		$field_value   = $value ? $value : $fallback;
 		$wrapper_class = $this->config['inline'] ? 'cassette-cmf-radio-inline' : 'cassette-cmf-radio-stacked';
 
 		$output .= '<fieldset>';
