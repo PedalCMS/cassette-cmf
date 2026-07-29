@@ -45,11 +45,13 @@ class Number_Field extends Abstract_Field {
 		$output  = $this->render_wrapper_start();
 		$output .= $this->render_label();
 
+		$fallback = $this->config['default'] ? $this->config['default'] : '';
+
 		$attributes = [
 			'type'  => 'number',
 			'id'    => $this->get_field_id(),
 			'name'  => $this->name,
-			'value' => $value ?? $this->config['default'] ?? '',
+			'value' => $value ? $value : $fallback,
 			'class' => 'regular-text',
 		];
 

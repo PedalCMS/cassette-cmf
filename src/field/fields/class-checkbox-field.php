@@ -43,7 +43,8 @@ class Checkbox_Field extends Abstract_Field {
 	public function render( $value = null ): string {
 		$output = $this->render_wrapper_start();
 
-		$field_value = $value ?? $this->config['default'] ?? '';
+		$fallback = $this->config['default'] ? $this->config['default'] : '';
+		$field_value = $value ? $value : $fallback;
 
 		// Single checkbox
 		if ( empty( $this->config['options'] ) ) {
