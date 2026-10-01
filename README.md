@@ -2,7 +2,7 @@
 
 A powerful, flexible Composer library for building WordPress plugins with custom post types, taxonomies, settings pages, and dynamic form fields.
 
-[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](https://github.com/PedalCMS/cassette-cmf)
+[![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)](https://github.com/PedalCMS/cassette-cmf)
 [![PHP](https://img.shields.io/badge/PHP-8.2%2B-purple.svg)](https://php.net)
 [![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-blue.svg)](https://wordpress.org)
 [![License](https://img.shields.io/badge/license-GPL--2.0--or--later-green.svg)](LICENSE)
