@@ -59,45 +59,20 @@ jobs:
             echo "Version already matches ${VERSION}; nothing to sync."
           fi
 
+      - name: Export release files
+        run: |
+          # Files to leave out of the release are marked export-ignore in .gitattributes.
+          mkdir -p dist/cassette-cmf
+          git archive --format=tar HEAD | tar -x -C dist/cassette-cmf
+
       - name: Install dependencies (production only)
-        run: composer install --prefer-dist --no-dev --no-progress --optimize-autoloader
+        run: |
+          composer install --prefer-dist --no-dev --no-progress --optimize-autoloader
+          cp -r vendor dist/cassette-cmf/
 
       - name: Create distribution package
         run: |
-          mkdir -p dist/cassette-cmf
-
-          # Copy only production files
-          cp -r src dist/cassette-cmf/
-          cp composer.json dist/cassette-cmf/
-          cp README.md dist/cassette-cmf/
-          cp LICENSE dist/cassette-cmf/
-          cp CHANGELOG.md dist/cassette-cmf/ 2>/dev/null || echo "No CHANGELOG.md found"
-
-          # Copy vendor (production only - already installed with --no-dev)
-          cp -r vendor dist/cassette-cmf/
-
-          # Remove unnecessary files from dist
-          cd dist/cassette-cmf
-
-          # Remove dev/test files that might have been copied
-          rm -rf tests/
-          rm -rf bin/
-          rm -rf docs/
-          rm -rf examples/
-          rm -rf .github/
-          rm -rf .git/
-          rm -rf .cache/
-          rm -f .gitignore
-          rm -f .gitattributes
-          rm -f .editorconfig
-          rm -f phpunit.xml.dist
-          rm -f phpcs.xml.dist
-          rm -f phpstan.neon.dist
-          rm -f composer.lock
-          rm -f .phpcs.xml
-          rm -f .phpstan.neon
-
-          cd ..
+          cd dist
 
           # Create zip archive
           zip -r ../cassette-cmf-${{ steps.version.outputs.version }}.zip cassette-cmf

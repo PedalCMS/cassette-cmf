@@ -1,0 +1,41 @@
+# Release packaging
+# Paths marked export-ignore are left out of `git archive`, which the release
+# workflow uses to build the distribution .zip and .tar.gz. It also keeps them
+# out of Composer dist installs (--prefer-dist).
+
+# Git / CI
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.github export-ignore
+/.distignore export-ignore
+/.editorconfig export-ignore
+
+# Development scripts
+/bin export-ignore
+
+# Tests and test tooling
+/tests export-ignore
+/phpunit.xml export-ignore
+/phpunit.xml.dist export-ignore
+/.phpunit.cache export-ignore
+/.phpunit.result.cache export-ignore
+
+# Code quality tooling
+/phpcs.xml export-ignore
+/phpcs.xml.dist export-ignore
+/.phpcs.xml export-ignore
+/phpstan.neon export-ignore
+/phpstan.neon.dist export-ignore
+/.phpstan.neon export-ignore
+
+# Dependency lock files and front-end build tooling
+/composer.lock export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore
+/src/assets/scss export-ignore
+/src/assets/css/*.map export-ignore
+
+# Documentation and examples (available in the repository)
+/docs export-ignore
+/examples export-ignore
+/LICENSE.md export-ignore
