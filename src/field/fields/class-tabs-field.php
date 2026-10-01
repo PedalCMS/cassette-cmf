@@ -100,13 +100,7 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 
 		$orientation = $this->config['orientation'] ?? 'horizontal';
 		$tabs        = $this->config['tabs'] ?? [];
-		// Not a plain ?? : default_tab's own default is '' (not null, see
-		// get_defaults()), so ?? never fell through to "first tab" when it
-		// was left unconfigured. That left every tab unselected and every
-		// panel hidden (display:none by default) until JS corrected it,
-		// which also meant no tab had the roving tabindex="0" needed for
-		// the tablist to be keyboard-reachable at all before JS ran.
-		$default_tab = ! empty( $this->config['default_tab'] ) ? $this->config['default_tab'] : ( ! empty( $tabs ) ? $tabs[0]['id'] : '' );
+		$default_tab = ! empty( $this->config['default_tab'] ) ? (string) $this->config['default_tab'] : ( ! empty( $tabs ) ? $this->get_tab_id( reset( $tabs ), array_key_first( $tabs ) ) : '' );
 		$field_id    = $this->get_field_id();
 
 		if ( empty( $tabs ) ) {
@@ -140,6 +134,17 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 		$output .= $this->render_wrapper_end();
 
 		return $output;
+	}
+
+	/**
+	 * Get a tab's ID, falling back to 'tab-{index}' when none is configured
+	 *
+	 * @param array<string, mixed> $tab   Tab definition.
+	 * @param int|string           $index Tab's key in the tabs array.
+	 * @return string
+	 */
+	protected function get_tab_id( array $tab, $index ): string {
+		return isset( $tab['id'] ) && '' !== (string) $tab['id'] ? (string) $tab['id'] : 'tab-' . $index;
 	}
 
 	/**
@@ -196,7 +201,7 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 		// Tab navigation
 		$output .= '<div class="cassette-cmf-tabs-nav" role="tablist"' . $tablist_attrs . '>';
 		foreach ( $tabs as $index => $tab ) {
-			$tab_id    = $tab['id'] ?? 'tab-' . $index;
+			$tab_id    = $this->get_tab_id( $tab, $index );
 			$tab_label = $tab['label'] ?? 'Tab ' . ( $index + 1 );
 			$tab_icon  = $tab['icon'] ?? '';
 			$is_active = ( $tab_id === $default_tab );
@@ -222,7 +227,7 @@ class Tabs_Field extends Abstract_Field implements Container_Field_Interface {
 		// Tab content
 		$output .= '<div class="cassette-cmf-tabs-content">';
 		foreach ( $tabs as $index => $tab ) {
-			$tab_id    = $tab['id'] ?? 'tab-' . $index;
+			$tab_id    = $this->get_tab_id( $tab, $index );
 			$is_active = ( $tab_id === $default_tab );
 			$button_id = $field_id . '-tab-' . $tab_id;
 			$panel_id  = $field_id . '-panel-' . $tab_id;
