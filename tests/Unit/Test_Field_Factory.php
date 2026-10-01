@@ -4,11 +4,11 @@
  *
  * Tests for the Field_Factory class.
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Field\Field_Factory;
-use Pedalcms\CassetteCmf\Field\Field_Interface;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Field_Interface;
 
 /**
  * Class Test_Field_Factory

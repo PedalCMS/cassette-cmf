@@ -2,13 +2,13 @@
 /**
  * URLField - URL input field
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Field\Fields;
+namespace PedalCMS\CassetteCMF\Field\Fields;
 
-use Pedalcms\CassetteCmf\Field\Abstract_Field;
+use PedalCMS\CassetteCMF\Field\Abstract_Field;
 
 /**
  * URL_Field class

@@ -4,14 +4,14 @@
  *
  * Handles registration of new custom taxonomies and their term fields.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Core\Handlers;
+namespace PedalCMS\CassetteCMF\Core\Handlers;
 
-use Pedalcms\CassetteCmf\Field\Field_Interface;
-use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
+use PedalCMS\CassetteCMF\Field\Field_Interface;
+use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
 
 /**
  * Class New_Taxonomy_Handler

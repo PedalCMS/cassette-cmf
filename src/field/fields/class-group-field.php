@@ -5,15 +5,15 @@
  * A container field that groups nested fields together in a section.
  * The group field itself doesn't store data - only nested fields save/load values.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Field\Fields;
+namespace PedalCMS\CassetteCMF\Field\Fields;
 
-use Pedalcms\CassetteCmf\Field\Abstract_Field;
-use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
-use Pedalcms\CassetteCmf\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Abstract_Field;
+use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
 
 /**
  * Group_Field - Groups fields together in a section
@@ -132,13 +132,13 @@ class Group_Field extends Abstract_Field implements Container_Field_Interface {
 		foreach ( $fields as $field_config ) {
 			$field_name = $field_config['name'] ?? '';
 
-			if ( class_exists( '\Pedalcms\CassetteCmf\Field\Field_Factory' ) ) {
+			if ( class_exists( '\PedalCMS\CassetteCMF\Field\Field_Factory' ) ) {
 				try {
 					$field = Field_Factory::create( $field_config );
 
 					// For container fields (tabs, etc), pass context directly
 					// For regular fields, load and pass the field value
-					if ( $field instanceof \Pedalcms\CassetteCmf\Field\Container_Field_Interface ) {
+					if ( $field instanceof \PedalCMS\CassetteCMF\Field\Container_Field_Interface ) {
 						// Container fields need context to pass to nested fields
 						$field_html = $field->render( $context );
 					} else {

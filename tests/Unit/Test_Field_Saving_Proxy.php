@@ -2,11 +2,11 @@
 /**
  * Save trait proxy for conditional validation tests.
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Core\Traits\Field_Saving_Trait;
-use Pedalcms\CassetteCmf\Field\Field_Interface;
+use PedalCMS\CassetteCMF\Core\Traits\Field_Saving_Trait;
+use PedalCMS\CassetteCMF\Field\Field_Interface;
 
 /**
  * Test Field Saving Proxy

@@ -4,10 +4,10 @@
  *
  * Tests for core field types rendering, validation, and sanitization.
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
 
 /**
  * Class Test_Field_Types

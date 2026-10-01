@@ -4,16 +4,16 @@
  *
  * Handles registration and field management for new custom post types.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Core\Handlers;
+namespace PedalCMS\CassetteCMF\Core\Handlers;
 
-use Pedalcms\CassetteCmf\CPT\Custom_Post_Type;
-use Pedalcms\CassetteCmf\Field\Field_Interface;
-use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
-use Pedalcms\CassetteCmf\Field\Fields\Metabox_Field;
+use PedalCMS\CassetteCMF\CPT\Custom_Post_Type;
+use PedalCMS\CassetteCMF\Field\Field_Interface;
+use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
+use PedalCMS\CassetteCMF\Field\Fields\Metabox_Field;
 
 /**
  * Class New_Post_Type_Handler

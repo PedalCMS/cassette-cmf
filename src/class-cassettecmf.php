@@ -5,34 +5,34 @@
  * This is the primary facade class for Cassette-CMF. It provides a simple, unified API
  * for all Cassette-CMF functionality. Users only need to import this single class.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf;
+namespace PedalCMS\CassetteCMF;
 
-use Pedalcms\CassetteCmf\Core\Manager;
+use PedalCMS\CassetteCMF\Core\Manager;
 
 /**
- * Class CassetteCmf
+ * Class CassetteCMF
  *
  * Main entry point and facade for Cassette-CMF functionality.
  *
  * Usage:
- *   use Pedalcms\CassetteCmf\CassetteCmf;
+ *   use PedalCMS\CassetteCMF\CassetteCMF;
  *
  *   // Register configuration
- *   CassetteCmf::init()->register_from_array( $config );
- *   CassetteCmf::init()->register_from_json( $json_file );
+ *   CassetteCMF::init()->register_from_array( $config );
+ *   CassetteCMF::init()->register_from_json( $json_file );
  *
  *   // Retrieve field values
- *   $value = CassetteCmf::get_field( 'field_name', $post_id );
- *   $value = CassetteCmf::get_field( 'field_name', $term_id, 'term' );
- *   $value = CassetteCmf::get_field( 'field_name', 'settings-page-id', 'settings' );
+ *   $value = CassetteCMF::get_field( 'field_name', $post_id );
+ *   $value = CassetteCMF::get_field( 'field_name', $term_id, 'term' );
+ *   $value = CassetteCMF::get_field( 'field_name', 'settings-page-id', 'settings' );
  *
  * @since 1.0.0
  */
-class CassetteCmf {
+class CassetteCMF {
 
 	/**
 	 * Get the Manager instance
@@ -94,16 +94,16 @@ class CassetteCmf {
 	 * @return mixed The field value.
 	 *
 	 * @example Post meta (most common):
-	 *   CassetteCmf::get_field( 'author_name', $post_id );
-	 *   CassetteCmf::get_field( 'price', $post_id, 'post', 0 );
+	 *   CassetteCMF::get_field( 'author_name', $post_id );
+	 *   CassetteCMF::get_field( 'price', $post_id, 'post', 0 );
 	 *
 	 * @example Term meta:
-	 *   CassetteCmf::get_field( 'category_color', $term_id, 'term' );
-	 *   CassetteCmf::get_field( 'icon_class', $term_id, 'term', 'default-icon' );
+	 *   CassetteCMF::get_field( 'category_color', $term_id, 'term' );
+	 *   CassetteCMF::get_field( 'icon_class', $term_id, 'term', 'default-icon' );
 	 *
 	 * @example Settings:
-	 *   CassetteCmf::get_field( 'api_key', 'my-settings', 'settings' );
-	 *   CassetteCmf::get_field( 'theme_color', 'theme-options', 'settings', '#ffffff' );
+	 *   CassetteCMF::get_field( 'api_key', 'my-settings', 'settings' );
+	 *   CassetteCMF::get_field( 'theme_color', 'theme-options', 'settings', '#ffffff' );
 	 */
 	public static function get_field( string $field_name, $context, string $context_type = 'post', $default_value = '' ) {
 		return Manager::init()->get_field( $field_name, $context, $context_type, $default_value );

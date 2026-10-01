@@ -5,11 +5,11 @@
  * Defines the contract that all field types must implement.
  * Provides methods for rendering, validation, sanitization, and schema generation.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Field;
+namespace PedalCMS\CassetteCMF\Field;
 
 /**
  * FieldInterface - Contract for all field types

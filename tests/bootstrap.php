@@ -4,7 +4,7 @@
  *
  * Bootstrap file for WordPress unit tests following WordPress testing standards.
  *
- * @package Pedalcms\CassetteCmf\Tests
+ * @package PedalCMS\CassetteCMF\Tests
  */
 
 // Define plugin testing directory.
@@ -107,7 +107,7 @@ function _manually_load_plugin() {
 	}
 
 	// Initialize the Cassette-CMF manager.
-	\Pedalcms\CassetteCmf\Core\Manager::init();
+	\PedalCMS\CassetteCMF\Core\Manager::init();
 }
 
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );

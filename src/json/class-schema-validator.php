@@ -4,13 +4,13 @@
  *
  * Validates JSON configuration against the Cassette-CMF schema.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Json;
+namespace PedalCMS\CassetteCMF\Json;
 
-use Pedalcms\CassetteCmf\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
 
 /**
  * Schema_Validator class

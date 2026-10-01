@@ -6,14 +6,14 @@
  * Unlike other container fields, the repeater stores its own data as a serialized array
  * containing all the repeated field values.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Field\Fields;
+namespace PedalCMS\CassetteCMF\Field\Fields;
 
-use Pedalcms\CassetteCmf\Field\Abstract_Field;
-use Pedalcms\CassetteCmf\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Abstract_Field;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
 
 /**
  * Repeater_Field - Creates repeatable sets of fields

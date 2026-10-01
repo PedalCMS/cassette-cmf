@@ -4,11 +4,11 @@
  *
  * Tests for registering settings pages with Cassette-CMF.
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Core\Manager;
-use Pedalcms\CassetteCmf\Settings\Settings_Page;
+use PedalCMS\CassetteCMF\Core\Manager;
+use PedalCMS\CassetteCMF\Settings\Settings_Page;
 
 /**
  * Class Test_Settings_Page

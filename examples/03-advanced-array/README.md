@@ -82,12 +82,12 @@ A comprehensive settings page demonstrating proper container field usage:
 
 ```php
 // Ensure SKU is uppercase
-add_filter( 'CassetteCmf_before_save_field_sku', function( $value ) {
+add_filter( 'CassetteCMF_before_save_field_sku', function( $value ) {
     return strtoupper( $value );
 });
 
 // Auto-calculate reading time
-add_filter( 'CassetteCmf_before_save_field_read_time', function( $value, $post_id ) {
+add_filter( 'CassetteCMF_before_save_field_read_time', function( $value, $post_id ) {
     if ( empty( $value ) ) {
         $content = get_post_field( 'post_content', $post_id );
         $word_count = str_word_count( strip_tags( $content ) );
@@ -102,27 +102,27 @@ add_filter( 'CassetteCmf_before_save_field_read_time', function( $value, $post_i
 Cassette-CMF provides a universal static method to retrieve field values:
 
 ```php
-use Pedalcms\CassetteCmf\CassetteCmf;
+use PedalCMS\CassetteCMF\CassetteCMF;
 
 // Product CPT meta
-$sku        = CassetteCmf::get_field( 'sku', $product_id );
-$price      = CassetteCmf::get_field( 'price', $product_id, 'post', 0 );
-$variations = CassetteCmf::get_field( 'variations', $product_id ); // returns array
+$sku        = CassetteCMF::get_field( 'sku', $product_id );
+$price      = CassetteCMF::get_field( 'price', $product_id, 'post', 0 );
+$variations = CassetteCMF::get_field( 'variations', $product_id ); // returns array
 
 // Store settings
-$currency = CassetteCmf::get_field( 'currency', 'store-settings', 'settings', 'USD' );
-$tax_rate = CassetteCmf::get_field( 'tax_rate', 'store-settings', 'settings', 0 );
+$currency = CassetteCMF::get_field( 'currency', 'store-settings', 'settings', 'USD' );
+$tax_rate = CassetteCMF::get_field( 'tax_rate', 'store-settings', 'settings', 0 );
 
 // Fields added to built-in posts
-$sponsored = CassetteCmf::get_field( 'sponsored', $post_id );
-$read_time = CassetteCmf::get_field( 'read_time', $post_id );
+$sponsored = CassetteCMF::get_field( 'sponsored', $post_id );
+$read_time = CassetteCMF::get_field( 'read_time', $post_id );
 
 // Fields added to built-in pages
-$layout = CassetteCmf::get_field( 'page_layout', $page_id );
+$layout = CassetteCMF::get_field( 'page_layout', $page_id );
 
 // Fields added to General Settings
-$facebook    = CassetteCmf::get_field( 'facebook_url', 'general', 'settings' );
-$brand_color = CassetteCmf::get_field( 'site_logo_color', 'general', 'settings', '#0073aa' );
+$facebook    = CassetteCMF::get_field( 'facebook_url', 'general', 'settings' );
+$brand_color = CassetteCMF::get_field( 'site_logo_color', 'general', 'settings', '#0073aa' );
 ```
 
 ## Container Field Patterns
@@ -187,7 +187,7 @@ $brand_color = CassetteCmf::get_field( 'site_logo_color', 'general', 'settings',
 2. **Existing post type extension** - Use built-in IDs like `post`, `page`
 3. **Existing settings extension** - Use `parent` for submenu placement
 4. **Container nesting** - Metabox → Tabs → Group → Fields
-5. **Before-save filters** - `CassetteCmf_before_save_field_{field_name}`
+5. **Before-save filters** - `CassetteCMF_before_save_field_{field_name}`
 6. **Repeater data** - Returns array of arrays
 
 ## File Structure

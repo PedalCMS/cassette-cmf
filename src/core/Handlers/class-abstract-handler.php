@@ -4,15 +4,15 @@
  *
  * Base class for all registration handlers.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Core\Handlers;
+namespace PedalCMS\CassetteCMF\Core\Handlers;
 
-use Pedalcms\CassetteCmf\Core\Traits\Field_Registration_Trait;
-use Pedalcms\CassetteCmf\Core\Traits\Field_Rendering_Trait;
-use Pedalcms\CassetteCmf\Core\Traits\Field_Saving_Trait;
+use PedalCMS\CassetteCMF\Core\Traits\Field_Registration_Trait;
+use PedalCMS\CassetteCMF\Core\Traits\Field_Rendering_Trait;
+use PedalCMS\CassetteCMF\Core\Traits\Field_Saving_Trait;
 
 /**
  * Abstract class Abstract_Handler

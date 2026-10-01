@@ -5,10 +5,10 @@
  * Tests for field types that were not fully covered in Test_Field_Types.php
  * Includes: WysiwygField, RepeaterField, and additional rendering tests.
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
 
 /**
  * Class Test_Additional_Field_Types

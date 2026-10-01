@@ -4,7 +4,7 @@
  * Default scripts for Cassette-CMF field types
  * Provides field validation, interactions, and enhancements
  *
- * @package Pedalcms\WpCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
@@ -1143,7 +1143,7 @@
 	/**
 	 * Main Cassette-CMF Fields Manager
 	 */
-	const CassetteCmfFields = {
+	const CassetteCMFFields = {
 		fields: [],
 
 		init: function () {
@@ -1182,17 +1182,17 @@
 	 * Initialize on document ready
 	 */
 	$(document).ready(function () {
-		CassetteCmfFields.init();
+		CassetteCMFFields.init();
 	});
 
 	/**
 	 * Reinitialize after AJAX (for dynamic field additions)
 	 */
 	$(document).on('cassette-cmf-fields-added', function () {
-		CassetteCmfFields.reinit();
+		CassetteCMFFields.reinit();
 	});
 
 	// Expose to global scope for external access
-	window.CassetteCmfFields = CassetteCmfFields;
+	window.CassetteCMFFields = CassetteCMFFields;
 
 })(jQuery);

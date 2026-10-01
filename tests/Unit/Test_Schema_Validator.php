@@ -4,11 +4,11 @@
  *
  * Tests for the JSON Schema Validator class.
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Json\Schema_Validator;
-use Pedalcms\CassetteCmf\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Json\Schema_Validator;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
 
 /**
  * Class Test_Schema_Validator
@@ -536,7 +536,7 @@ class Test_Schema_Validator extends WP_UnitTestCase {
 	 * Field_Factory::get_registered_types(), custom types validate too.
 	 */
 	public function test_custom_registered_field_type_is_valid(): void {
-		Field_Factory::register_type( 'my_custom_type', \Pedalcms\CassetteCmf\Field\Fields\Text_Field::class );
+		Field_Factory::register_type( 'my_custom_type', \PedalCMS\CassetteCMF\Field\Fields\Text_Field::class );
 
 		try {
 			$config = [

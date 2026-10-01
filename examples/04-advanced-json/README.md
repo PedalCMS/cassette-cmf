@@ -150,7 +150,7 @@ JSON cannot define callbacks, so use PHP filters for preprocessing:
 
 ```php
 // Format phone numbers
-add_filter( 'CassetteCmf_before_save_field_agent_phone', function( $value ) {
+add_filter( 'CassetteCMF_before_save_field_agent_phone', function( $value ) {
     $numbers = preg_replace( '/[^0-9]/', '', $value );
     if ( strlen( $numbers ) === 10 ) {
         return sprintf( '(%s) %s-%s',
@@ -163,7 +163,7 @@ add_filter( 'CassetteCmf_before_save_field_agent_phone', function( $value ) {
 });
 
 // Auto-generate listing ID
-add_filter( 'CassetteCmf_before_save_field_listing_id', function( $value, $post_id ) {
+add_filter( 'CassetteCMF_before_save_field_listing_id', function( $value, $post_id ) {
     if ( empty( $value ) ) {
         return 'PROP-' . str_pad( $post_id, 6, '0', STR_PAD_LEFT );
     }
@@ -176,31 +176,31 @@ add_filter( 'CassetteCmf_before_save_field_listing_id', function( $value, $post_
 Cassette-CMF provides a universal static method to retrieve field values:
 
 ```php
-use Pedalcms\CassetteCmf\CassetteCmf;
+use PedalCMS\CassetteCMF\CassetteCMF;
 
 // Property CPT fields
-$price       = CassetteCmf::get_field( 'property_price', $property_id, 'post', 0 );
-$amenities   = CassetteCmf::get_field( 'amenities', $property_id ); // returns array
-$open_houses = CassetteCmf::get_field( 'open_house_schedule', $property_id ); // returns array
+$price       = CassetteCMF::get_field( 'property_price', $property_id, 'post', 0 );
+$amenities   = CassetteCMF::get_field( 'amenities', $property_id ); // returns array
+$open_houses = CassetteCMF::get_field( 'open_house_schedule', $property_id ); // returns array
 
 // Agency settings
-$api_key       = CassetteCmf::get_field( 'map_api_key', 'agency-settings', 'settings' );
-$primary_color = CassetteCmf::get_field( 'primary_color', 'agency-settings', 'settings', '#2c3e50' );
+$api_key       = CassetteCMF::get_field( 'map_api_key', 'agency-settings', 'settings' );
+$primary_color = CassetteCMF::get_field( 'primary_color', 'agency-settings', 'settings', '#2c3e50' );
 
 // Extended post fields
-$is_featured = CassetteCmf::get_field( 'is_featured', $post_id );
-$meta_title  = CassetteCmf::get_field( 'meta_title', $post_id );
+$is_featured = CassetteCMF::get_field( 'is_featured', $post_id );
+$meta_title  = CassetteCMF::get_field( 'meta_title', $post_id );
 
 // Extended page fields
-$page_layout = CassetteCmf::get_field( 'page_layout', $page_id );
-$cta_enabled = CassetteCmf::get_field( 'cta_enabled', $page_id );
+$page_layout = CassetteCMF::get_field( 'page_layout', $page_id );
+$cta_enabled = CassetteCMF::get_field( 'cta_enabled', $page_id );
 
 // Extended general settings
-$facebook  = CassetteCmf::get_field( 'social_facebook', 'general', 'settings' );
-$analytics = CassetteCmf::get_field( 'analytics_id', 'general', 'settings' );
+$facebook  = CassetteCMF::get_field( 'social_facebook', 'general', 'settings' );
+$analytics = CassetteCMF::get_field( 'analytics_id', 'general', 'settings' );
 
 // Extended reading settings
-$excerpt_length = CassetteCmf::get_field( 'excerpt_length', 'reading', 'settings', 55 );
+$excerpt_length = CassetteCMF::get_field( 'excerpt_length', 'reading', 'settings', 55 );
 ```
 
 ## JSON vs Array Comparison

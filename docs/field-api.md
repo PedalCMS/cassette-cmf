@@ -57,7 +57,7 @@ Custom Field Types (your custom fields)
 All fields must implement the `FieldInterface`:
 
 ```php
-namespace Pedalcms\CassetteCmf\Field;
+namespace PedalCMS\CassetteCMF\Field;
 
 interface FieldInterface {
     public function render($value = null): string;
@@ -167,7 +167,7 @@ Create a class that extends `AbstractField`:
 <?php
 namespace YourPlugin\Fields;
 
-use Pedalcms\CassetteCmf\Field\AbstractField;
+use PedalCMS\CassetteCMF\Field\AbstractField;
 
 class SliderField extends AbstractField {
     
@@ -208,7 +208,7 @@ class SliderField extends AbstractField {
 Register with FieldFactory:
 
 ```php
-use Pedalcms\CassetteCmf\Field\FieldFactory;
+use PedalCMS\CassetteCMF\Field\FieldFactory;
 
 FieldFactory::register_type('slider', SliderField::class);
 ```
@@ -216,7 +216,7 @@ FieldFactory::register_type('slider', SliderField::class);
 Or use Manager:
 
 ```php
-use Pedalcms\CassetteCmf\Core\Manager;
+use PedalCMS\CassetteCMF\Core\Manager;
 
 $manager = Manager::init();
 $manager->register_field_type('slider', SliderField::class);
@@ -649,10 +649,10 @@ Media upload field using WordPress media library.
 
 **Retrieving uploaded files:**
 ```php
-use Pedalcms\CassetteCmf\CassetteCmf;
+use PedalCMS\CassetteCMF\CassetteCMF;
 
 // Get attachment ID using Cassette-CMF
-$attachment_id = CassetteCmf::get_field( 'featured_image', $post_id );
+$attachment_id = CassetteCMF::get_field( 'featured_image', $post_id );
 
 // Get attachment URL
 $image_url = wp_get_attachment_url( $attachment_id );
@@ -853,10 +853,10 @@ Assets are automatically loaded only on relevant admin screens. The Registrar ma
 
 ### Common Assets
 
-Use the `CassetteCmf_enqueue_common_assets` action for assets used by multiple fields:
+Use the `CassetteCMF_enqueue_common_assets` action for assets used by multiple fields:
 
 ```php
-add_action('CassetteCmf_enqueue_common_assets', function() {
+add_action('CassetteCMF_enqueue_common_assets', function() {
     wp_enqueue_style(
         'my-common-field-styles',
         plugin_dir_url(__FILE__) . 'assets/common.css',
@@ -873,7 +873,7 @@ add_action('CassetteCmf_enqueue_common_assets', function() {
 ### Creating Single Fields
 
 ```php
-use Pedalcms\CassetteCmf\Field\FieldFactory;
+use PedalCMS\CassetteCMF\Field\FieldFactory;
 
 $field = FieldFactory::create([
     'name'  => 'username',
@@ -933,7 +933,7 @@ print_r($types);
 ### Adding Fields to Custom Post Types
 
 ```php
-use Pedalcms\CassetteCmf\Core\Manager;
+use PedalCMS\CassetteCMF\Core\Manager;
 
 $manager = Manager::init();
 

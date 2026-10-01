@@ -7,7 +7,7 @@
  * Author: PedalCMS
  * License: GPL v2 or later
  *
- * @package CassetteCmfSimpleJson
+ * @package CassetteCMFSimpleJson
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once dirname( __DIR__, 2 ) . '/vendor/autoload.php';
 
-use Pedalcms\CassetteCmf\CassetteCmf;
+use PedalCMS\CassetteCMF\CassetteCMF;
 
 /**
  * =============================================================================
@@ -37,7 +37,7 @@ use Pedalcms\CassetteCmf\CassetteCmf;
 function cassette_cmf_simple_json_init() {
 	$config_file = __DIR__ . '/config.json';
 
-	CassetteCmf::register_from_json( $config_file );
+	CassetteCMF::register_from_json( $config_file );
 }
 add_action( 'init', 'cassette_cmf_simple_json_init' );
 
@@ -48,7 +48,7 @@ add_action( 'init', 'cassette_cmf_simple_json_init' );
  *
  * Cassette-CMF provides a universal static method to retrieve field values:
  *
- * CassetteCmf::get_field( $field_name, $context, $context_type, $default )
+ * CassetteCMF::get_field( $field_name, $context, $context_type, $default )
  *
  * - $field_name:   The field name as defined in your config
  * - $context:      Post ID, term ID, or settings page ID
@@ -65,7 +65,7 @@ add_action( 'init', 'cassette_cmf_simple_json_init' );
  * @return mixed
  */
 function get_event_field( $post_id, $field, $default_value = '' ) {
-	return CassetteCmf::get_field( $field, $post_id, 'post', $default_value );
+	return CassetteCMF::get_field( $field, $post_id, 'post', $default_value );
 }
 
 /**
@@ -76,7 +76,7 @@ function get_event_field( $post_id, $field, $default_value = '' ) {
  * @return mixed
  */
 function get_events_setting( $field, $default_value = '' ) {
-	return CassetteCmf::get_field( $field, 'events-settings', 'settings', $default_value );
+	return CassetteCMF::get_field( $field, 'events-settings', 'settings', $default_value );
 }
 
 /**

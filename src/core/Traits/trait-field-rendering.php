@@ -4,14 +4,14 @@
  *
  * Provides common field rendering functionality shared across handlers.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Core\Traits;
+namespace PedalCMS\CassetteCMF\Core\Traits;
 
-use Pedalcms\CassetteCmf\Field\Field_Interface;
-use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
+use PedalCMS\CassetteCMF\Field\Field_Interface;
+use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
 
 /**
  * Trait Field_Rendering_Trait

@@ -37,32 +37,32 @@ A top-level settings page with:
 Cassette-CMF provides a universal static method to retrieve field values:
 
 ```php
-use Pedalcms\CassetteCmf\CassetteCmf;
+use PedalCMS\CassetteCMF\CassetteCMF;
 
 // Get book meta (post fields)
-$author = CassetteCmf::get_field( 'author_name', $post_id );
-$isbn   = CassetteCmf::get_field( 'isbn', $post_id );
-$pages  = CassetteCmf::get_field( 'page_count', $post_id, 'post', 0 ); // With default
+$author = CassetteCMF::get_field( 'author_name', $post_id );
+$isbn   = CassetteCMF::get_field( 'isbn', $post_id );
+$pages  = CassetteCMF::get_field( 'page_count', $post_id, 'post', 0 ); // With default
 
 // Get taxonomy term meta
-$genre_color = CassetteCmf::get_field( 'genre_color', $term_id, 'term' );
-$is_featured = CassetteCmf::get_field( 'is_featured', $term_id, 'term' );
+$genre_color = CassetteCMF::get_field( 'genre_color', $term_id, 'term' );
+$is_featured = CassetteCMF::get_field( 'is_featured', $term_id, 'term' );
 
 // Get genres for a book with their custom colors
 $genres = get_the_terms( $post_id, 'book_genre' );
 foreach ( $genres as $genre ) {
-    $color = CassetteCmf::get_field( 'genre_color', $genre->term_id, 'term', '#000000' );
+    $color = CassetteCMF::get_field( 'genre_color', $genre->term_id, 'term', '#000000' );
 }
 
 // Get settings
-$library_name = CassetteCmf::get_field( 'library_name', 'library-settings', 'settings' );
-$accent_color = CassetteCmf::get_field( 'accent_color', 'library-settings', 'settings', '#2271b1' );
+$library_name = CassetteCMF::get_field( 'library_name', 'library-settings', 'settings' );
+$accent_color = CassetteCMF::get_field( 'accent_color', 'library-settings', 'settings', '#2271b1' );
 ```
 
 ### Method Signature
 
 ```php
-CassetteCmf::get_field( $field_name, $context, $context_type = 'post', $default = '' )
+CassetteCMF::get_field( $field_name, $context, $context_type = 'post', $default = '' )
 ```
 
 | Parameter | Description |
@@ -80,7 +80,7 @@ CassetteCmf::get_field( $field_name, $context, $context_type = 'post', $default 
 4. **Common Field Types** - text, textarea, number, date, select, checkbox, radio, email, url, color, custom_html, upload
 5. **Field Options** - required, placeholder, default, min/max, description
 6. **Conditional Fields** - show/hide fields using `conditional.rules`
-7. **Data Retrieval** - `CassetteCmf::get_field()` for all field types
+7. **Data Retrieval** - `CassetteCMF::get_field()` for all field types
 
 ## For Advanced Features
 

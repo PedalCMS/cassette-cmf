@@ -4,17 +4,17 @@
  *
  * Handles adding fields to existing WordPress settings pages.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Core\Handlers;
+namespace PedalCMS\CassetteCMF\Core\Handlers;
 
-use Pedalcms\CassetteCmf\Field\Field_Interface;
-use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
-use Pedalcms\CassetteCmf\Field\Field_Factory;
-use Pedalcms\CassetteCmf\Field\Fields\Group_Field;
-use Pedalcms\CassetteCmf\Field\Fields\Metabox_Field;
+use PedalCMS\CassetteCMF\Field\Field_Interface;
+use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Fields\Group_Field;
+use PedalCMS\CassetteCMF\Field\Fields\Metabox_Field;
 
 /**
  * Class Existing_Settings_Page_Handler
