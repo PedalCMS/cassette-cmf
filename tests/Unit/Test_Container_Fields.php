@@ -339,6 +339,42 @@ class Test_Container_Fields extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test a first tab with no 'id' renders, selecting its 'tab-0' fallback.
+	 *
+	 * Previously default_tab resolved to null here and render() fatally errored.
+	 */
+	public function test_tabs_field_first_tab_without_id(): void {
+		$field = Field_Factory::create(
+			[
+				'name' => 'test_tabs',
+				'type' => 'tabs',
+				'tabs' => [
+					[
+						'label'  => 'General',
+						'fields' => [],
+					],
+					[
+						'id'     => 'advanced',
+						'label'  => 'Advanced',
+						'fields' => [],
+					],
+				],
+			]
+		);
+
+		$html = $field->render();
+
+		$this->assertMatchesRegularExpression(
+			'/data-tab="tab-0"[^>]*role="tab"[^>]*aria-selected="true"[^>]*tabindex="0"/',
+			$html
+		);
+		$this->assertMatchesRegularExpression(
+			'/data-tab="advanced"[^>]*role="tab"[^>]*aria-selected="false"/',
+			$html
+		);
+	}
+
+	/**
 	 * Test GroupField renders wrapper.
 	 */
 	public function test_group_field_renders(): void {
