@@ -6,11 +6,11 @@
  * but don't store their own values. Container fields are organizational
  * and their nested fields save/load independently using their own field names.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Field;
+namespace PedalCMS\CassetteCMF\Field;
 
 /**
  * ContainerFieldInterface - Contract for container field types

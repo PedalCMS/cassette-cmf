@@ -56,7 +56,7 @@ A top-level settings page with:
 ### Loading JSON Config
 
 ```php
-use Pedalcms\CassetteCmf\Core\Manager;
+use PedalCMS\CassetteCMF\Core\Manager;
 
 // From file path
 Manager::init()->register_from_json( __DIR__ . '/config.json' );
@@ -71,19 +71,19 @@ Manager::init()->register_from_json( $json );
 Cassette-CMF provides a universal static method to retrieve field values:
 
 ```php
-use Pedalcms\CassetteCmf\CassetteCmf;
+use PedalCMS\CassetteCMF\CassetteCMF;
 
 // Get event meta (post fields)
-$date     = CassetteCmf::get_field( 'event_date', $post_id );
-$location = CassetteCmf::get_field( 'location', $post_id );
+$date     = CassetteCMF::get_field( 'event_date', $post_id );
+$location = CassetteCMF::get_field( 'location', $post_id );
 
 // Get taxonomy term meta
-$type_color     = CassetteCmf::get_field( 'type_color', $term_id, 'term' );
-$venue_capacity = CassetteCmf::get_field( 'venue_capacity', $term_id, 'term', 100 );
+$type_color     = CassetteCMF::get_field( 'type_color', $term_id, 'term' );
+$venue_capacity = CassetteCMF::get_field( 'venue_capacity', $term_id, 'term', 100 );
 
 // Get settings
-$currency = CassetteCmf::get_field( 'currency_symbol', 'events-settings', 'settings', '$' );
-$color    = CassetteCmf::get_field( 'primary_color', 'events-settings', 'settings', '#0073aa' );
+$currency = CassetteCMF::get_field( 'currency_symbol', 'events-settings', 'settings', '$' );
+$color    = CassetteCMF::get_field( 'primary_color', 'events-settings', 'settings', '#0073aa' );
 ```
 
 ## JSON vs Array Configuration

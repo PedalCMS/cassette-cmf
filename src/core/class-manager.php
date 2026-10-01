@@ -6,20 +6,20 @@
  * Central registry and bootstrap for the Content Modeling Framework.
  * Coordinates registration of custom post types, settings pages, and fields.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Core;
+namespace PedalCMS\CassetteCMF\Core;
 
-use Pedalcms\CassetteCmf\Core\Handlers\New_Settings_Page_Handler;
-use Pedalcms\CassetteCmf\Core\Handlers\Existing_Settings_Page_Handler;
-use Pedalcms\CassetteCmf\Core\Handlers\New_Post_Type_Handler;
-use Pedalcms\CassetteCmf\Core\Handlers\Existing_Post_Type_Handler;
-use Pedalcms\CassetteCmf\Core\Handlers\New_Taxonomy_Handler;
-use Pedalcms\CassetteCmf\Core\Handlers\Existing_Taxonomy_Handler;
-use Pedalcms\CassetteCmf\Field\Field_Factory;
-use Pedalcms\CassetteCmf\Json\Schema_Validator;
+use PedalCMS\CassetteCMF\Core\Handlers\New_Settings_Page_Handler;
+use PedalCMS\CassetteCMF\Core\Handlers\Existing_Settings_Page_Handler;
+use PedalCMS\CassetteCMF\Core\Handlers\New_Post_Type_Handler;
+use PedalCMS\CassetteCMF\Core\Handlers\Existing_Post_Type_Handler;
+use PedalCMS\CassetteCMF\Core\Handlers\New_Taxonomy_Handler;
+use PedalCMS\CassetteCMF\Core\Handlers\Existing_Taxonomy_Handler;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Json\Schema_Validator;
 
 /**
  * Manager class - Central coordination point for Cassette-CMF

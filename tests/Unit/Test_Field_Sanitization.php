@@ -4,10 +4,10 @@
  *
  * Tests for field sanitization across all field types.
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
 
 /**
  * Class Test_Field_Sanitization

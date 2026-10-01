@@ -4,18 +4,18 @@
  *
  * Handles registration and field management for new settings pages.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Core\Handlers;
+namespace PedalCMS\CassetteCMF\Core\Handlers;
 
-use Pedalcms\CassetteCmf\Settings\Settings_Page;
-use Pedalcms\CassetteCmf\Field\Field_Interface;
-use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
-use Pedalcms\CassetteCmf\Field\Field_Factory;
-use Pedalcms\CassetteCmf\Field\Fields\Group_Field;
-use Pedalcms\CassetteCmf\Field\Fields\Metabox_Field;
+use PedalCMS\CassetteCMF\Settings\Settings_Page;
+use PedalCMS\CassetteCMF\Field\Field_Interface;
+use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Fields\Group_Field;
+use PedalCMS\CassetteCMF\Field\Fields\Metabox_Field;
 
 /**
  * Class New_Settings_Page_Handler
@@ -426,7 +426,7 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 	 */
 	private function handle_save(): void {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified below after identifying the correct form.
-		if ( empty( $_POST['action'] ) || 'CassetteCmf_save_settings' !== $_POST['action'] ) {
+		if ( empty( $_POST['action'] ) || 'CassetteCMF_save_settings' !== $_POST['action'] ) {
 			return;
 		}
 
@@ -439,12 +439,12 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 
 		// Verify nonce.
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce is being verified on the next line.
-		$nonce = isset( $_POST['CassetteCmf_settings_nonce'] )
-			? sanitize_text_field( wp_unslash( $_POST['CassetteCmf_settings_nonce'] ) )
+		$nonce = isset( $_POST['CassetteCMF_settings_nonce'] )
+			? sanitize_text_field( wp_unslash( $_POST['CassetteCMF_settings_nonce'] ) )
 			: '';
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
-		if ( ! $this->verify_nonce( $nonce, 'CassetteCmf_save_settings_' . $page_id ) ) {
+		if ( ! $this->verify_nonce( $nonce, 'CassetteCMF_save_settings_' . $page_id ) ) {
 			wp_die( esc_html__( 'Security check failed', 'cassette-cmf' ) );
 		}
 

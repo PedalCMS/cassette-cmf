@@ -5,11 +5,11 @@
  * Handles registration and configuration of WordPress custom post types.
  * Provides a clean API for defining CPT labels, arguments, and supports.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\CPT;
+namespace PedalCMS\CassetteCMF\CPT;
 
 /**
  * Custom_Post_Type class - Manages custom post type registration

@@ -5,17 +5,17 @@
  * Tests for the Handler classes (New_Post_Type_Handler, Existing_Post_Type_Handler,
  * New_Settings_Page_Handler, Existing_Settings_Page_Handler).
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Core\Manager;
-use Pedalcms\CassetteCmf\Core\Handlers\New_Post_Type_Handler;
-use Pedalcms\CassetteCmf\Core\Handlers\Existing_Post_Type_Handler;
-use Pedalcms\CassetteCmf\Core\Handlers\New_Settings_Page_Handler;
-use Pedalcms\CassetteCmf\Core\Handlers\Existing_Settings_Page_Handler;
-use Pedalcms\CassetteCmf\CPT\Custom_Post_Type;
-use Pedalcms\CassetteCmf\Settings\Settings_Page;
-use Pedalcms\CassetteCmf\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Core\Manager;
+use PedalCMS\CassetteCMF\Core\Handlers\New_Post_Type_Handler;
+use PedalCMS\CassetteCMF\Core\Handlers\Existing_Post_Type_Handler;
+use PedalCMS\CassetteCMF\Core\Handlers\New_Settings_Page_Handler;
+use PedalCMS\CassetteCMF\Core\Handlers\Existing_Settings_Page_Handler;
+use PedalCMS\CassetteCMF\CPT\Custom_Post_Type;
+use PedalCMS\CassetteCMF\Settings\Settings_Page;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
 
 /**
  * Class Test_Handlers

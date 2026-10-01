@@ -5,11 +5,11 @@
  * Provides common functionality and helpers for all field types.
  * Field classes should extend this to get standard behavior.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Field;
+namespace PedalCMS\CassetteCMF\Field;
 
 /**
  * Abstract_Field - Base implementation for field types

@@ -4,16 +4,16 @@
  *
  * Base test case class for Cassette-CMF tests that handles WordPress block registry notices.
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
 /**
- * Class CassetteCmf_UnitTestCase
+ * Class CassetteCMF_UnitTestCase
  *
  * Base test case that handles WordPress block registry notices which may occur
  * during WordPress init in certain versions.
  */
-abstract class CassetteCmf_UnitTestCase extends WP_UnitTestCase {
+abstract class CassetteCMF_UnitTestCase extends WP_UnitTestCase {
 
 	/**
 	 * Set up test fixtures.

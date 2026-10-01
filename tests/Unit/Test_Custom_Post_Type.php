@@ -4,20 +4,20 @@
  *
  * Tests for registering custom post types with Cassette-CMF.
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Core\Manager;
-use Pedalcms\CassetteCmf\CPT\Custom_Post_Type;
+use PedalCMS\CassetteCMF\Core\Manager;
+use PedalCMS\CassetteCMF\CPT\Custom_Post_Type;
 
-require_once __DIR__ . '/CassetteCmf_UnitTestCase.php';
+require_once __DIR__ . '/CassetteCMF_UnitTestCase.php';
 
 /**
  * Class Test_Custom_Post_Type
  *
  * Tests for CPT registration.
  */
-class Test_Custom_Post_Type extends CassetteCmf_UnitTestCase {
+class Test_Custom_Post_Type extends CassetteCMF_UnitTestCase {
 
 	/**
 	 * Reset Manager between tests.

@@ -7,7 +7,7 @@
  * Author: PedalCMS
  * License: GPL v2 or later
  *
- * @package CassetteCmfSimpleArray
+ * @package CassetteCMFSimpleArray
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once dirname( __DIR__, 2 ) . '/vendor/autoload.php';
 
-use Pedalcms\CassetteCmf\CassetteCmf;
+use PedalCMS\CassetteCMF\CassetteCMF;
 
 /**
  * =============================================================================
@@ -271,7 +271,7 @@ function cassette_cmf_simple_array_init() {
 		],
 	];
 
-	CassetteCmf::register_from_array( $config );
+	CassetteCMF::register_from_array( $config );
 }
 add_action( 'init', 'cassette_cmf_simple_array_init' );
 
@@ -282,7 +282,7 @@ add_action( 'init', 'cassette_cmf_simple_array_init' );
  *
  * Cassette-CMF provides a universal static method to retrieve field values:
  *
- * CassetteCmf::get_field( $field_name, $context, $context_type, $default )
+ * CassetteCMF::get_field( $field_name, $context, $context_type, $default )
  *
  * - $field_name:   The field name as defined in your config
  * - $context:      Post ID, term ID, or settings page ID
@@ -290,9 +290,9 @@ add_action( 'init', 'cassette_cmf_simple_array_init' );
  * - $default:      Default value if field is empty
  *
  * Examples:
- *   CassetteCmf::get_field( 'author_name', $post_id )             // Post meta (default context)
- *   CassetteCmf::get_field( 'genre_color', $term_id, 'term' )     // Term meta
- *   CassetteCmf::get_field( 'library_name', 'library-settings', 'settings' )  // Settings option
+ *   CassetteCMF::get_field( 'author_name', $post_id )             // Post meta (default context)
+ *   CassetteCMF::get_field( 'genre_color', $term_id, 'term' )     // Term meta
+ *   CassetteCMF::get_field( 'library_name', 'library-settings', 'settings' )  // Settings option
  */
 
 /**
@@ -304,7 +304,7 @@ add_action( 'init', 'cassette_cmf_simple_array_init' );
  * @return mixed
  */
 function get_book_field( $post_id, $field, $default_value = '' ) {
-	return CassetteCmf::get_field( $field, $post_id, 'post', $default_value );
+	return CassetteCMF::get_field( $field, $post_id, 'post', $default_value );
 }
 
 /**
@@ -315,7 +315,7 @@ function get_book_field( $post_id, $field, $default_value = '' ) {
  * @return mixed
  */
 function get_library_setting( $field, $default_value = '' ) {
-	return CassetteCmf::get_field( $field, 'library-settings', 'settings', $default_value );
+	return CassetteCMF::get_field( $field, 'library-settings', 'settings', $default_value );
 }
 
 /**
@@ -327,7 +327,7 @@ function get_library_setting( $field, $default_value = '' ) {
  * @return mixed
  */
 function get_genre_field( $term_id, $field, $default_value = '' ) {
-	return CassetteCmf::get_field( $field, $term_id, 'term', $default_value );
+	return CassetteCMF::get_field( $field, $term_id, 'term', $default_value );
 }
 
 /**

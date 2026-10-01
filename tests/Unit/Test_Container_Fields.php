@@ -5,11 +5,11 @@
  *
  * Tests for container field types (GroupField, MetaboxField, TabsField).
  *
- * @package Pedalcms\CassetteCmf\Tests\Unit
+ * @package PedalCMS\CassetteCMF\Tests\Unit
  */
 
-use Pedalcms\CassetteCmf\Field\Field_Factory;
-use Pedalcms\CassetteCmf\Field\Container_Field_Interface;
+use PedalCMS\CassetteCMF\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
 
 /**
  * Class Test_Container_Fields

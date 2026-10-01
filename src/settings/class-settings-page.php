@@ -5,11 +5,11 @@
  * Handles registration and rendering of WordPress admin settings pages.
  * Provides a clean API for creating top-level and sub-menu pages with capability checks.
  *
- * @package Pedalcms\CassetteCmf
+ * @package PedalCMS\CassetteCMF
  * @since 1.0.0
  */
 
-namespace Pedalcms\CassetteCmf\Settings;
+namespace PedalCMS\CassetteCMF\Settings;
 
 /**
  * Settings_Page class - Manages settings page registration and rendering
@@ -311,8 +311,8 @@ class Settings_Page {
 					// Output security fields
 					if ( $has_metaboxes ) {
 						// Nonce for metabox-based settings page
-						wp_nonce_field( 'CassetteCmf_save_settings_' . $this->page_id, 'CassetteCmf_settings_nonce' );
-						echo '<input type="hidden" name="action" value="CassetteCmf_save_settings" />';
+						wp_nonce_field( 'CassetteCMF_save_settings_' . $this->page_id, 'CassetteCMF_settings_nonce' );
+						echo '<input type="hidden" name="action" value="CassetteCMF_save_settings" />';
 						echo '<input type="hidden" name="page_id" value="' . esc_attr( $this->page_id ) . '" />';
 					} elseif ( function_exists( 'settings_fields' ) && $has_sections ) {
 						// Standard WordPress settings fields
