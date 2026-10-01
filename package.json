@@ -1,6 +1,6 @@
 {
 	"name": "cassette-cmf",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "WP Content Modeling Framework",
 	"private": true,
 	"scripts": {
