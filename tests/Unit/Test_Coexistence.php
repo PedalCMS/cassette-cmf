@@ -35,6 +35,20 @@ class Test_Coexistence extends WP_UnitTestCase {
 	private $copy_manager = self::COPY_NS . '\\Core\\Manager';
 
 	/**
+	 * The admin $menu global before the test.
+	 *
+	 * @var mixed
+	 */
+	private $menu_backup = null;
+
+	/**
+	 * The admin $submenu global before the test.
+	 *
+	 * @var mixed
+	 */
+	private $submenu_backup = null;
+
+	/**
 	 * Generate the prefixed copy once and register its autoloader.
 	 */
 	public static function set_up_before_class(): void {
@@ -67,6 +81,14 @@ class Test_Coexistence extends WP_UnitTestCase {
 		Manager::reset();
 		( $this->copy_manager )::reset();
 
+		// A real admin request always has these menu globals as arrays.
+		// WordPress 6.9+ reads both on admin_enqueue_scripts (command
+		// palette), and add_menu_page() alone leaves $submenu null here.
+		$this->menu_backup    = $GLOBALS['menu'] ?? null;
+		$this->submenu_backup = $GLOBALS['submenu'] ?? null;
+		$GLOBALS['menu']      = [];
+		$GLOBALS['submenu']   = [];
+
 		wp_set_current_user( self::factory()->user->create( [ 'role' => 'administrator' ] ) );
 	}
 
@@ -76,6 +98,9 @@ class Test_Coexistence extends WP_UnitTestCase {
 	public function tear_down(): void {
 		Manager::reset();
 		( $this->copy_manager )::reset();
+
+		$GLOBALS['menu']    = $this->menu_backup;
+		$GLOBALS['submenu'] = $this->submenu_backup;
 
 		parent::tear_down();
 	}
