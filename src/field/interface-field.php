@@ -16,6 +16,8 @@ namespace PedalCMS\CassetteCMF\Field;
  *
  * All field classes must implement this interface to ensure
  * consistent behavior across different field types.
+ *
+ * @api
  */
 interface Field_Interface {
 

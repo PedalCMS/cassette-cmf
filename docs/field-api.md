@@ -9,6 +9,7 @@ Complete guide to creating, extending, and using fields in Cassette-CMF.
 - [Creating Custom Fields](#creating-custom-fields)
 - [Core Field Types Reference](#core-field-types-reference)
 - [Field Configuration](#field-configuration)
+- [Settings Page Options (REST, versions)](#settings-page-options-rest-versions)
 - [Validation and Sanitization](#validation-and-sanitization)
 - [Asset Enqueuing](#asset-enqueuing)
 - [Using FieldFactory](#using-fieldfactory)
@@ -531,6 +532,35 @@ Masked password input.
 
 ---
 
+### Secret Field
+
+Write-only input for API keys and tokens (type `secret`, since 0.2.0). Unlike `password`, which stays exactly as it was, a secret has defined keep, replace and clear semantics, can be encrypted at rest, and is never echoed.
+
+**Configuration:**
+```php
+[
+    'name'    => 'api_key',
+    'type'    => 'secret',
+    'label'   => 'API key',
+    'encrypt' => true,   // optional, default false
+]
+```
+
+**Behaviour:**
+- Render: an empty password input (never pre-filled), a hint with the mask (`••••1234`) when a value is set, and a "Clear the saved value" checkbox. The value never appears in the HTML.
+- Classic save: a new non-empty value replaces the stored one; an empty submission or the unchanged mask keeps it; the clear checkbox empties it (stored as `''`). Posted names are `{name}[value]` and `{name}[clear]`.
+- REST: reads return the mask, or `''` when unset. Writes accept a new string (replace), the unchanged mask, `null` or an omitted key (keep), or `{ "clear": true }` (clear). See [REST API](rest-api.md#secret-fields).
+- Mask: `••••` plus the last four characters; only `••••` when the secret has four characters or fewer. A new secret therefore cannot start with four bullet characters.
+- `CassetteCMF::get_field()` and `get_settings_field()` return the mask. **Only `CassetteCMF::get_secret( $field_name, $page_id )` returns the real value** (decrypted when needed). Reading the option with `get_option()` returns the stored form (ciphertext when `encrypt` is on).
+- `bindings` can never expose a secret (`is_field_public()` is always `false`).
+- Supported on settings pages. Not supported inside repeater rows, and (without a bound option) an empty submission cannot "keep" a value outside settings pages.
+
+**Encryption (`encrypt => true`):** the value is stored as `cassette-cmf-secret:` + `base64( 0x01 + nonce + sodium_crypto_secretbox( value ) )`. The key is `sodium_crypto_generichash( wp_salt( 'auth' ), '', SODIUM_CRYPTO_SECRETBOX_KEYBYTES )`; the nonce is random per save. The marker tells encrypted from plaintext values, so a field can be switched to `encrypt` later and old plaintext values stay readable. Encryption protects the database contents (dumps, backups), not against someone who can run code on the site, since PHP holds the key.
+
+**Key rotation:** changing the `AUTH_KEY`/`AUTH_SALT` (or the `salt` filter result for `auth`) makes existing encrypted secrets undecryptable. `get_secret()` then returns `''` (the secret counts as unset), the mask is empty, and an admin notice asks to enter it again. Re-enter encrypted secrets after rotating salts.
+
+---
+
 ### ColorField
 
 Color picker with WordPress integration.
@@ -702,9 +732,88 @@ All fields support these configuration options:
 ]
 ```
 
+### REST visibility (`show_in_rest`)
+
+On a settings page that opted in to the [REST API](rest-api.md), a field can set `show_in_rest => false`. It is then left out of the REST schema and values, and a REST write that names it is rejected (400, "does not exist or is not writable over REST"). It still renders and saves normally in the classic renderer. In the [React renderer](react-settings.md) such a field is classic-only and is not shown. Any other value, or no key, means "exposed". The key is separate from `bindings`. Fields with `readonly` or `disabled` are `readOnly` in the schema and also rejected on write.
+
+### Exposing fields to companion libraries (`bindings`)
+
+Every field accepts one optional key, `bindings` (boolean). Only the strict boolean `true` counts; any other value (including `"true"` or `1`) is treated as not set. Cassette-CMF itself ignores the key: it changes nothing about rendering, saving or validation. It exists so that companion libraries, such as a block-bindings source, can expose only the fields an author has opted in.
+
+```php
+[
+    'name'     => 'tagline',
+    'type'     => 'text',
+    'bindings' => true,   // optional; default is "not exposed"
+]
+```
+
+In JSON configs it is accepted as-is (`"bindings": true`).
+
+Two public helpers (since 0.2.0) report on it. Both are available as `Manager` methods and as static facade methods on `CassetteCMF`:
+
+```php
+CassetteCMF::get_registered_field( string $field_name, $context, string $context_type = 'post' ): ?array
+CassetteCMF::is_field_public( string $field_name, $context, string $context_type = 'post' ): bool
+```
+
+- `get_registered_field()` returns the field's config array (including `type` and `name`), or `null` when no field with that name is registered for the resolved context.
+- `is_field_public()` returns `true` only when `get_registered_field()` returns a config whose `bindings` is strictly `true` and whose `type` is neither `password` nor `secret`.
+
+Context resolution:
+
+| `$context_type` | `$context` | Fields searched |
+|-----------------|------------|-----------------|
+| `post` | post ID | fields registered for that post's type (new and existing post types) |
+| `term` | term ID | fields registered for that term's taxonomy (new and existing taxonomies) |
+| `settings` | settings page ID | fields registered for that page (new and existing settings pages) |
+| anything else | any | none (`null` / `false`) |
+
+An unknown post or term, or an unregistered page, resolves to `null`.
+
+Nested fields: fields declared inside `group`, `tabs` and `metabox` containers are registered under their own name, so they are found. Fields declared inside a `repeater` row are not registered individually, so they resolve to `null`.
+
 ### Field-Specific Configuration
 
 Each field type may support additional options. See the [Core Field Types Reference](#core-field-types-reference) for details.
+
+---
+
+## Settings Page Options (REST, versions)
+
+Keys on a settings page config (the array next to `id`, `page_title`, ...):
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `show_in_rest` | bool | Opt in to the REST route `{namespace}/settings/{id}`. Default: no route. See [REST API](rest-api.md). |
+| `schema_version` | int >= 1 | Version of the stored data of this page. |
+| `upgrade` | `callable( array $old, int $from ): array` | Migrates the stored data when it is older than `schema_version`. PHP configs only. |
+
+### Schema version and upgrade
+
+Without `schema_version` and `upgrade` nothing happens and no option is written. With them:
+
+```php
+[
+    'id'             => 'my-settings',
+    'page_title'     => 'My Settings',
+    'schema_version' => 2,
+    'upgrade'        => function ( array $old, int $from ): array {
+        // $old: field name => stored value, for the options that exist.
+        if ( $from < 2 && isset( $old['old_color'] ) ) {
+            return [ 'color' => $old['old_color'], 'old_color' => '' ];
+        }
+        return [];
+    },
+    'fields' => [ /* ... */ ],
+]
+```
+
+- The stored version lives in the option `cassette_cmf_schema_version_{page_id}` (autoload off). It is one small option per page, named after the page ID, which already scopes everything else the page stores.
+- The check runs on `admin_init` and before the first REST read or write of the page. If the stored version is lower, an expiring lock is taken (option `cassette_cmf_schema_lock_{page_id}`, 60 seconds, filter `cassette_cmf_schema_upgrade_lock_ttl`), so concurrent requests cannot run the callback twice; a REST request that finds the lock held answers 503.
+- `$old` holds the current values (field name to stored value) of the options that exist. Only the fields present in the returned array are written back, each through the field's `sanitize()`; unknown names are ignored. Fields you do not return are untouched. The version is then bumped.
+- Existing values with no stored version count as **version 1**. A brand-new install (no values) records the current version without calling `upgrade`. A stored version above the declared one (a downgrade) is left alone. `schema_version` without `upgrade` only records the version.
+- On an exception, a non-array return value or a non-callable `upgrade`: nothing is written (all returned values are sanitized before the first write), the version stays, the lock is released, `error_log()` is called when `WP_DEBUG` is on, the action `cassette_cmf_schema_upgrade_failed( $page_id, $from, $to, \Throwable $error )` fires, and users with the page capability see an admin notice until a later run succeeds.
 
 ---
 
@@ -865,6 +974,10 @@ add_action('CassetteCMF_enqueue_common_assets', function() {
     );
 });
 ```
+
+### Handle and JS global when two copies are loaded
+
+The common stylesheet and script are enqueued under the handle `cassette-cmf` by default, and `cassette-cmf.js` publishes `window.CassetteCMFFields` (`init()`, `reinit()`). If the site calls `CassetteCMF::boot( [ 'asset_handle' => ..., 'js_global' => ... ] )` (see the README, "Running alongside another copy"), use `\PedalCMS\CassetteCMF\Core\Manager::asset_handle()` instead of the literal handle when you need to depend on the common script, and read the global name from `Manager::js_global()` when your own JS calls `reinit()`. With the defaults nothing changes.
 
 ---
 
@@ -1494,10 +1607,10 @@ public function validate($value): array {
 
 ## Additional Resources
 
-- **[FieldFactory Documentation](../examples/field-factory-usage/README.md)** - Complete FieldFactory guide
-- **[Field Asset Enqueuing](../examples/field-custom-assets/README.md)** - Custom assets guide
-- **[Core Field Types Source](../src/Field/fields/)** - Source code for all core fields
-- **[Field Tests](../tests/Field/)** - Test examples for reference
+- **[Advanced array example](../examples/03-advanced-array/README.md)** - Most field types, containers and conditional display in one config
+- **[React settings example](../examples/05-react-settings/README.md)** - A settings page drawn by the React renderer
+- **[Core Field Types Source](../src/field/fields/)** - Source code for all core fields
+- **[Field Tests](../tests/Unit/Test_Field_Types.php)** - Test examples for reference
 
 ---
 

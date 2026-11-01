@@ -4,7 +4,7 @@ This directory contains the WordPress unit tests for CASSETTE-CMF, following the
 
 ## Prerequisites
 
-- PHP 8.1+
+- PHP 7.4+
 - Composer
 - MySQL database (separate from your development database!)
 - SVN (for downloading WordPress test files on Linux/macOS)
@@ -179,7 +179,7 @@ The test suite uses `wptests_` prefix. If you have conflicts, change the `$table
 ## Continuous Integration
 
 The GitHub Actions workflow (`.github/workflows/phpunit.yml`) runs tests on:
-- PHP 8.1, 8.2, 8.3
-- WordPress latest and 6.7
+- PHP 7.4 (with WordPress 6.7 only), 8.2, 8.3, 8.4
+- WordPress 6.7, 6.8, 6.9 and latest
 
 Tests run on every push to `main`/`develop` and on pull requests.

@@ -1,0 +1,109 @@
+.cassette-cmf-settings-app {
+	max-width: 960px;
+	margin-top: 16px;
+
+	&__description {
+		max-width: 70ch;
+	}
+
+	&__notice {
+		margin: 12px 0;
+	}
+
+	&__snackbars {
+		position: fixed;
+		bottom: 24px;
+		inset-inline-start: 180px;
+		z-index: 100000;
+	}
+
+	.cassette-cmf-field,
+	.cassette-cmf-composite,
+	.cassette-cmf-custom-html {
+		margin-bottom: 20px;
+	}
+
+	.cassette-cmf-group,
+	.cassette-cmf-metabox {
+		margin-bottom: 20px;
+	}
+
+	.cassette-cmf-composite {
+		border: 0;
+		padding: 0;
+		margin-inline: 0;
+		min-width: 0;
+
+		&__label {
+			padding: 0;
+			margin-bottom: 8px;
+			font-size: 11px;
+			font-weight: 500;
+			text-transform: uppercase;
+		}
+	}
+
+	.cassette-cmf-field__description,
+	.cassette-cmf-field__error {
+		display: block;
+	}
+
+	.cassette-cmf-field__error {
+		color: #cc1818;
+		font-weight: 500;
+	}
+
+	.cassette-cmf-field.has-error {
+		.components-base-control__field input,
+		.components-base-control__field textarea,
+		.components-base-control__field select {
+			border-color: #cc1818;
+		}
+	}
+
+	.cassette-cmf-metabox__title {
+		margin: 0;
+		font-size: 14px;
+	}
+
+	.cassette-cmf-color,
+	.cassette-cmf-secret {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.cassette-cmf-color__swatch {
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		margin-inline-end: 6px;
+		border: 1px solid #949494;
+		border-radius: 50%;
+	}
+
+	.cassette-cmf-upload__preview {
+		display: block;
+		max-width: 150px;
+		max-height: 150px;
+		margin-bottom: 8px;
+	}
+
+	.cassette-cmf-upload__actions {
+		display: flex;
+		gap: 8px;
+	}
+
+	.cassette-cmf-repeater {
+		display: grid;
+		gap: 12px;
+
+		&__buttons {
+			display: inline-flex;
+		}
+	}
+
+	.cassette-cmf-tabs .components-tab-panel__tabs {
+		margin-bottom: 16px;
+	}
+}

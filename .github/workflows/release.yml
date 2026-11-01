@@ -39,8 +39,8 @@ jobs:
 
       - name: Validate version format
         run: |
-          if ! [[ "${{ steps.version.outputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Invalid version format. Expected: X.Y.Z"
+          if ! [[ "${{ steps.version.outputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.[0-9]+)?$ ]]; then
+            echo "Invalid version format. Expected: X.Y.Z or X.Y.Z-(alpha|beta|rc).N"
             exit 1
           fi
 
@@ -57,6 +57,22 @@ jobs:
             echo "Committed version sync to ${VERSION}; release assets will be built from the corrected tree."
           else
             echo "Version already matches ${VERSION}; nothing to sync."
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Verify the committed build output is current
+        run: |
+          npm ci
+          npm run build
+          if [ -n "$(git status --porcelain -- build src/assets/css)" ]; then
+            echo "::error::build/ or src/assets/css/ differs from a fresh 'npm run build'. Build and commit the result before tagging."
+            git status --short -- build src/assets/css
+            exit 1
           fi
 
       - name: Export release files
@@ -121,7 +137,7 @@ jobs:
           name: Cassette-CMF ${{ steps.version.outputs.tag }}
           body: ${{ steps.release_notes.outputs.notes }}
           draft: false
-          prerelease: ${{ contains(github.ref, '-alpha') || contains(github.ref, '-beta') || contains(github.ref, '-rc') }}
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
           files: |
             cassette-cmf-${{ steps.version.outputs.version }}.zip
             cassette-cmf-${{ steps.version.outputs.version }}.tar.gz

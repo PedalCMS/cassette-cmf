@@ -1,0 +1,1084 @@
+{
+	"description": "Shared by tests/Unit/Test_Condition_Fixtures.php (PHP evaluator) and tests/js/conditions.test.js (JS evaluator). conditional is the raw field config; context is the submitted values by field name.",
+	"cases": [
+		{
+			"name": "no conditional",
+			"conditional": [],
+			"context": {},
+			"expected": true
+		},
+		{
+			"name": "empty object",
+			"conditional": {},
+			"context": {
+				"a": "1"
+			},
+			"expected": true
+		},
+		{
+			"name": "rules missing",
+			"conditional": {
+				"relation": "AND"
+			},
+			"context": {},
+			"expected": true
+		},
+		{
+			"name": "rule without field",
+			"conditional": {
+				"rules": [
+					{
+						"operator": "==",
+						"value": "x"
+					}
+				]
+			},
+			"context": {},
+			"expected": true
+		},
+		{
+			"name": "non-object rule ignored",
+			"conditional": {
+				"rules": [
+					"junk",
+					{
+						"field": "a",
+						"value": "1"
+					}
+				]
+			},
+			"context": {
+				"a": "1"
+			},
+			"expected": true
+		},
+		{
+			"name": "single rule match",
+			"conditional": {
+				"field": "mode",
+				"operator": "==",
+				"value": "advanced"
+			},
+			"context": {
+				"mode": "advanced"
+			},
+			"expected": true
+		},
+		{
+			"name": "single rule mismatch",
+			"conditional": {
+				"field": "mode",
+				"operator": "==",
+				"value": "advanced"
+			},
+			"context": {
+				"mode": "basic"
+			},
+			"expected": false
+		},
+		{
+			"name": "default operator is ==",
+			"conditional": {
+				"field": "mode",
+				"value": "a"
+			},
+			"context": {
+				"mode": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "compare key is an alias of operator",
+			"conditional": {
+				"field": "n",
+				"compare": ">",
+				"value": 3
+			},
+			"context": {
+				"n": "5"
+			},
+			"expected": true
+		},
+		{
+			"name": "values key is an alias of value",
+			"conditional": {
+				"field": "mode",
+				"operator": "in",
+				"values": [
+					"a",
+					"b"
+				]
+			},
+			"context": {
+				"mode": "b"
+			},
+			"expected": true
+		},
+		{
+			"name": "operator alias =",
+			"conditional": {
+				"field": "x",
+				"operator": "=",
+				"value": "a"
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "operator alias eq",
+			"conditional": {
+				"field": "x",
+				"operator": "eq",
+				"value": "a"
+			},
+			"context": {
+				"x": "b"
+			},
+			"expected": false
+		},
+		{
+			"name": "operator alias equals",
+			"conditional": {
+				"field": "x",
+				"operator": "equals",
+				"value": "a"
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "operator alias ===",
+			"conditional": {
+				"field": "x",
+				"operator": "===",
+				"value": "a"
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "operator alias neq",
+			"conditional": {
+				"field": "x",
+				"operator": "neq",
+				"value": "a"
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": false
+		},
+		{
+			"name": "operator alias not",
+			"conditional": {
+				"field": "x",
+				"operator": "not",
+				"value": "a"
+			},
+			"context": {
+				"x": "b"
+			},
+			"expected": true
+		},
+		{
+			"name": "operator alias !==",
+			"conditional": {
+				"field": "x",
+				"operator": "!==",
+				"value": "a"
+			},
+			"context": {
+				"x": "b"
+			},
+			"expected": true
+		},
+		{
+			"name": "unknown operator falls back to ==",
+			"conditional": {
+				"field": "x",
+				"operator": "bogus",
+				"value": "a"
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "operator is case and space insensitive",
+			"conditional": {
+				"field": "x",
+				"operator": " NOT_IN ",
+				"value": [
+					"a"
+				]
+			},
+			"context": {
+				"x": "b"
+			},
+			"expected": true
+		},
+		{
+			"name": "includes alias",
+			"conditional": {
+				"field": "x",
+				"operator": "includes",
+				"value": [
+					"a",
+					"b"
+				]
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "contains alias",
+			"conditional": {
+				"field": "x",
+				"operator": "contains",
+				"value": "a"
+			},
+			"context": {
+				"x": [
+					"a",
+					"c"
+				]
+			},
+			"expected": true
+		},
+		{
+			"name": "excludes alias",
+			"conditional": {
+				"field": "x",
+				"operator": "excludes",
+				"value": [
+					"a"
+				]
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": false
+		},
+		{
+			"name": "between is an in alias",
+			"conditional": {
+				"field": "x",
+				"operator": "between",
+				"value": [
+					"1",
+					"2"
+				]
+			},
+			"context": {
+				"x": "2"
+			},
+			"expected": true
+		},
+		{
+			"name": "number equals numeric string",
+			"conditional": {
+				"field": "x",
+				"operator": "==",
+				"value": 5
+			},
+			"context": {
+				"x": "5"
+			},
+			"expected": true
+		},
+		{
+			"name": "string equals number",
+			"conditional": {
+				"field": "x",
+				"operator": "==",
+				"value": "5"
+			},
+			"context": {
+				"x": 5
+			},
+			"expected": true
+		},
+		{
+			"name": "true matches 1",
+			"conditional": {
+				"field": "x",
+				"operator": "==",
+				"value": "1"
+			},
+			"context": {
+				"x": true
+			},
+			"expected": true
+		},
+		{
+			"name": "false matches 0",
+			"conditional": {
+				"field": "x",
+				"operator": "==",
+				"value": "0"
+			},
+			"context": {
+				"x": false
+			},
+			"expected": true
+		},
+		{
+			"name": "expected true matches 1",
+			"conditional": {
+				"field": "x",
+				"operator": "==",
+				"value": true
+			},
+			"context": {
+				"x": "1"
+			},
+			"expected": true
+		},
+		{
+			"name": "missing controller reads as empty string",
+			"conditional": {
+				"field": "x",
+				"operator": "==",
+				"value": ""
+			},
+			"context": {},
+			"expected": true
+		},
+		{
+			"name": "null equals empty string",
+			"conditional": {
+				"field": "x",
+				"operator": "==",
+				"value": ""
+			},
+			"context": {
+				"x": null
+			},
+			"expected": true
+		},
+		{
+			"name": "array matches any element",
+			"conditional": {
+				"field": "x",
+				"operator": "==",
+				"value": "b"
+			},
+			"context": {
+				"x": [
+					"a",
+					"b"
+				]
+			},
+			"expected": true
+		},
+		{
+			"name": "array does not match",
+			"conditional": {
+				"field": "x",
+				"operator": "==",
+				"value": "z"
+			},
+			"context": {
+				"x": [
+					"a",
+					"b"
+				]
+			},
+			"expected": false
+		},
+		{
+			"name": "!= with array any-match is negated",
+			"conditional": {
+				"field": "x",
+				"operator": "!=",
+				"value": "a"
+			},
+			"context": {
+				"x": [
+					"a",
+					"b"
+				]
+			},
+			"expected": false
+		},
+		{
+			"name": "!= plain",
+			"conditional": {
+				"field": "x",
+				"operator": "!=",
+				"value": "a"
+			},
+			"context": {
+				"x": "b"
+			},
+			"expected": true
+		},
+		{
+			"name": "in scalar expected",
+			"conditional": {
+				"field": "x",
+				"operator": "in",
+				"value": "a"
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "in list miss",
+			"conditional": {
+				"field": "x",
+				"operator": "in",
+				"value": [
+					"a",
+					"b"
+				]
+			},
+			"context": {
+				"x": "c"
+			},
+			"expected": false
+		},
+		{
+			"name": "in with array actual",
+			"conditional": {
+				"field": "x",
+				"operator": "in",
+				"value": [
+					"a",
+					"b"
+				]
+			},
+			"context": {
+				"x": [
+					"z",
+					"b"
+				]
+			},
+			"expected": true
+		},
+		{
+			"name": "in with empty array actual",
+			"conditional": {
+				"field": "x",
+				"operator": "in",
+				"value": [
+					"a"
+				]
+			},
+			"context": {
+				"x": []
+			},
+			"expected": false
+		},
+		{
+			"name": "not_in miss",
+			"conditional": {
+				"field": "x",
+				"operator": "not_in",
+				"value": [
+					"a",
+					"b"
+				]
+			},
+			"context": {
+				"x": "c"
+			},
+			"expected": true
+		},
+		{
+			"name": "not_in hit",
+			"conditional": {
+				"field": "x",
+				"operator": "not_in",
+				"value": [
+					"a",
+					"b"
+				]
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": false
+		},
+		{
+			"name": "empty on empty string",
+			"conditional": {
+				"field": "x",
+				"operator": "empty"
+			},
+			"context": {
+				"x": ""
+			},
+			"expected": true
+		},
+		{
+			"name": "empty on missing",
+			"conditional": {
+				"field": "x",
+				"operator": "empty"
+			},
+			"context": {},
+			"expected": true
+		},
+		{
+			"name": "empty on null",
+			"conditional": {
+				"field": "x",
+				"operator": "is_empty"
+			},
+			"context": {
+				"x": null
+			},
+			"expected": true
+		},
+		{
+			"name": "empty on zero string is not empty",
+			"conditional": {
+				"field": "x",
+				"operator": "empty"
+			},
+			"context": {
+				"x": "0"
+			},
+			"expected": false
+		},
+		{
+			"name": "empty on empty array",
+			"conditional": {
+				"field": "x",
+				"operator": "empty"
+			},
+			"context": {
+				"x": []
+			},
+			"expected": true
+		},
+		{
+			"name": "empty on array of empties",
+			"conditional": {
+				"field": "x",
+				"operator": "empty"
+			},
+			"context": {
+				"x": [
+					"",
+					null
+				]
+			},
+			"expected": true
+		},
+		{
+			"name": "empty on array with a value",
+			"conditional": {
+				"field": "x",
+				"operator": "empty"
+			},
+			"context": {
+				"x": [
+					"",
+					"a"
+				]
+			},
+			"expected": false
+		},
+		{
+			"name": "not_empty on value",
+			"conditional": {
+				"field": "x",
+				"operator": "not_empty"
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "filled alias",
+			"conditional": {
+				"field": "x",
+				"operator": "filled"
+			},
+			"context": {
+				"x": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "not_empty on empty",
+			"conditional": {
+				"field": "x",
+				"operator": "not_empty"
+			},
+			"context": {
+				"x": ""
+			},
+			"expected": false
+		},
+		{
+			"name": "empty ignores a stray value",
+			"conditional": {
+				"field": "x",
+				"operator": "empty",
+				"value": "a"
+			},
+			"context": {
+				"x": ""
+			},
+			"expected": true
+		},
+		{
+			"name": ">",
+			"conditional": {
+				"field": "x",
+				"operator": ">",
+				"value": 5
+			},
+			"context": {
+				"x": "6"
+			},
+			"expected": true
+		},
+		{
+			"name": "> equal",
+			"conditional": {
+				"field": "x",
+				"operator": ">",
+				"value": 5
+			},
+			"context": {
+				"x": 5
+			},
+			"expected": false
+		},
+		{
+			"name": ">=",
+			"conditional": {
+				"field": "x",
+				"operator": ">=",
+				"value": 5
+			},
+			"context": {
+				"x": 5
+			},
+			"expected": true
+		},
+		{
+			"name": "<",
+			"conditional": {
+				"field": "x",
+				"operator": "<",
+				"value": 5
+			},
+			"context": {
+				"x": "4.5"
+			},
+			"expected": true
+		},
+		{
+			"name": "<=",
+			"conditional": {
+				"field": "x",
+				"operator": "<=",
+				"value": 5
+			},
+			"context": {
+				"x": "5.5"
+			},
+			"expected": false
+		},
+		{
+			"name": "non numeric actual",
+			"conditional": {
+				"field": "x",
+				"operator": ">",
+				"value": 5
+			},
+			"context": {
+				"x": "abc"
+			},
+			"expected": false
+		},
+		{
+			"name": "empty string is not numeric",
+			"conditional": {
+				"field": "x",
+				"operator": "<",
+				"value": 5
+			},
+			"context": {
+				"x": ""
+			},
+			"expected": false
+		},
+		{
+			"name": "null is not numeric",
+			"conditional": {
+				"field": "x",
+				"operator": "<",
+				"value": 5
+			},
+			"context": {
+				"x": null
+			},
+			"expected": false
+		},
+		{
+			"name": "boolean is not numeric",
+			"conditional": {
+				"field": "x",
+				"operator": ">=",
+				"value": 0
+			},
+			"context": {
+				"x": true
+			},
+			"expected": false
+		},
+		{
+			"name": "non numeric expected",
+			"conditional": {
+				"field": "x",
+				"operator": ">",
+				"value": "abc"
+			},
+			"context": {
+				"x": "6"
+			},
+			"expected": false
+		},
+		{
+			"name": "hex string is not numeric",
+			"conditional": {
+				"field": "x",
+				"operator": ">",
+				"value": 1
+			},
+			"context": {
+				"x": "0x1A"
+			},
+			"expected": false
+		},
+		{
+			"name": "exponent string",
+			"conditional": {
+				"field": "x",
+				"operator": ">",
+				"value": 50
+			},
+			"context": {
+				"x": "1e2"
+			},
+			"expected": true
+		},
+		{
+			"name": "numeric uses the first array element",
+			"conditional": {
+				"field": "x",
+				"operator": ">",
+				"value": 5
+			},
+			"context": {
+				"x": [
+					"9",
+					"1"
+				]
+			},
+			"expected": true
+		},
+		{
+			"name": "numeric on empty array",
+			"conditional": {
+				"field": "x",
+				"operator": ">",
+				"value": 5
+			},
+			"context": {
+				"x": []
+			},
+			"expected": false
+		},
+		{
+			"name": "AND both",
+			"conditional": {
+				"relation": "AND",
+				"rules": [
+					{
+						"field": "a",
+						"operator": "==",
+						"value": "1"
+					},
+					{
+						"field": "b",
+						"operator": "==",
+						"value": "2"
+					}
+				]
+			},
+			"context": {
+				"a": "1",
+				"b": "2"
+			},
+			"expected": true
+		},
+		{
+			"name": "AND one",
+			"conditional": {
+				"relation": "AND",
+				"rules": [
+					{
+						"field": "a",
+						"operator": "==",
+						"value": "1"
+					},
+					{
+						"field": "b",
+						"operator": "==",
+						"value": "2"
+					}
+				]
+			},
+			"context": {
+				"a": "1",
+				"b": "x"
+			},
+			"expected": false
+		},
+		{
+			"name": "OR one",
+			"conditional": {
+				"relation": "OR",
+				"rules": [
+					{
+						"field": "a",
+						"operator": "==",
+						"value": "1"
+					},
+					{
+						"field": "b",
+						"operator": "==",
+						"value": "2"
+					}
+				]
+			},
+			"context": {
+				"a": "1",
+				"b": "x"
+			},
+			"expected": true
+		},
+		{
+			"name": "OR none",
+			"conditional": {
+				"relation": "OR",
+				"rules": [
+					{
+						"field": "a",
+						"operator": "==",
+						"value": "1"
+					},
+					{
+						"field": "b",
+						"operator": "==",
+						"value": "2"
+					}
+				]
+			},
+			"context": {
+				"a": "x",
+				"b": "x"
+			},
+			"expected": false
+		},
+		{
+			"name": "relation is case insensitive",
+			"conditional": {
+				"relation": "or",
+				"rules": [
+					{
+						"field": "a",
+						"operator": "==",
+						"value": "1"
+					},
+					{
+						"field": "b",
+						"operator": "==",
+						"value": "2"
+					}
+				]
+			},
+			"context": {
+				"a": "1",
+				"b": "x"
+			},
+			"expected": true
+		},
+		{
+			"name": "unknown relation is AND",
+			"conditional": {
+				"relation": "XOR",
+				"rules": [
+					{
+						"field": "a",
+						"operator": "==",
+						"value": "1"
+					},
+					{
+						"field": "b",
+						"operator": "==",
+						"value": "2"
+					}
+				]
+			},
+			"context": {
+				"a": "1",
+				"b": "x"
+			},
+			"expected": false
+		},
+		{
+			"name": "default relation is AND",
+			"conditional": {
+				"rules": [
+					{
+						"field": "a",
+						"operator": "==",
+						"value": "1"
+					},
+					{
+						"field": "b",
+						"operator": "==",
+						"value": "2"
+					}
+				]
+			},
+			"context": {
+				"a": "1",
+				"b": "x"
+			},
+			"expected": false
+		},
+		{
+			"name": "prefixed name",
+			"conditional": {
+				"field": "mode",
+				"operator": "==",
+				"value": "a"
+			},
+			"context": {
+				"page_mode": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "bracketed name",
+			"conditional": {
+				"field": "mode",
+				"operator": "==",
+				"value": "a"
+			},
+			"context": {
+				"opts[mode]": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "array name",
+			"conditional": {
+				"field": "mode",
+				"operator": "in",
+				"value": [
+					"a"
+				]
+			},
+			"context": {
+				"mode[]": [
+					"a",
+					"b"
+				]
+			},
+			"expected": true
+		},
+		{
+			"name": "prefixed array name",
+			"conditional": {
+				"field": "mode",
+				"operator": "in",
+				"value": [
+					"b"
+				]
+			},
+			"context": {
+				"page_mode[]": [
+					"a",
+					"b"
+				]
+			},
+			"expected": true
+		},
+		{
+			"name": "bracketed array name",
+			"conditional": {
+				"field": "mode",
+				"operator": "in",
+				"value": [
+					"b"
+				]
+			},
+			"context": {
+				"opts[mode][]": [
+					"a",
+					"b"
+				]
+			},
+			"expected": true
+		},
+		{
+			"name": "exact name wins over suffix",
+			"conditional": {
+				"field": "mode",
+				"operator": "==",
+				"value": "a"
+			},
+			"context": {
+				"x_mode": "z",
+				"mode": "a"
+			},
+			"expected": true
+		},
+		{
+			"name": "similar suffix without separator does not match",
+			"conditional": {
+				"field": "mode",
+				"operator": "==",
+				"value": "a"
+			},
+			"context": {
+				"xmode": "a"
+			},
+			"expected": false
+		},
+		{
+			"name": "whitespace in field name is trimmed",
+			"conditional": {
+				"field": " mode ",
+				"operator": "==",
+				"value": "a"
+			},
+			"context": {
+				"mode": "a"
+			},
+			"expected": true
+		}
+	]
+}

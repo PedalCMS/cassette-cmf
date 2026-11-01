@@ -42,10 +42,29 @@ class CassetteCMF {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @api
 	 * @return Manager The Manager singleton instance.
 	 */
 	public static function init(): Manager {
 		return Manager::init();
+	}
+
+	/**
+	 * Boot Cassette-CMF with coexistence options
+	 *
+	 * Optional. Call it once, before any other Cassette-CMF call, when another
+	 * copy of the library may be loaded on the same site. See
+	 * Manager::boot() for the supported options (`asset_handle`, `js_global`,
+	 * `rest_namespace`). Without a call, every identifier keeps its default.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @api
+	 * @param array<string, mixed> $options Boot options.
+	 * @return Manager The Manager singleton instance.
+	 */
+	public static function boot( array $options = [] ): Manager {
+		return Manager::boot( $options );
 	}
 
 	/**
@@ -55,6 +74,7 @@ class CassetteCMF {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @api
 	 * @param array $config Configuration array with 'cpts', 'taxonomies', and/or 'settings_pages' keys.
 	 * @return Manager The Manager instance for chaining.
 	 */
@@ -69,6 +89,7 @@ class CassetteCMF {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @api
 	 * @param string $json_path_or_string Path to JSON file or JSON string.
 	 * @param bool   $validate            Whether to validate against schema. Default true.
 	 * @return Manager The Manager instance for chaining.
@@ -87,6 +108,7 @@ class CassetteCMF {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @api
 	 * @param string     $field_name    The field name as defined in the Cassette-CMF config.
 	 * @param int|string $context       The context: post ID (int), term ID (int), or settings page ID (string).
 	 * @param string     $context_type  The type of context: 'post', 'term', or 'settings'. Default 'post'.
@@ -116,6 +138,7 @@ class CassetteCMF {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @api
 	 * @param string $field_name    The field name.
 	 * @param int    $post_id       The post ID.
 	 * @param mixed  $default_value Default value if empty.
@@ -132,6 +155,7 @@ class CassetteCMF {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @api
 	 * @param string $field_name    The field name.
 	 * @param int    $term_id       The term ID.
 	 * @param mixed  $default_value Default value if empty.
@@ -148,6 +172,7 @@ class CassetteCMF {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @api
 	 * @param string $field_name      The field name.
 	 * @param string $settings_page_id The settings page ID.
 	 * @param mixed  $default_value   Default value if empty.
@@ -158,10 +183,66 @@ class CassetteCMF {
 	}
 
 	/**
+	 * Get the real value of a `secret` field
+	 *
+	 * The only call that returns a secret in clear text (decrypted when the
+	 * field uses `encrypt`). Returns '' when unset, not a registered secret
+	 * field, or undecryptable. get_field() returns only the mask.
+	 *
+	 * @since 0.2.0
+	 * @api
+	 *
+	 * @param string $field_name The secret field name.
+	 * @param string $page_id    The settings page ID.
+	 * @return string
+	 */
+	public static function get_secret( string $field_name, string $page_id ): string {
+		return Manager::init()->get_secret( $field_name, $page_id );
+	}
+
+	/**
+	 * Get the configuration of a registered field
+	 *
+	 * Returns the field config (including 'type' and 'name'), or null when no
+	 * field with that name is registered for the resolved context. See
+	 * Manager::get_registered_field() for the context rules.
+	 *
+	 * @since 0.2.0
+	 * @api
+	 *
+	 * @param string     $field_name   The field name.
+	 * @param int|string $context      Post ID, term ID, or settings page ID.
+	 * @param string     $context_type 'post', 'term', or 'settings'. Default 'post'.
+	 * @return array<string, mixed>|null
+	 */
+	public static function get_registered_field( string $field_name, $context, string $context_type = 'post' ): ?array {
+		return Manager::init()->get_registered_field( $field_name, $context, $context_type );
+	}
+
+	/**
+	 * Whether a registered field may be exposed to companion libraries
+	 *
+	 * True only for a registered field whose config sets `bindings` to the
+	 * boolean true and whose type is not 'password' or 'secret'.
+	 *
+	 * @since 0.2.0
+	 * @api
+	 *
+	 * @param string     $field_name   The field name.
+	 * @param int|string $context      Post ID, term ID, or settings page ID.
+	 * @param string     $context_type 'post', 'term', or 'settings'. Default 'post'.
+	 * @return bool
+	 */
+	public static function is_field_public( string $field_name, $context, string $context_type = 'post' ): bool {
+		return Manager::init()->is_field_public( $field_name, $context, $context_type );
+	}
+
+	/**
 	 * Register a custom field type
 	 *
 	 * @since 1.0.0
 	 *
+	 * @api
 	 * @param string $type       The field type identifier (e.g., 'slider', 'icon-picker').
 	 * @param string $class_name The fully qualified class name implementing the field.
 	 * @return Manager The Manager instance for chaining.

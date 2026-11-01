@@ -18,6 +18,10 @@ jobs:
       matrix:
         php-version: ['8.2', '8.3', '8.4']
         wp-version: ['6.7', '6.8', '6.9', 'latest']
+        include:
+          # Oldest supported combination: PHP floor (7.4) x WP floor (6.7).
+          - php-version: '7.4'
+            wp-version: '6.7'
 
     services:
       mysql:

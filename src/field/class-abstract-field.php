@@ -16,6 +16,8 @@ namespace PedalCMS\CassetteCMF\Field;
  *
  * Provides common properties and helper methods that all fields can use.
  * Concrete field classes should extend this and implement render().
+ *
+ * @api
  */
 abstract class Abstract_Field implements Field_Interface {
 

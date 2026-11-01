@@ -10,6 +10,7 @@
 
 namespace PedalCMS\CassetteCMF\Core\Handlers;
 
+use PedalCMS\CassetteCMF\Core\Manager;
 use PedalCMS\CassetteCMF\CPT\Custom_Post_Type;
 use PedalCMS\CassetteCMF\Field\Field_Interface;
 use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
@@ -448,9 +449,11 @@ class New_Post_Type_Handler extends Abstract_Handler {
 
 		$url     = $this->get_assets_url();
 		$version = $this->get_version();
+		$handle  = Manager::asset_handle();
 
-		wp_enqueue_style( 'cassette-cmf', $url . 'css/cassette-cmf.css', [], $version );
-		wp_enqueue_script( 'cassette-cmf', $url . 'js/cassette-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
+		wp_enqueue_style( $handle, $url . 'css/cassette-cmf.css', [], $version );
+		wp_enqueue_script( $handle, $url . 'js/cassette-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
+		Manager::add_js_global_script( $handle );
 		wp_enqueue_style( 'wp-color-picker' );
 
 		do_action( 'cassette_cmf_enqueue_common_assets' );

@@ -33,6 +33,11 @@
 /package.json export-ignore
 /package-lock.json export-ignore
 /src/assets/scss export-ignore
+/src/assets/settings-app export-ignore
+/webpack.config.js export-ignore
+/jest.config.js export-ignore
+/playwright.config.js export-ignore
+/.wp-env.json export-ignore
 /src/assets/css/*.map export-ignore
 
 # Documentation and examples (available in the repository)

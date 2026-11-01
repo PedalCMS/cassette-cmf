@@ -10,12 +10,17 @@
 
 namespace PedalCMS\CassetteCMF\Core\Handlers;
 
+use PedalCMS\CassetteCMF\Core\Manager;
+use PedalCMS\CassetteCMF\Rest\Settings_Controller;
+use PedalCMS\CassetteCMF\Settings\React_Renderer;
 use PedalCMS\CassetteCMF\Settings\Settings_Page;
+use PedalCMS\CassetteCMF\Settings\Settings_Upgrader;
 use PedalCMS\CassetteCMF\Field\Field_Interface;
 use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
 use PedalCMS\CassetteCMF\Field\Field_Factory;
 use PedalCMS\CassetteCMF\Field\Fields\Group_Field;
 use PedalCMS\CassetteCMF\Field\Fields\Metabox_Field;
+use PedalCMS\CassetteCMF\Field\Fields\Secret_Field;
 
 /**
  * Class New_Settings_Page_Handler
@@ -39,6 +44,27 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 	private array $invalid_containers = [];
 
 	/**
+	 * Schema upgrader (created on first use)
+	 *
+	 * @var Settings_Upgrader|null
+	 */
+	private ?Settings_Upgrader $upgrader = null;
+
+	/**
+	 * Renderers of the pages that run the React app (by page ID)
+	 *
+	 * @var array<string, React_Renderer>
+	 */
+	private array $react_renderers = [];
+
+	/**
+	 * Why a page with `render_mode => 'react'` fell back to the classic renderer (by page ID)
+	 *
+	 * @var array<string, string>
+	 */
+	private array $react_fallbacks = [];
+
+	/**
 	 * Initialize WordPress hooks
 	 *
 	 * @return void
@@ -49,8 +75,11 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 		}
 
 		add_action( 'admin_menu', [ $this, 'register_pages' ] );
+		add_action( 'admin_init', [ $this, 'run_schema_upgrades' ], 5 );
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
+		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		add_action( 'admin_notices', [ $this, 'show_react_fallback_notice' ] );
 
 		$this->hooks_initialized = true;
 	}
@@ -108,18 +137,181 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 	}
 
 	/**
+	 * Get the top-level fields of a page (fields that are not nested in a container)
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param string $page_id Page identifier.
+	 * @return array<string, Field_Interface>
+	 */
+	public function get_top_level_fields( string $page_id ): array {
+		$top_level = [];
+
+		foreach ( $this->get_fields( $page_id ) as $name => $field ) {
+			if ( ! $this->is_nested_field( $page_id, (string) $name ) ) {
+				$top_level[ $name ] = $field;
+			}
+		}
+
+		return $top_level;
+	}
+
+	/**
+	 * Apply the before-save filters to a value (used by the REST controller)
+	 *
+	 * Same filters as the classic save path: `cassette_cmf_before_save_field`
+	 * and `cassette_cmf_before_save_field_{name}`.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param mixed  $value      Value.
+	 * @param string $field_name Field name.
+	 * @param string $page_id    Page identifier.
+	 * @return mixed Filtered value, or null to skip saving.
+	 */
+	public function filter_value_before_save( $value, string $field_name, string $page_id ) {
+		return $this->apply_before_save_filters( $value, $field_name, $page_id );
+	}
+
+	/**
+	 * Get the schema upgrader
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return Settings_Upgrader
+	 */
+	public function get_upgrader(): Settings_Upgrader {
+		if ( null === $this->upgrader ) {
+			$this->upgrader = new Settings_Upgrader( $this );
+		}
+
+		return $this->upgrader;
+	}
+
+	/**
+	 * Run the schema upgrades of versioned pages (admin_init)
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return void
+	 */
+	public function run_schema_upgrades(): void {
+		foreach ( $this->settings_pages as $page ) {
+			if ( null !== $page->get_config( 'schema_version' ) ) {
+				$this->get_upgrader()->run_all();
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Register the REST routes of opted-in pages (rest_api_init)
+	 *
+	 * Registers nothing, and loads nothing, when no page sets `show_in_rest`.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return void
+	 */
+	public function register_rest_routes(): void {
+		foreach ( $this->settings_pages as $page ) {
+			if ( $page->is_rest_enabled() ) {
+				( new Settings_Controller( $this, Manager::rest_namespace() ) )->register_routes();
+				return;
+			}
+		}
+	}
+
+	/**
 	 * Register admin pages with WordPress
 	 *
 	 * @return void
 	 */
 	public function register_pages(): void {
 		foreach ( $this->settings_pages as $page ) {
+			$this->prepare_react_page( $page );
 			$page->register();
 
 			$hook_suffix = $page->get_hook_suffix();
 			if ( $hook_suffix ) {
 				add_action( 'load-' . $hook_suffix, [ $this, 'on_page_load' ] );
 			}
+		}
+	}
+
+	/**
+	 * Switch a `render_mode => 'react'` page to the React renderer, if it can run
+	 *
+	 * Classic pages are not touched. A React page that cannot run (build missing,
+	 * WordPress older than 6.7) stays classic and gets an admin notice. A page
+	 * with its own `callback` keeps it: the app only replaces the default one.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param Settings_Page $page Page.
+	 * @return void
+	 */
+	private function prepare_react_page( Settings_Page $page ): void {
+		if ( 'react' !== $page->get_render_mode() ) {
+			return;
+		}
+
+		$page_id = $page->get_page_id();
+
+		// Pages get the default callback when they are created, so only a different one is the page's own.
+		$callback = $page->get_config( 'callback' );
+
+		if ( ( null !== $callback && [ $page, 'render_default' ] !== $callback ) || isset( $this->react_renderers[ $page_id ] ) ) {
+			return;
+		}
+
+		$reason = React_Renderer::unavailable_reason();
+
+		if ( null !== $reason ) {
+			$this->react_fallbacks[ $page_id ] = $reason;
+			return;
+		}
+
+		$renderer = new React_Renderer( $this, $page );
+
+		$this->react_renderers[ $page_id ] = $renderer;
+		$page->set_callback( [ $renderer, 'render' ] );
+	}
+
+	/**
+	 * Explain, on the page itself, why a React page is shown in classic mode
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return void
+	 */
+	public function show_react_fallback_notice(): void {
+		if ( empty( $this->react_fallbacks ) || ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+
+		$screen = get_current_screen();
+		if ( ! $screen ) {
+			return;
+		}
+
+		foreach ( $this->react_fallbacks as $page_id => $reason ) {
+			$page = $this->get_page( (string) $page_id );
+
+			if ( null === $page || $screen->id !== $page->get_hook_suffix() ) {
+				continue;
+			}
+
+			printf(
+				'<div class="notice notice-warning"><p>%s</p></div>',
+				esc_html(
+					sprintf(
+						/* translators: %s: the reason, for example "the built settings app is missing" */
+						__( 'This settings page is set to render with React but is shown in classic mode: %s.', 'cassette-cmf' ),
+						$reason
+					)
+				)
+			);
 		}
 	}
 
@@ -256,6 +448,8 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 		Field_Interface $field,
 		string $option_name
 	): void {
+		Secret_Field::bind_if_secret( $field, $option_name );
+
 		register_setting(
 			$menu_slug,
 			$option_name,
@@ -448,8 +642,13 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 			wp_die( esc_html__( 'Security check failed', 'cassette-cmf' ) );
 		}
 
-		// Check capabilities
-		if ( ! current_user_can( 'manage_options' ) ) {
+		// Check capabilities: the page's own capability (default manage_options).
+		$capability = $this->settings_pages[ $page_id ]->get_config( 'capability', 'manage_options' );
+		if ( ! is_string( $capability ) || '' === $capability ) {
+			$capability = 'manage_options';
+		}
+
+		if ( ! current_user_can( $capability ) ) {
 			wp_die( esc_html__( 'Insufficient permissions', 'cassette-cmf' ) );
 		}
 
@@ -491,6 +690,8 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 		$field_name  = $field->get_name();
 		$option_name = $field->get_option_name( $page_id );
 		$value       = $this->get_submitted_value( $option_name, $field_name );
+
+		Secret_Field::bind_if_secret( $field, $option_name );
 
 		// Apply filters
 		$value = $this->apply_before_save_filters( $value, $field_name, $page_id );
@@ -550,6 +751,12 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 		foreach ( $this->settings_pages as $page_id => $page ) {
 			$hook_suffix = $page->get_hook_suffix();
 
+			if ( $screen->id === $hook_suffix && isset( $this->react_renderers[ $page_id ] ) ) {
+				// The React app brings its own script and style; none of the classic assets.
+				$this->react_renderers[ $page_id ]->enqueue();
+				break;
+			}
+
 			if ( $screen->id === $hook_suffix && $this->has_fields( $page_id ) ) {
 				$this->enqueue_common_assets();
 				$this->enqueue_field_assets( $page_id );
@@ -584,9 +791,11 @@ class New_Settings_Page_Handler extends Abstract_Handler {
 
 		$url     = $this->get_assets_url();
 		$version = $this->get_version();
+		$handle  = Manager::asset_handle();
 
-		wp_enqueue_style( 'cassette-cmf', $url . 'css/cassette-cmf.css', [], $version );
-		wp_enqueue_script( 'cassette-cmf', $url . 'js/cassette-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
+		wp_enqueue_style( $handle, $url . 'css/cassette-cmf.css', [], $version );
+		wp_enqueue_script( $handle, $url . 'js/cassette-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
+		Manager::add_js_global_script( $handle );
 		wp_enqueue_style( 'wp-color-picker' );
 
 		do_action( 'cassette_cmf_enqueue_common_assets' );
