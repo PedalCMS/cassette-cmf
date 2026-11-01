@@ -21,6 +21,7 @@ use PedalCMS\CassetteCMF\Field\Fields\Email_Field;
 use PedalCMS\CassetteCMF\Field\Fields\URL_Field;
 use PedalCMS\CassetteCMF\Field\Fields\Date_Field;
 use PedalCMS\CassetteCMF\Field\Fields\Password_Field;
+use PedalCMS\CassetteCMF\Field\Fields\Secret_Field;
 use PedalCMS\CassetteCMF\Field\Fields\Color_Field;
 use PedalCMS\CassetteCMF\Field\Fields\Tabs_Field;
 use PedalCMS\CassetteCMF\Field\Fields\Metabox_Field;
@@ -57,6 +58,7 @@ class Field_Factory {
 	 *
 	 * Allows registration of custom field types or overriding core field types.
 	 *
+	 * @api
 	 * @param string $type       Field type identifier.
 	 * @param string $class_name Fully qualified class name.
 	 * @return void
@@ -117,6 +119,7 @@ class Field_Factory {
 			'group'       => Group_Field::class,
 			'custom_html' => Custom_HTML_Field::class,
 			'upload'      => Upload_Field::class,
+			'secret'      => Secret_Field::class,
 		];
 
 		// Merge back any custom types
@@ -128,6 +131,7 @@ class Field_Factory {
 	/**
 	 * Create a field instance from configuration
 	 *
+	 * @api
 	 * @param array<string, mixed> $config Field configuration array.
 	 * @return Field_Interface Field instance.
 	 * @throws \InvalidArgumentException If required config is missing or type is unknown.
@@ -168,6 +172,7 @@ class Field_Factory {
 	/**
 	 * Create multiple fields from configuration array
 	 *
+	 * @api
 	 * @param array<string, array<string, mixed>> $fields_config Array of field configurations.
 	 * @return array<string, Field_Interface> Array of field instances keyed by field name.
 	 */
@@ -189,6 +194,7 @@ class Field_Factory {
 	/**
 	 * Get all registered field types
 	 *
+	 * @api
 	 * @return array<string, string> Map of type names to class names.
 	 */
 	public static function get_registered_types(): array {
@@ -202,6 +208,7 @@ class Field_Factory {
 	/**
 	 * Check if a field type is registered
 	 *
+	 * @api
 	 * @param string $type Field type identifier.
 	 * @return bool
 	 */

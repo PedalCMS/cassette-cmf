@@ -10,11 +10,13 @@
 
 namespace PedalCMS\CassetteCMF\Core\Handlers;
 
+use PedalCMS\CassetteCMF\Core\Manager;
 use PedalCMS\CassetteCMF\Field\Field_Interface;
 use PedalCMS\CassetteCMF\Field\Container_Field_Interface;
 use PedalCMS\CassetteCMF\Field\Field_Factory;
 use PedalCMS\CassetteCMF\Field\Fields\Group_Field;
 use PedalCMS\CassetteCMF\Field\Fields\Metabox_Field;
+use PedalCMS\CassetteCMF\Field\Fields\Secret_Field;
 
 /**
  * Class Existing_Settings_Page_Handler
@@ -148,6 +150,8 @@ class Existing_Settings_Page_Handler extends Abstract_Handler {
 		$option_name = $field->get_option_name( $page_id );
 		$field_name  = $field->get_name();
 
+		Secret_Field::bind_if_secret( $field, $option_name );
+
 		// Register setting with WordPress
 		register_setting(
 			$option_group,
@@ -231,6 +235,8 @@ class Existing_Settings_Page_Handler extends Abstract_Handler {
 				$nested_field  = Field_Factory::create( $nested_config );
 				$nested_name   = $nested_field->get_name();
 				$nested_option = $nested_field->get_option_name( $page_id );
+
+				Secret_Field::bind_if_secret( $nested_field, $nested_option );
 
 				// Register the setting
 				register_setting(
@@ -380,9 +386,11 @@ class Existing_Settings_Page_Handler extends Abstract_Handler {
 
 		$url     = $this->get_assets_url();
 		$version = $this->get_version();
+		$handle  = Manager::asset_handle();
 
-		wp_enqueue_style( 'cassette-cmf', $url . 'css/cassette-cmf.css', [], $version );
-		wp_enqueue_script( 'cassette-cmf', $url . 'js/cassette-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
+		wp_enqueue_style( $handle, $url . 'css/cassette-cmf.css', [], $version );
+		wp_enqueue_script( $handle, $url . 'js/cassette-cmf.js', [ 'jquery', 'wp-color-picker' ], $version, true );
+		Manager::add_js_global_script( $handle );
 		wp_enqueue_style( 'wp-color-picker' );
 
 		do_action( 'cassette_cmf_enqueue_common_assets' );

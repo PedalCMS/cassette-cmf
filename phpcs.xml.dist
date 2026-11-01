@@ -48,6 +48,10 @@
 	#############################################################################
 	-->
 
+	<!-- PHP 7.4 is the minimum supported PHP version; flag anything newer. -->
+	<config name="testVersion" value="7.4-"/>
+	<rule ref="PHPCompatibilityWP"/>
+
 	<!-- Allow short syntax arrays. -->
 	<rule ref="WordPress-Extra">
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>

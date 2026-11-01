@@ -1192,7 +1192,19 @@
 		CassetteCMFFields.reinit();
 	});
 
-	// Expose to global scope for external access
-	window.CassetteCMFFields = CassetteCMFFields;
+	// Expose to global scope for external access. A copy booted with a custom
+	// `js_global` option hands its name over through a one-shot property
+	// (set by an inline "before" script); read and delete it right away so
+	// another copy loaded later cannot pick it up.
+	let globalName = 'CassetteCMFFields';
+	if (typeof window.cassetteCmfFieldsBoot === 'string' && /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(window.cassetteCmfFieldsBoot)) {
+		globalName = window.cassetteCmfFieldsBoot;
+	}
+	try {
+		delete window.cassetteCmfFieldsBoot;
+	} catch (error) {
+		window.cassetteCmfFieldsBoot = undefined;
+	}
+	window[globalName] = CassetteCMFFields;
 
 })(jQuery);

@@ -8,6 +8,11 @@
 /dist/
 .cache/
 
+# build/ (the React settings app) IS committed and ships in the package.
+# Playwright output
+/test-results/
+/playwright-report/
+
 # Ignore logs and temp files
 *.log
 *.tmp
@@ -34,3 +39,6 @@ wp-content/upgrade/
 
 # Ignore coverage reports
 /coverage/
+
+# Playwright output (wp-scripts test-playwright)
+artifacts/

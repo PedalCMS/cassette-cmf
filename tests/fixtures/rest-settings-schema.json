@@ -1,0 +1,179 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "rest-fixture",
+    "type": "object",
+    "properties": {
+        "values": {
+            "description": "Field values keyed by field name. Writes are partial: only the submitted fields change.",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "maxLength": 40
+                },
+                "bio": {
+                    "title": "Bio",
+                    "type": "string"
+                },
+                "contact_email": {
+                    "title": "Contact email",
+                    "type": "string",
+                    "format": "email"
+                },
+                "site_url": {
+                    "title": "Site URL",
+                    "type": "string",
+                    "format": "uri"
+                },
+                "launch_date": {
+                    "title": "Launch date",
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "brand_color": {
+                    "title": "Brand color",
+                    "type": "string",
+                    "format": "hex-color",
+                    "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+                    "default": "#112233"
+                },
+                "count": {
+                    "title": "Count",
+                    "type": [
+                        "number",
+                        "null"
+                    ],
+                    "minimum": 1,
+                    "maximum": 10,
+                    "multipleOf": 1,
+                    "required": true
+                },
+                "mode": {
+                    "title": "Mode",
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "a",
+                        "b",
+                        "c"
+                    ]
+                },
+                "tags": {
+                    "title": "Tags",
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "a",
+                            "b",
+                            "c"
+                        ]
+                    }
+                },
+                "level": {
+                    "title": "Level",
+                    "type": "string",
+                    "enum": [
+                        "low",
+                        "high"
+                    ],
+                    "required": true
+                },
+                "enabled": {
+                    "title": "Enabled",
+                    "type": "boolean"
+                },
+                "features": {
+                    "title": "Features",
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "x",
+                            "y",
+                            "z"
+                        ]
+                    }
+                },
+                "notes": {
+                    "title": "Notes",
+                    "type": "string"
+                },
+                "logo": {
+                    "title": "Logo",
+                    "type": [
+                        "integer",
+                        "string"
+                    ]
+                },
+                "items": {
+                    "title": "Items",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "label": {
+                                "title": "Label",
+                                "type": "string"
+                            },
+                            "qty": {
+                                "title": "Qty",
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "active": {
+                                "title": "Active",
+                                "type": "boolean"
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    "maxItems": 5
+                },
+                "legacy_password": {
+                    "title": "Legacy password",
+                    "type": "string",
+                    "writeOnly": true,
+                    "description": "Write-only; never returned. An empty string keeps the stored value."
+                },
+                "api_key": {
+                    "title": "API key",
+                    "type": [
+                        "string",
+                        "object",
+                        "null"
+                    ],
+                    "description": "Write-only. Reads return a mask (\"••••\" and the last four characters, or \"\" when unset). Write a new string to replace the value; send the unchanged mask, null, or omit the key to keep it; send {\"clear\": true} to clear it.",
+                    "properties": {
+                        "clear": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "locked": {
+                    "title": "Locked",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "timeout": {
+                    "title": "Timeout",
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "tabbed": {
+                    "title": "Tabbed",
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}

@@ -11,6 +11,13 @@
         "$ref": "#/definitions/customPostType"
       }
     },
+    "taxonomies": {
+      "type": "array",
+      "description": "Array of taxonomy definitions",
+      "items": {
+        "$ref": "#/definitions/taxonomy"
+      }
+    },
     "settings_pages": {
       "type": "array",
       "description": "Array of settings page definitions",
@@ -23,7 +30,9 @@
   "definitions": {
     "customPostType": {
       "type": "object",
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "additionalProperties": false,
       "properties": {
         "id": {
@@ -32,7 +41,12 @@
           "pattern": "^[a-z_]{1,20}$",
           "minLength": 1,
           "maxLength": 20,
-          "examples": ["book", "product", "event", "portfolio"]
+          "examples": [
+            "book",
+            "product",
+            "event",
+            "portfolio"
+          ]
         },
         "args": {
           "type": "object",
@@ -68,13 +82,29 @@
               "uniqueItems": true,
               "items": {
                 "type": "string",
-                "enum": ["title", "editor", "author", "thumbnail", "excerpt", "trackbacks", "custom-fields", "comments", "revisions", "page-attributes", "post-formats"]
+                "enum": [
+                  "title",
+                  "editor",
+                  "author",
+                  "thumbnail",
+                  "excerpt",
+                  "trackbacks",
+                  "custom-fields",
+                  "comments",
+                  "revisions",
+                  "page-attributes",
+                  "post-formats"
+                ]
               }
             },
             "menu_icon": {
               "type": "string",
               "description": "Dashicon class (dashicons-*) or URL for menu icon",
-              "examples": ["dashicons-book", "dashicons-cart", "dashicons-admin-home"]
+              "examples": [
+                "dashicons-book",
+                "dashicons-cart",
+                "dashicons-admin-home"
+              ]
             },
             "menu_position": {
               "type": "integer",
@@ -97,7 +127,10 @@
                 {
                   "type": "string",
                   "description": "Capability type (singular)",
-                  "examples": ["post", "page"]
+                  "examples": [
+                    "post",
+                    "page"
+                  ]
                 },
                 {
                   "type": "array",
@@ -257,7 +290,9 @@
     },
     "settingsPage": {
       "type": "object",
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "additionalProperties": false,
       "properties": {
         "id": {
@@ -266,7 +301,11 @@
           "pattern": "^[a-z0-9_-]+$",
           "minLength": 1,
           "maxLength": 100,
-          "examples": ["my-plugin-settings", "theme-options", "site-config"]
+          "examples": [
+            "my-plugin-settings",
+            "theme-options",
+            "site-config"
+          ]
         },
         "page_title": {
           "type": "string",
@@ -284,29 +323,91 @@
           "type": "string",
           "description": "Capability required to access the page",
           "default": "manage_options",
-          "enum": ["manage_options", "edit_posts", "edit_pages", "edit_published_posts", "publish_posts", "manage_categories", "moderate_comments", "upload_files", "edit_theme_options", "administrator"]
+          "enum": [
+            "manage_options",
+            "edit_posts",
+            "edit_pages",
+            "edit_published_posts",
+            "publish_posts",
+            "manage_categories",
+            "moderate_comments",
+            "upload_files",
+            "edit_theme_options",
+            "administrator"
+          ]
+        },
+        "menu_slug": {
+          "type": "string",
+          "description": "Menu slug (defaults to id). Preferred name; \"slug\" is accepted as an alias.",
+          "pattern": "^[a-z0-9_-]+$"
         },
         "slug": {
           "type": "string",
-          "description": "Menu slug (defaults to id)",
+          "description": "Alias of \"menu_slug\". If both are given, \"menu_slug\" wins.",
           "pattern": "^[a-z0-9_-]+$"
+        },
+        "parent_slug": {
+          "type": "string",
+          "description": "Parent menu slug for submenu pages. Preferred name; \"parent\" is accepted as an alias."
         },
         "parent": {
           "type": "string",
-          "description": "Parent menu slug for submenu pages",
-          "enum": ["options-general.php", "themes.php", "plugins.php", "users.php", "tools.php", "settings.php", "edit.php", "upload.php", "index.php", "edit-comments.php"]
+          "description": "Alias of \"parent_slug\". If both are given, \"parent_slug\" wins. Parent menu slug for submenu pages",
+          "enum": [
+            "options-general.php",
+            "themes.php",
+            "plugins.php",
+            "users.php",
+            "tools.php",
+            "settings.php",
+            "edit.php",
+            "upload.php",
+            "index.php",
+            "edit-comments.php"
+          ]
+        },
+        "icon_url": {
+          "type": "string",
+          "description": "Dashicon class or icon URL for a top-level menu. Preferred name; \"icon\" is accepted as an alias.",
+          "pattern": "^(dashicons-|data:image/svg\\+xml;base64,)"
         },
         "icon": {
           "type": "string",
-          "description": "Dashicon class for top-level menu",
+          "description": "Alias of \"icon_url\". If both are given, \"icon_url\" wins. Dashicon class for top-level menu",
           "pattern": "^(dashicons-|data:image/svg\\+xml;base64,)",
-          "examples": ["dashicons-admin-settings", "dashicons-admin-generic"]
+          "examples": [
+            "dashicons-admin-settings",
+            "dashicons-admin-generic"
+          ]
         },
         "position": {
           "type": "integer",
           "description": "Menu position, for both top-level and sub-menu pages (1-100)",
           "minimum": 1,
           "maximum": 100
+        },
+        "show_in_rest": {
+          "type": "boolean",
+          "description": "Opt in to the Cassette-CMF REST route for this page ({namespace}/settings/{id}). Default false: no route, no change.",
+          "default": false
+        },
+        "render_mode": {
+          "type": "string",
+          "description": "How the page is drawn: 'classic' (default, the WordPress form) or 'react' (the @wordpress/components app; implies show_in_rest). Any other value is reported with _doing_it_wrong() and the classic renderer is used, so it is deliberately not an enum.",
+          "default": "classic",
+          "examples": [
+            "classic",
+            "react"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Introductory text shown under the page title by the React renderer."
+        },
+        "schema_version": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Version of this page's stored data. Used with the PHP-only 'upgrade' callback; in JSON it only records the version."
         },
         "fields": {
           "type": "array",
@@ -319,7 +420,10 @@
     },
     "field": {
       "type": "object",
-      "required": ["name", "type"],
+      "required": [
+        "name",
+        "type"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/baseField"
@@ -333,19 +437,26 @@
             }
           },
           "then": {
-            "required": ["options"]
+            "required": [
+              "options"
+            ]
           }
         },
         {
           "if": {
             "properties": {
               "type": {
-                "enum": ["radio", "checkbox"]
+                "enum": [
+                  "radio",
+                  "checkbox"
+                ]
               }
             }
           },
           "then": {
-            "required": ["options"]
+            "required": [
+              "options"
+            ]
           }
         },
         {
@@ -357,19 +468,27 @@
             }
           },
           "then": {
-            "required": ["tabs"]
+            "required": [
+              "tabs"
+            ]
           }
         },
         {
           "if": {
             "properties": {
               "type": {
-                "enum": ["metabox", "group", "repeater"]
+                "enum": [
+                  "metabox",
+                  "group",
+                  "repeater"
+                ]
               }
             }
           },
           "then": {
-            "required": ["fields"]
+            "required": [
+              "fields"
+            ]
           }
         },
         {
@@ -381,7 +500,9 @@
             }
           },
           "then": {
-            "required": ["content"]
+            "required": [
+              "content"
+            ]
           }
         }
       ]
@@ -395,12 +516,36 @@
           "pattern": "^[a-z_][a-z0-9_]*$",
           "minLength": 1,
           "maxLength": 64,
-          "examples": ["site_title", "user_email", "product_price"]
+          "examples": [
+            "site_title",
+            "user_email",
+            "product_price"
+          ]
         },
         "type": {
           "type": "string",
           "description": "Field type",
-          "enum": ["text", "textarea", "select", "checkbox", "radio", "number", "email", "url", "date", "password", "color", "wysiwyg", "tabs", "metabox", "group", "repeater", "custom_html", "upload"]
+          "enum": [
+            "text",
+            "textarea",
+            "select",
+            "checkbox",
+            "radio",
+            "number",
+            "email",
+            "url",
+            "date",
+            "password",
+            "color",
+            "wysiwyg",
+            "tabs",
+            "metabox",
+            "group",
+            "repeater",
+            "custom_html",
+            "upload",
+            "secret"
+          ]
         },
         "label": {
           "type": "string",
@@ -421,13 +566,24 @@
           "description": "Whether the field is required",
           "default": false
         },
+        "show_in_rest": {
+          "type": "boolean",
+          "description": "Settings-page fields only. False omits the field from the REST schema and values and makes it non-writable over REST; it still renders and saves in the classic renderer.",
+          "default": true
+        },
+        "bindings": {
+          "description": "Optional boolean. Only true counts: marks the field as exposable to companion libraries (e.g. a block-bindings source). Ignored by Cassette-CMF itself; never applies to password or secret fields. Not type-restricted here so existing configs stay valid."
+        },
         "conditional": {
           "type": "object",
           "description": "Conditional visibility rules for the field",
           "properties": {
             "relation": {
               "type": "string",
-              "enum": ["AND", "OR"],
+              "enum": [
+                "AND",
+                "OR"
+              ],
               "default": "AND"
             },
             "rules": {
@@ -443,7 +599,18 @@
                   },
                   "operator": {
                     "type": "string",
-                    "enum": ["==", "!=", ">", ">=", "<", "<=", "in", "not_in", "empty", "not_empty"]
+                    "enum": [
+                      "==",
+                      "!=",
+                      ">",
+                      ">=",
+                      "<",
+                      "<=",
+                      "in",
+                      "not_in",
+                      "empty",
+                      "not_empty"
+                    ]
                   },
                   "value": {
                     "description": "Comparison value or values"
@@ -453,12 +620,16 @@
                     "description": "Comparison values for in/not_in operators"
                   }
                 },
-                "required": ["field"],
+                "required": [
+                  "field"
+                ],
                 "additionalProperties": false
               }
             }
           },
-          "required": ["rules"],
+          "required": [
+            "rules"
+          ],
           "additionalProperties": false
         },
         "placeholder": {
@@ -473,14 +644,20 @@
           "description": "Maximum value (for number/date fields) or length (for text fields)"
         },
         "step": {
-          "type": ["integer", "number"],
+          "type": [
+            "integer",
+            "number"
+          ],
           "description": "Step increment for number fields",
           "exclusiveMinimum": 0
         },
         "pattern": {
           "type": "string",
           "description": "Regular expression pattern for validation (without delimiters)",
-          "examples": ["[0-9]{5}", "[A-Z]{2}[0-9]{4}"]
+          "examples": [
+            "[0-9]{5}",
+            "[A-Z]{2}[0-9]{4}"
+          ]
         },
         "options": {
           "type": "object",
@@ -562,13 +739,21 @@
         "context": {
           "type": "string",
           "description": "Metabox context for CPT fields",
-          "enum": ["normal", "side", "advanced"],
+          "enum": [
+            "normal",
+            "side",
+            "advanced"
+          ],
           "default": "normal"
         },
         "priority": {
           "type": "string",
           "description": "Metabox priority for CPT fields",
-          "enum": ["high", "default", "low"],
+          "enum": [
+            "high",
+            "default",
+            "low"
+          ],
           "default": "default"
         },
         "sanitize_callback": {
@@ -606,7 +791,10 @@
         "orientation": {
           "type": "string",
           "description": "Tab orientation (horizontal or vertical)",
-          "enum": ["horizontal", "vertical"],
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
           "default": "horizontal"
         },
         "fields": {
@@ -673,7 +861,13 @@
         "library_type": {
           "type": "string",
           "description": "Filter media library by type (for upload field type)",
-          "enum": ["", "image", "video", "audio", "application"]
+          "enum": [
+            "",
+            "image",
+            "video",
+            "audio",
+            "application"
+          ]
         },
         "preview": {
           "type": "boolean",
@@ -684,7 +878,10 @@
     },
     "tabDefinition": {
       "type": "object",
-      "required": ["id", "label"],
+      "required": [
+        "id",
+        "label"
+      ],
       "additionalProperties": false,
       "properties": {
         "id": {
@@ -704,7 +901,10 @@
           "type": "string",
           "description": "Dashicon class for the tab",
           "pattern": "^dashicons-",
-          "examples": ["dashicons-admin-settings", "dashicons-edit"]
+          "examples": [
+            "dashicons-admin-settings",
+            "dashicons-edit"
+          ]
         },
         "description": {
           "type": "string",
@@ -714,6 +914,46 @@
         "fields": {
           "type": "array",
           "description": "Fields within this tab",
+          "items": {
+            "$ref": "#/definitions/field"
+          }
+        }
+      }
+    },
+    "taxonomy": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Taxonomy identifier (max 32 characters, lowercase letters, numbers, underscores and dashes). If the taxonomy already exists, only the fields are added.",
+          "pattern": "^[a-z0-9_-]{1,32}$"
+        },
+        "args": {
+          "type": "object",
+          "description": "WordPress register_taxonomy() arguments",
+          "additionalProperties": true
+        },
+        "object_type": {
+          "description": "Post type(s) the taxonomy is attached to (default: post)",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "fields": {
+          "type": "array",
+          "description": "Array of field definitions for the term screens",
           "items": {
             "$ref": "#/definitions/field"
           }

@@ -58,21 +58,10 @@ class Custom_HTML_Field extends Abstract_Field {
 		$output  = $this->render_wrapper_start();
 		$output .= $this->render_label();
 
-		$content = $this->config['content'] ?? '';
-
-		if ( ! empty( $content ) ) {
+		if ( ! empty( $this->config['content'] ) ) {
 			$output .= '<div class="cassette-cmf-custom-html-content">';
-
-			if ( ! empty( $this->config['raw_html'] ) ) {
-				// Raw HTML output - use with caution
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Intentional raw HTML output when raw_html is enabled
-				$output .= $content;
-			} else {
-				// Sanitized HTML output
-				$allowed_tags = $this->get_allowed_tags();
-				$output      .= wp_kses( $content, $allowed_tags );
-			}
-
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already sanitized by get_content_html() (or raw on purpose).
+			$output .= $this->get_content_html();
 			$output .= '</div>';
 		}
 
@@ -80,6 +69,32 @@ class Custom_HTML_Field extends Abstract_Field {
 		$output .= $this->render_wrapper_end();
 
 		return $output;
+	}
+
+	/**
+	 * Get the configured content as it is output
+	 *
+	 * Sanitized with `wp_kses()` and the allowed tags, or untouched when
+	 * `raw_html` is set. Used by the classic renderer and the React settings app,
+	 * so both show the same markup.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return string HTML.
+	 */
+	public function get_content_html(): string {
+		$content = $this->config['content'] ?? '';
+
+		if ( empty( $content ) ) {
+			return '';
+		}
+
+		if ( ! empty( $this->config['raw_html'] ) ) {
+			// Raw HTML output - use with caution.
+			return (string) $content;
+		}
+
+		return wp_kses( (string) $content, $this->get_allowed_tags() );
 	}
 
 	/**

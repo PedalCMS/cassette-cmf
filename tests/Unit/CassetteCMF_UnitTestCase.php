@@ -30,8 +30,11 @@ abstract class CassetteCMF_UnitTestCase extends WP_UnitTestCase {
 	public function assert_post_conditions(): void {
 		// Ignore block registry notices keyed by function name before parent assertion.
 		$ignored_notices = [
-			'WP_Block_Type_Registry::register'     => true,
-			'WP_Block_Bindings_Registry::register' => true,
+			'WP_Block_Type_Registry::register'       => true,
+			'WP_Block_Bindings_Registry::register'   => true,
+			// WordPress 7.1+ reports repeated icon registration when a test re-fires init.
+			'WP_Icon_Collections_Registry::register' => true,
+			'WP_Icons_Registry::register'            => true,
 		];
 
 		$this->caught_doing_it_wrong = array_diff_key( $this->caught_doing_it_wrong, $ignored_notices );

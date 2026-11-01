@@ -1,15 +1,39 @@
 {
 	"name": "cassette-cmf",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"description": "WP Content Modeling Framework",
 	"private": true,
 	"scripts": {
 		"scss": "npx sass src/assets/scss/cassette-cmf.scss:src/assets/css/cassette-cmf.css --style=expanded",
 		"scss:min": "npx sass src/assets/scss/cassette-cmf.scss:src/assets/css/cassette-cmf.css --style=compressed",
 		"watch": "npx sass --watch src/assets/scss/cassette-cmf.scss:src/assets/css/cassette-cmf.css",
-		"build": "npm run scss:min"
+		"build:css": "npm run scss:min",
+		"build:js": "wp-scripts build",
+		"build": "npm run build:css && npm run build:js",
+		"start": "wp-scripts start",
+		"lint:js": "wp-scripts lint-js src/assets/settings-app tests/js",
+		"format": "wp-scripts format src/assets/settings-app tests/js",
+		"test:unit:js": "wp-scripts test-unit-js --config jest.config.js",
+		"test:e2e": "playwright test",
+		"env": "wp-env"
 	},
 	"devDependencies": {
-		"sass": "^1.97.1"
+		"@playwright/test": "^1.64.1",
+		"@testing-library/jest-dom": "^7.0.1",
+		"@testing-library/react": "^16.3.3",
+		"@testing-library/user-event": "^14.6.8",
+		"@wordpress/api-fetch": "7.21.0",
+		"@wordpress/base-styles": "5.21.0",
+		"@wordpress/components": "29.5.4",
+		"@wordpress/data": "10.21.0",
+		"@wordpress/dom-ready": "4.21.0",
+		"@wordpress/e2e-test-utils-playwright": "^3.1.0",
+		"@wordpress/element": "6.21.0",
+		"@wordpress/env": "^10.39.0",
+		"@wordpress/i18n": "5.21.0",
+		"@wordpress/notices": "5.21.0",
+		"@wordpress/scripts": "^30.27.0",
+		"sass": "^1.97.1",
+		"typescript": "5.3.3"
 	}
 }

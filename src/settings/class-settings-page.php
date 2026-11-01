@@ -352,6 +352,105 @@ class Settings_Page {
 	}
 
 	/**
+	 * Whether this page is exposed through the Cassette-CMF REST route
+	 *
+	 * Opt-in: true only when the page config sets `show_in_rest` to the boolean
+	 * true, or `render_mode` to 'react' (which needs the REST route to save).
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return bool
+	 */
+	public function is_rest_enabled(): bool {
+		return true === ( $this->config['show_in_rest'] ?? false )
+			|| 'react' === ( $this->config['render_mode'] ?? '' );
+	}
+
+	/**
+	 * Whether the unknown-`render_mode` warning was already raised
+	 *
+	 * @var bool
+	 */
+	private bool $render_mode_warned = false;
+
+	/**
+	 * Get the configured render mode
+	 *
+	 * `classic` (the default, WordPress's own form) or `react` (the
+	 * `@wordpress/components` app). Anything else is flagged with
+	 * `_doing_it_wrong()` and treated as `classic`, so a typo never breaks a page.
+	 * This is the configured mode; whether the app can actually run on this site
+	 * is decided by `React_Renderer::unavailable_reason()`.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return string `classic` or `react`.
+	 */
+	public function get_render_mode(): string {
+		$mode = $this->config['render_mode'] ?? null;
+
+		if ( null === $mode || 'classic' === $mode ) {
+			return 'classic';
+		}
+
+		if ( 'react' === $mode ) {
+			return 'react';
+		}
+
+		if ( ! $this->render_mode_warned && function_exists( '_doing_it_wrong' ) ) {
+			$this->render_mode_warned = true;
+
+			_doing_it_wrong(
+				esc_html( __METHOD__ ),
+				esc_html( sprintf( 'The "render_mode" of settings page "%s" must be "classic" or "react"; it was ignored and the classic renderer is used.', $this->page_id ) ),
+				'0.2.0'
+			);
+		}
+
+		return 'classic';
+	}
+
+	/**
+	 * Get the settings schema version, if the page declares one
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return int|null Integer >= 1, or null when absent or invalid.
+	 */
+	public function get_schema_version(): ?int {
+		$version = $this->config['schema_version'] ?? null;
+
+		if ( null === $version ) {
+			return null;
+		}
+
+		if ( is_int( $version ) && $version >= 1 ) {
+			return $version;
+		}
+
+		if ( function_exists( '_doing_it_wrong' ) ) {
+			_doing_it_wrong(
+				esc_html( __METHOD__ ),
+				esc_html( sprintf( 'The "schema_version" of settings page "%s" must be an integer >= 1; it was ignored.', $this->page_id ) ),
+				'0.2.0'
+			);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get the raw `upgrade` config value (callable or not)
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return mixed|null
+	 */
+	public function get_upgrade_callback() {
+		return $this->config['upgrade'] ?? null;
+	}
+
+	/**
 	 * Get the page identifier
 	 *
 	 * @return string

@@ -18,7 +18,10 @@ use PedalCMS\CassetteCMF\Core\Handlers\New_Post_Type_Handler;
 use PedalCMS\CassetteCMF\Core\Handlers\Existing_Post_Type_Handler;
 use PedalCMS\CassetteCMF\Core\Handlers\New_Taxonomy_Handler;
 use PedalCMS\CassetteCMF\Core\Handlers\Existing_Taxonomy_Handler;
+use PedalCMS\CassetteCMF\Field\Abstract_Field;
 use PedalCMS\CassetteCMF\Field\Field_Factory;
+use PedalCMS\CassetteCMF\Field\Field_Interface;
+use PedalCMS\CassetteCMF\Field\Fields\Secret_Field;
 use PedalCMS\CassetteCMF\Json\Schema_Validator;
 
 /**
@@ -29,6 +32,34 @@ use PedalCMS\CassetteCMF\Json\Schema_Validator;
  */
 class Manager {
 
+	/**
+	 * Default script/style handle used by every handler.
+	 *
+	 * @var string
+	 */
+	public const DEFAULT_ASSET_HANDLE = 'cassette-cmf';
+
+	/**
+	 * Default name of the global JS object published by cassette-cmf.js.
+	 *
+	 * @var string
+	 */
+	public const DEFAULT_JS_GLOBAL = 'CassetteCMFFields';
+
+	/**
+	 * Default REST namespace (used by the REST controller).
+	 *
+	 * @var string
+	 */
+	public const DEFAULT_REST_NAMESPACE = 'cassette-cmf/v1';
+
+	/**
+	 * Name of the one-shot window property that hands a non-default JS
+	 * global name to cassette-cmf.js. The script reads and deletes it.
+	 *
+	 * @var string
+	 */
+	public const JS_GLOBAL_BOOT_KEY = 'cassetteCmfFieldsBoot';
 
 	/**
 	 * The singleton instance
@@ -118,6 +149,7 @@ class Manager {
 	/**
 	 * Get the singleton instance
 	 *
+	 * @api
 	 * @param array<string, mixed> $options Configuration options (only used on first call).
 	 * @return Manager The singleton instance.
 	 */
@@ -127,6 +159,175 @@ class Manager {
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Boot the manager with coexistence options
+	 *
+	 * Additive and optional: with no call to boot(), every identifier keeps
+	 * its default value. Use it when another copy of this library (plain or
+	 * namespace-prefixed) may be loaded on the same site. Like init(), the
+	 * options apply only on the first call; a later call with different
+	 * options triggers _doing_it_wrong() and is ignored.
+	 *
+	 * Supported options:
+	 * - `asset_handle`   (string, default `cassette-cmf`): CSS and JS handle.
+	 * - `js_global`      (string, default `CassetteCMFFields`): name under which
+	 *                    cassette-cmf.js publishes its API on `window`.
+	 * - `rest_namespace` (string, default `cassette-cmf/v1`): REST namespace.
+	 *
+	 * @since 0.2.0
+	 * @api
+	 *
+	 * @param array<string, mixed> $options Boot options.
+	 * @return Manager The singleton instance.
+	 */
+	public static function boot( array $options = [] ): Manager {
+		$resolved = self::resolve_boot_options( $options, true );
+
+		if ( null === self::$instance ) {
+			return self::init( $resolved );
+		}
+
+		if ( self::resolve_boot_options( self::$instance->options, false ) !== $resolved ) {
+			self::doing_it_wrong(
+				__METHOD__,
+				'Cassette-CMF has already been initialized; the boot options only apply on the first call and were ignored. Call CassetteCMF::boot() before any other Cassette-CMF call.'
+			);
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Get the script/style handle used for the common CSS and JS.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @api
+	 * @return string
+	 */
+	public static function asset_handle(): string {
+		return self::boot_option( 'asset_handle' );
+	}
+
+	/**
+	 * Get the name of the global JS object cassette-cmf.js publishes.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @api
+	 * @return string
+	 */
+	public static function js_global(): string {
+		return self::boot_option( 'js_global' );
+	}
+
+	/**
+	 * Get the REST namespace.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @api
+	 * @return string
+	 */
+	public static function rest_namespace(): string {
+		return self::boot_option( 'rest_namespace' );
+	}
+
+	/**
+	 * Name the JS global for a non-default `js_global` boot option.
+	 *
+	 * Adds a one-shot inline "before" script to the already enqueued common
+	 * script. With the default name nothing is added, so the output is
+	 * unchanged.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param string $handle Script handle the common JS was enqueued under.
+	 * @return void
+	 */
+	public static function add_js_global_script( string $handle ): void {
+		$global = self::js_global();
+
+		if ( self::DEFAULT_JS_GLOBAL === $global || ! function_exists( 'wp_add_inline_script' ) ) {
+			return;
+		}
+
+		wp_add_inline_script(
+			$handle,
+			'window.' . self::JS_GLOBAL_BOOT_KEY . ' = ' . wp_json_encode( $global ) . ';',
+			'before'
+		);
+	}
+
+	/**
+	 * Read one validated boot option, falling back to its default.
+	 *
+	 * @param string $key Option key.
+	 * @return string
+	 */
+	private static function boot_option( string $key ): string {
+		$options = null === self::$instance ? [] : self::$instance->options;
+
+		return self::resolve_boot_options( $options, false )[ $key ];
+	}
+
+	/**
+	 * Resolve the supported boot options to a complete, valid set.
+	 *
+	 * @param array<string, mixed> $options Raw options.
+	 * @param bool                 $notify  Raise _doing_it_wrong() for unknown keys and invalid values.
+	 * @return array<string, string>
+	 */
+	private static function resolve_boot_options( array $options, bool $notify ): array {
+		$rules = [
+			'asset_handle'   => [ self::DEFAULT_ASSET_HANDLE, '/^[a-z0-9_-]+$/' ],
+			'js_global'      => [ self::DEFAULT_JS_GLOBAL, '/^[A-Za-z_$][A-Za-z0-9_$]*$/' ],
+			'rest_namespace' => [ self::DEFAULT_REST_NAMESPACE, '#^[a-z0-9-]+/v[0-9]+$#' ],
+		];
+
+		$resolved = [];
+		foreach ( $rules as $key => $rule ) {
+			$resolved[ $key ] = $rule[0];
+
+			if ( ! array_key_exists( $key, $options ) ) {
+				continue;
+			}
+
+			if ( is_string( $options[ $key ] ) && 1 === preg_match( $rule[1], $options[ $key ] ) ) {
+				$resolved[ $key ] = $options[ $key ];
+			} elseif ( $notify ) {
+				self::doing_it_wrong(
+					__METHOD__,
+					sprintf( 'Invalid value for the "%1$s" boot option; the default "%2$s" is used.', $key, $rule[0] )
+				);
+			}
+		}
+
+		if ( $notify ) {
+			foreach ( array_diff_key( $options, $rules ) as $key => $unused ) {
+				self::doing_it_wrong(
+					__METHOD__,
+					sprintf( 'Unknown boot option "%s" was ignored.', (string) $key )
+				);
+			}
+		}
+
+		return $resolved;
+	}
+
+	/**
+	 * Raise a _doing_it_wrong() notice when WordPress is loaded.
+	 *
+	 * @param string $function_name Function that was called wrongly.
+	 * @param string $message       Explanation.
+	 * @return void
+	 */
+	private static function doing_it_wrong( string $function_name, string $message ): void {
+		if ( function_exists( '_doing_it_wrong' ) ) {
+			_doing_it_wrong( esc_html( $function_name ), esc_html( $message ), '0.2.0' );
+		}
 	}
 
 	/**
@@ -219,6 +420,7 @@ class Manager {
 	 * — see register_cpt_from_array(), register_taxonomy_from_array(), and
 	 * register_settings_page_from_array().
 	 *
+	 * @api
 	 * @param array<string, mixed> $config Configuration array.
 	 * @return self
 	 * @throws \InvalidArgumentException If configuration is invalid.
@@ -328,6 +530,52 @@ class Manager {
 	}
 
 	/**
+	 * Map the schema's settings page key names onto the names the code reads
+	 *
+	 * `schema.json` documents `slug`, `icon` and `parent`; the code reads
+	 * `menu_slug`, `icon_url` and `parent_slug`. Both spellings are accepted.
+	 * When both are given the code name wins and a `_doing_it_wrong()` notice
+	 * is raised. The alias key is always removed from the returned config.
+	 * Only used when a new page is created: a config whose only page key is an
+	 * alias (for example `parent`) keeps adding fields to an existing page.
+	 *
+	 * @param array<string, mixed> $config  Settings page configuration.
+	 * @param string               $page_id Settings page id.
+	 * @return array<string, mixed>
+	 */
+	private function apply_settings_page_aliases( array $config, string $page_id ): array {
+		$aliases = [
+			'slug'   => 'menu_slug',
+			'icon'   => 'icon_url',
+			'parent' => 'parent_slug',
+		];
+
+		foreach ( $aliases as $alias => $key ) {
+			if ( ! array_key_exists( $alias, $config ) ) {
+				continue;
+			}
+
+			if ( array_key_exists( $key, $config ) ) {
+				self::doing_it_wrong(
+					__METHOD__,
+					sprintf(
+						'Settings page "%1$s" sets both "%2$s" and "%3$s"; "%3$s" is used and "%2$s" is ignored.',
+						$page_id,
+						$alias,
+						$key
+					)
+				);
+			} else {
+				$config[ $key ] = $config[ $alias ];
+			}
+
+			unset( $config[ $alias ] );
+		}
+
+		return $config;
+	}
+
+	/**
 	 * Register a settings page from array configuration
 	 *
 	 * Filterable via 'cassette_cmf_settings_page_config' /
@@ -371,8 +619,9 @@ class Manager {
 		}
 
 		if ( $has_settings_config ) {
-			// Create new settings page
-			$page_args = $config;
+			// Create new settings page. The schema's key names are mapped only here: on their own
+			// they do not turn an "add fields to an existing page" config into a new page.
+			$page_args = $this->apply_settings_page_aliases( $config, $page_id );
 			unset( $page_args['fields'] );
 			$this->new_settings_handler->add_page( $page_id, $page_args );
 
@@ -470,6 +719,7 @@ class Manager {
 	/**
 	 * Register configuration from JSON
 	 *
+	 * @api
 	 * @param string $path_or_json File path to JSON file or JSON string.
 	 * @param bool   $validate     Whether to validate against schema (default: true).
 	 * @return self
@@ -524,6 +774,7 @@ class Manager {
 	/**
 	 * Register a custom field type
 	 *
+	 * @api
 	 * @param string $type       Field type name.
 	 * @param string $class_name Field class name.
 	 * @return self
@@ -537,6 +788,7 @@ class Manager {
 	/**
 	 * Get configuration options
 	 *
+	 * @api
 	 * @return array<string, mixed>
 	 */
 	public function get_options(): array {
@@ -546,6 +798,7 @@ class Manager {
 	/**
 	 * Set a configuration option
 	 *
+	 * @api
 	 * @param string $key   Option key.
 	 * @param mixed  $value Option value.
 	 * @return self
@@ -558,6 +811,7 @@ class Manager {
 	/**
 	 * Get a configuration option
 	 *
+	 * @api
 	 * @param string $key           Option key.
 	 * @param mixed  $default_value Default value if option doesn't exist.
 	 * @return mixed
@@ -572,6 +826,7 @@ class Manager {
 	 * This is a universal method to get field values regardless of their storage location.
 	 * It automatically handles post meta, term meta, and settings options.
 	 *
+	 * @api
 	 * @param string     $field_name    The field name as defined in the Cassette-CMF config.
 	 * @param int|string $context       The context: post ID (int), term ID (int), or settings page ID (string).
 	 * @param string     $context_type  The type of context: 'post', 'term', or 'settings'. Default 'post'.
@@ -609,6 +864,7 @@ class Manager {
 	/**
 	 * Retrieve a post meta field value
 	 *
+	 * @api
 	 * @param string $field_name    The field name.
 	 * @param int    $post_id       The post ID.
 	 * @param mixed  $default_value Default value if field is empty.
@@ -627,6 +883,7 @@ class Manager {
 	/**
 	 * Retrieve a term meta field value
 	 *
+	 * @api
 	 * @param string $field_name    The field name.
 	 * @param int    $term_id       The term ID.
 	 * @param mixed  $default_value Default value if field is empty.
@@ -645,6 +902,7 @@ class Manager {
 	/**
 	 * Retrieve a settings field value
 	 *
+	 * @api
 	 * @param string $field_name    The field name.
 	 * @param string $page_id       The settings page ID.
 	 * @param mixed  $default_value Default value if field is empty.
@@ -658,7 +916,191 @@ class Manager {
 		// Settings fields are stored as {page_id}_{field_name}
 		$option_name = $page_id . '_' . $field_name;
 
-		return get_option( $option_name, $default_value );
+		$value = get_option( $option_name, $default_value );
+
+		// A secret field never hands out its value here, only the mask.
+		$secret = $this->get_secret_field( $field_name, $page_id );
+		if ( null !== $secret ) {
+			return $secret->mask( get_option( $option_name, '' ) );
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get the real value of a secret field
+	 *
+	 * The only API that returns a secret in clear text: decrypts when the
+	 * field uses `encrypt`. Returns '' when the field is unset, is not a
+	 * registered `secret` field, or cannot be decrypted (for example after
+	 * the AUTH salt changed; an admin notice then asks to re-enter it).
+	 * get_field() and the REST API return only the mask.
+	 *
+	 * @since 0.2.0
+	 * @api
+	 *
+	 * @param string $field_name The secret field name.
+	 * @param string $page_id    The settings page ID.
+	 * @return string
+	 */
+	public function get_secret( string $field_name, string $page_id ): string {
+		$field = $this->get_secret_field( $field_name, $page_id );
+
+		if ( null === $field || ! function_exists( 'get_option' ) ) {
+			return '';
+		}
+
+		return $field->reveal( get_option( $field->get_option_name( $page_id ), '' ) );
+	}
+
+	/**
+	 * Find a registered secret field of a settings page.
+	 *
+	 * @param string $field_name Field name.
+	 * @param string $page_id    Settings page ID.
+	 * @return Secret_Field|null
+	 */
+	private function get_secret_field( string $field_name, string $page_id ): ?Secret_Field {
+		$field = $this->new_settings_handler->get_fields( $page_id )[ $field_name ]
+			?? $this->existing_settings_handler->get_fields( $page_id )[ $field_name ]
+			?? null;
+
+		return $field instanceof Secret_Field ? $field : null;
+	}
+
+	/**
+	 * Get the configuration of a registered field
+	 *
+	 * Resolves the context to the entity the field was registered for, then
+	 * looks the field up by name among the fields Cassette-CMF registered
+	 * there (both the "new" and the "existing" handlers):
+	 *
+	 * - 'post':     $context is a post ID; its post type is used.
+	 * - 'term':     $context is a term ID; its taxonomy is used.
+	 * - 'settings': $context is a settings page ID.
+	 * - any other context type resolves to null.
+	 *
+	 * Fields nested in group, tabs and metabox containers are registered under
+	 * their own name and are found. Fields inside a repeater row are not
+	 * registered individually and resolve to null.
+	 *
+	 * @since 0.2.0
+	 * @api
+	 *
+	 * @param string     $field_name   The field name as defined in the Cassette-CMF config.
+	 * @param int|string $context      Post ID, term ID, or settings page ID.
+	 * @param string     $context_type 'post', 'term', or 'settings'. Default 'post'.
+	 * @return array<string, mixed>|null The field config (including 'type' and 'name'), or null if not registered.
+	 */
+	public function get_registered_field( string $field_name, $context, string $context_type = 'post' ): ?array {
+		if ( '' === $field_name ) {
+			return null;
+		}
+
+		$field = null;
+
+		switch ( $context_type ) {
+			case 'post':
+				$post_type = $this->resolve_post_type( $context );
+				if ( null !== $post_type ) {
+					$field = $this->new_cpt_handler->get_fields( $post_type )[ $field_name ]
+						?? $this->existing_cpt_handler->get_fields( $post_type )[ $field_name ]
+						?? null;
+				}
+				break;
+
+			case 'term':
+				$taxonomy = $this->resolve_taxonomy( $context );
+				if ( null !== $taxonomy ) {
+					$field = $this->new_taxonomy_handler->get_fields( $taxonomy )[ $field_name ]
+						?? $this->existing_taxonomy_handler->get_fields( $taxonomy )[ $field_name ]
+						?? null;
+				}
+				break;
+
+			case 'settings':
+				$page_id = is_scalar( $context ) ? (string) $context : '';
+				if ( '' !== $page_id ) {
+					$field = $this->new_settings_handler->get_fields( $page_id )[ $field_name ]
+						?? $this->existing_settings_handler->get_fields( $page_id )[ $field_name ]
+						?? null;
+				}
+				break;
+		}
+
+		if ( ! $field instanceof Field_Interface ) {
+			return null;
+		}
+
+		$config = $field instanceof Abstract_Field ? $field->get_all_config() : [];
+
+		$config['name'] = $field->get_name();
+		$config['type'] = $field->get_type();
+
+		return $config;
+	}
+
+	/**
+	 * Whether a registered field may be exposed to companion libraries
+	 *
+	 * True only when get_registered_field() finds the field, its 'bindings'
+	 * config key is strictly boolean true, and its type is neither 'password'
+	 * nor 'secret'. Cassette-CMF itself ignores the 'bindings' key; it exists
+	 * so a companion library (e.g. a block-bindings source) can expose only
+	 * opted-in fields.
+	 *
+	 * @since 0.2.0
+	 * @api
+	 *
+	 * @param string     $field_name   The field name as defined in the Cassette-CMF config.
+	 * @param int|string $context      Post ID, term ID, or settings page ID.
+	 * @param string     $context_type 'post', 'term', or 'settings'. Default 'post'.
+	 * @return bool
+	 */
+	public function is_field_public( string $field_name, $context, string $context_type = 'post' ): bool {
+		$config = $this->get_registered_field( $field_name, $context, $context_type );
+
+		if ( null === $config ) {
+			return false;
+		}
+
+		if ( ! isset( $config['bindings'] ) || true !== $config['bindings'] ) {
+			return false;
+		}
+
+		return ! in_array( $config['type'], [ 'password', 'secret' ], true );
+	}
+
+	/**
+	 * Resolve a post ID to its post type
+	 *
+	 * @param mixed $context Post ID.
+	 * @return string|null Post type, or null if the post does not exist.
+	 */
+	private function resolve_post_type( $context ): ?string {
+		if ( ! is_numeric( $context ) || ! function_exists( 'get_post_type' ) ) {
+			return null;
+		}
+
+		$post_type = get_post_type( (int) $context );
+
+		return is_string( $post_type ) && '' !== $post_type ? $post_type : null;
+	}
+
+	/**
+	 * Resolve a term ID to its taxonomy
+	 *
+	 * @param mixed $context Term ID.
+	 * @return string|null Taxonomy, or null if the term does not exist.
+	 */
+	private function resolve_taxonomy( $context ): ?string {
+		if ( ! is_numeric( $context ) || ! function_exists( 'get_term' ) ) {
+			return null;
+		}
+
+		$term = get_term( (int) $context );
+
+		return $term instanceof \WP_Term && '' !== $term->taxonomy ? $term->taxonomy : null;
 	}
 
 	/**

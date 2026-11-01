@@ -17,6 +17,8 @@ namespace PedalCMS\CassetteCMF\Field;
  *
  * Container fields (like tabs, accordions, groups) contain other fields
  * but don't store values themselves. They serve purely organizational purposes.
+ *
+ * @api
  */
 interface Container_Field_Interface extends Field_Interface {
 

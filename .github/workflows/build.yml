@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - 'src/assets/scss/**'
+      - 'src/assets/settings-app/**'
+      - 'webpack.config.js'
       - 'package.json'
       - 'package-lock.json'
 
@@ -62,7 +64,7 @@ jobs:
       - name: Commit changes
         if: env.CHANGES_DETECTED == 1
         run: |
-          git add src/assets/css/
+          git add src/assets/css/ build/
           git commit -m "Build assets - $(date +'%Y-%m-%d %H:%M')"
           git push origin build-assets
 
